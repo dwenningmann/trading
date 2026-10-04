@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steuern auf Kapitalerträge – einfach erklärt</title>
+<meta name="description" content="Abgeltungsteuer, Freistellungsauftrag, Teilfreistellung, Vorabpauschale, NV-Bescheinigung, Verlusttöpfe, Krypto-Steuern und Anlage KAP – mit Steuer- und Vorabpauschale-Rechner.">
+<style>
+:root{
+  --bg:#f7f6f2; --surface:#ffffff; --surface-2:#f0eee8; --text:#1d1d1f; --muted:#5d5d63;
+  --border:#e2dfd6; --accent:#0f7b5f; --accent-soft:#e3f2ec; --accent-2:#c2410c;
+  --warn-bg:#fff4e5; --warn-border:#f2b46b; --info-bg:#eaf2fb; --info-border:#8bb4e0;
+  --danger-bg:#fdecec; --danger-border:#e8a1a1;
+  --good:#0f7b5f; --mid:#b7791f; --bad:#c53030;
+  --c1:#0f7b5f; --c2:#3b82c4; --c3:#d08a2e; --c4:#8a5cc2; --c5:#c2546b; --c6:#5aa39a; --c7:#9a9a92;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121314; --surface:#1b1c1e; --surface-2:#232427; --text:#ecebe7; --muted:#a3a29d;
+    --border:#2f3033; --accent:#4cc39a; --accent-soft:#16332a; --accent-2:#f08a4b;
+    --warn-bg:#2d2416; --warn-border:#8a6326; --info-bg:#172333; --info-border:#3d6694;
+    --danger-bg:#311b1b; --danger-border:#8a3d3d;
+    --good:#4cc39a; --mid:#e0b04c; --bad:#f07272;
+    --c1:#4cc39a; --c2:#6aa7e0; --c3:#e0a04c; --c4:#ab86e0; --c5:#e07a90; --c6:#7cc4ba; --c7:#77776f;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121314; --surface:#1b1c1e; --surface-2:#232427; --text:#ecebe7; --muted:#a3a29d;
+  --border:#2f3033; --accent:#4cc39a; --accent-soft:#16332a; --accent-2:#f08a4b;
+  --warn-bg:#2d2416; --warn-border:#8a6326; --info-bg:#172333; --info-border:#3d6694;
+  --danger-bg:#311b1b; --danger-border:#8a3d3d;
+  --good:#4cc39a; --mid:#e0b04c; --bad:#f07272;
+  --c1:#4cc39a; --c2:#6aa7e0; --c3:#e0a04c; --c4:#ab86e0; --c5:#e07a90; --c6:#7cc4ba; --c7:#77776f;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+h1,h2,h3,h4{line-height:1.25;letter-spacing:-.01em}
+h2{font-size:1.75rem;margin:0 0 .4rem}
+h3{font-size:1.2rem;margin:1.8rem 0 .5rem}
+p{margin:.6rem 0}
+.muted{color:var(--muted)}
+code{background:var(--surface-2);padding:.1em .35em;border-radius:4px;font-size:.92em}
+
+.topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1180px;margin:0 auto;padding:.7rem 16px;display:flex;align-items:center;gap:1rem}
+.brand{font-weight:700;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:.5rem;white-space:nowrap}
+.brand-dot{width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.back{font-size:.9rem;text-decoration:none;white-space:nowrap}
+.progress{flex:1;height:4px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:var(--accent)}
+.icon-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:8px;padding:.35rem .6rem;cursor:pointer;font:inherit;font-size:.9rem}
+
+.layout{max-width:1180px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:48px}
+nav.toc{position:sticky;top:76px;align-self:start;max-height:calc(100vh - 90px);overflow:auto;padding:1.5rem 0;font-size:.92rem}
+nav.toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
+nav.toc li{counter-increment:toc}
+nav.toc a{display:block;padding:.35rem .6rem;border-radius:6px;color:var(--muted);text-decoration:none;border-left:2px solid transparent}
+nav.toc a::before{content:counter(toc,decimal-leading-zero) "  ";opacity:.6}
+nav.toc a:hover{color:var(--text);background:var(--surface-2)}
+nav.toc a.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft)}
+nav.toc .home{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem}
+nav.toc .home a::before{content:"← "}
+main{min-width:0;padding-bottom:4rem}
+
+.hero{padding:3.5rem 0 2rem}
+.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:700;color:var(--accent)}
+.hero h1{font-size:clamp(2.1rem,5vw,3.2rem);margin:.4rem 0 1rem;max-width:20ch}
+.hero .lead{font-size:1.2rem;color:var(--muted);max-width:62ch}
+
+section.chapter{padding:3rem 0;border-top:1px solid var(--border)}
+.chap-num{font-size:.8rem;font-weight:700;color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
+.chap-intro{color:var(--muted);font-size:1.08rem;max-width:65ch}
+
+.callout{border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;border:1px solid;border-left-width:4px}
+.callout strong:first-child{display:block;margin-bottom:.2rem}
+.tip{background:var(--accent-soft);border-color:var(--accent)}
+.warn{background:var(--warn-bg);border-color:var(--warn-border)}
+.info{background:var(--info-bg);border-color:var(--info-border)}
+.danger{background:var(--danger-bg);border-color:var(--danger-border)}
+.trader{background:var(--surface);border-color:var(--border);border-left-color:var(--accent-2)}
+.trader strong:first-child{color:var(--accent-2)}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:1.2rem 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:var(--shadow)}
+.card h4{margin:0 0 .4rem;font-size:1.05rem}
+.card p{margin:.3rem 0;font-size:.95rem}
+.card a.ext{font-weight:600;text-decoration:none}
+.card a.ext::after{content:" ↗"}
+.tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.12rem .5rem;border-radius:99px;background:var(--surface-2);color:var(--muted);margin:0 .3rem .3rem 0}
+.tag.g{background:var(--accent-soft);color:var(--accent)}
+
+.steps{counter-reset:step;list-style:none;padding:0;margin:1.2rem 0}
+.steps>li{counter-increment:step;position:relative;padding:0 0 1.4rem 3.2rem;border-left:2px solid var(--border);margin-left:1rem}
+.steps>li:last-child{border-left-color:transparent}
+.steps>li::before{content:counter(step);position:absolute;left:-1rem;top:-.1rem;width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.95rem}
+.steps>li h4{margin:0 0 .3rem;font-size:1.05rem}
+
+.table-wrap{overflow-x:auto;margin:1rem 0;border:1px solid var(--border);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.94rem;background:var(--surface)}
+th,td{padding:.65rem .8rem;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+
+details{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:.5rem 0;padding:0 1rem}
+summary{cursor:pointer;padding:.8rem 0;font-weight:600;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";display:inline-block;width:1.2rem;color:var(--accent);font-weight:700}
+details[open] summary::before{content:"–"}
+details>div{padding:0 0 .9rem 1.2rem}
+
+/* Tools */
+.tool{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.4rem;box-shadow:var(--shadow);margin:1.4rem 0}
+.tool h3{margin-top:0}
+.tool-label{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-2);margin-bottom:.3rem}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem 1.4rem}
+.ctrl label{display:flex;justify-content:space-between;gap:.5rem;font-size:.9rem;font-weight:600}
+.ctrl output{font-variant-numeric:tabular-nums;color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=number],input[type=text],select{width:100%;padding:.5rem .6rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:1.2rem 0 .6rem}
+.kpi{background:var(--surface-2);border-radius:10px;padding:.7rem .9rem}
+.kpi span{display:block;font-size:.8rem;color:var(--muted)}
+.kpi b{font-size:1.3rem;font-variant-numeric:tabular-nums}
+.kpi.hl b{color:var(--accent)}
+.kpi.bad b{color:var(--bad)}
+.chart{width:100%;height:auto;display:block}
+.legend{display:flex;gap:1rem;font-size:.85rem;color:var(--muted);flex-wrap:wrap;margin-top:.4rem}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:.35rem;vertical-align:-1px}
+.note{font-size:.85rem;color:var(--muted)}
+.btn{display:inline-block;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:.6rem 1rem;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;font-size:.95rem}
+.btn.sec{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+
+/* Compare */
+.cmp{width:100%;min-width:640px}
+.cmp td,.cmp th{vertical-align:middle}
+.cmp td:first-child{font-weight:600;font-size:.9rem;width:28%}
+.cmp input,.cmp select{font-size:.9rem;padding:.4rem .5rem}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.35rem;vertical-align:0}
+.dot.g{background:var(--good)}.dot.m{background:var(--mid)}.dot.b{background:var(--bad)}
+.cell{display:flex;align-items:center;gap:.35rem}
+.score-row td{font-weight:700;font-size:1.05rem}
+.winner{color:var(--accent)}
+
+/* Bars */
+.bars{margin:1rem 0}
+.bar-row{display:grid;grid-template-columns:130px 1fr 56px;gap:.6rem;align-items:center;font-size:.9rem;margin:.3rem 0}
+.bar-track{height:14px;background:var(--surface-2);border-radius:7px;overflow:hidden}
+.bar-fill{height:100%;border-radius:7px;transition:width .25s}
+.stack{display:flex;height:28px;border-radius:8px;overflow:hidden;margin:.6rem 0}
+.stack div{height:100%;transition:width .25s}
+
+/* Factsheet mock */
+.fs{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;font-size:.92rem;position:relative}
+.fs-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;border-bottom:2px solid var(--accent);padding-bottom:.6rem;margin-bottom:.8rem}
+.fs-head b{font-size:1.05rem}
+.fs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.3rem 1.2rem}
+.fs-grid div{display:flex;justify-content:space-between;border-bottom:1px dotted var(--border);padding:.25rem 0;cursor:pointer}
+.fs-grid div:hover,.fs-grid div.sel{background:var(--accent-soft)}
+.fs-grid span:last-child{font-weight:600;font-variant-numeric:tabular-nums}
+.fs-explain{margin-top:1rem;background:var(--accent-soft);border-radius:10px;padding:.8rem 1rem;min-height:3.2rem}
+
+/* Checklist */
+.checklist{list-style:none;padding:0;margin:1rem 0}
+.checklist li{display:flex;gap:.7rem;align-items:flex-start;padding:.6rem .8rem;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;background:var(--surface)}
+.checklist input{width:1.2rem;height:1.2rem;margin-top:.25rem;accent-color:var(--accent);flex-shrink:0}
+.checklist li.done label{color:var(--muted)}
+.verdict{font-weight:700;padding:.8rem 1rem;border-radius:10px;margin-top:.8rem}
+
+footer{border-top:1px solid var(--border);padding:2rem 16px;text-align:center;color:var(--muted);font-size:.88rem}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;gap:0}
+  nav.toc{display:none}
+  body{font-size:16px}
+  .bar-row{grid-template-columns:100px 1fr 48px}
+}
+
+/* ---- Site navigation (shared) ---- */
+.topbar{position:sticky}
+.crumb{font-size:.88rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:22ch}
+.menu{position:absolute;right:max(16px,calc((100vw - 1180px)/2 + 16px));top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.18);padding:.5rem;width:min(360px,calc(100vw - 32px));max-height:75vh;overflow:auto;z-index:50}
+.menu[hidden]{display:none}
+.menu .mh{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;padding:.5rem .7rem .2rem}
+.menu a{display:flex;align-items:center;gap:.6rem;padding:.55rem .7rem;border-radius:8px;text-decoration:none;color:var(--text);font-size:.95rem}
+.menu a:hover{background:var(--surface-2)}
+.menu a.cur{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.menu .n{color:var(--muted);font-variant-numeric:tabular-nums;width:1.5rem;font-size:.85rem}
+.menu .v{margin-left:auto;color:var(--accent);font-weight:700}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:3rem;border-top:1px solid var(--border);padding-top:2rem}
+.pager a{display:block;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;text-decoration:none;color:var(--text);box-shadow:var(--shadow)}
+.pager a:hover{border-color:var(--accent)}
+.pager small{display:block;color:var(--muted);font-size:.8rem}
+.pager b{color:var(--accent)}
+.pager .next{text-align:right;grid-column:2}
+.layout.single{grid-template-columns:minmax(0,1fr);max-width:1040px}
+.layout.single nav.toc{display:none}
+@media (max-width:640px){.crumb{display:none}.brand .bt{display:none}}
+
+/* ---- Shared tool helpers ---- */
+.row-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem}
+.btn.small{padding:.35rem .7rem;font-size:.85rem}
+.btn.danger{background:var(--bad)}
+.x-btn{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:1.1rem;padding:.2rem .4rem}
+.x-btn:hover{color:var(--bad)}
+.edit-table input,.edit-table select{min-width:70px}
+.pill{display:inline-block;padding:.15rem .6rem;border-radius:99px;font-size:.8rem;font-weight:600}
+.pill.g{background:var(--accent-soft);color:var(--good)}
+.pill.m{background:var(--warn-bg);color:var(--mid)}
+.pill.b{background:var(--danger-bg);color:var(--bad)}
+textarea{width:100%;min-height:80px;padding:.6rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem;resize:vertical}
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;z-index:100;padding:16px}
+.modal-back[hidden]{display:none}
+.modal{background:var(--surface);border-radius:16px;max-width:560px;width:100%;padding:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:90vh;overflow:auto}
+.modal h3{margin-top:0}
+.modal .opts{display:grid;gap:.5rem;margin-top:1rem}
+.modal .opts button{text-align:left;padding:.75rem 1rem;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text);font:inherit;cursor:pointer}
+.modal .opts button:hover{border-color:var(--accent);background:var(--accent-soft)}
+.headline{font-family:Georgia,"Times New Roman",serif;font-size:1.25rem;font-weight:700;border-left:4px solid var(--bad);padding:.3rem 0 .3rem .8rem;margin:.6rem 0}
+.quiz-q{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0}
+.quiz-q p.q{font-weight:600;margin-top:0}
+.quiz-q button{display:block;width:100%;text-align:left;margin:.35rem 0;padding:.6rem .8rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem;cursor:pointer}
+.quiz-q button.right{background:var(--accent-soft);border-color:var(--accent)}
+.quiz-q button.wrong{background:var(--danger-bg);border-color:var(--danger-border)}
+.quiz-q .fb{font-size:.92rem;margin-top:.5rem;display:none}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.gloss div{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:.93rem}
+.gloss b{display:block;color:var(--accent)}
+.search{width:100%;padding:.65rem .9rem;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;margin:.8rem 0}
+.big-num{font-size:2.4rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+@media print{.topbar,nav.toc,.pager,.menu{display:none!important}.layout{display:block}}
+
+/* ---- Account / sync ---- */
+.acct-btn{display:inline-flex;align-items:center;gap:.4rem;max-width:16ch}
+.acct-btn .acct-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;opacity:.6}
+.acct-dot.ok{background:#2a9d6f;opacity:1}.acct-dot.busy{background:#d08a2e;opacity:1}.acct-dot.err{background:#c53030;opacity:1}
+.acct-modal{position:relative;max-width:440px}
+.acct-close{position:absolute;top:.6rem;right:.6rem}
+.acct-modal input[type=email],.acct-modal input[type=password]{width:100%;padding:.6rem .7rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit}
+.acct-note{min-height:1.2em;font-size:.9rem;color:var(--accent-2);margin:.6rem 0 0}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:inherit;font-size:.9rem;cursor:pointer;text-decoration:underline}
+.acct-modal .btn[disabled]{opacity:.6;cursor:wait}
+@media (max-width:640px){.acct-btn .acct-label{display:none}.progress{min-width:20px}}
+</style>
+<script>
+/* Sync hook: mirrors every localStorage write of a "dga-*" key into a pending list.
+   Runs synchronously before page scripts so nothing is missed. */
+(function(){
+  var EX={'dga-sync-pending':1,'dga-sync-uid':1};
+  var P=Storage.prototype,oSet=P.setItem,oRem=P.removeItem;
+  function pend(){try{return JSON.parse(oGet('dga-sync-pending'))||[]}catch(e){return[]}}
+  function oGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  var D=window.__dga={
+    EX:EX,
+    raw:{set:function(k,v){try{oSet.call(localStorage,k,v)}catch(e){}},rem:function(k){try{oRem.call(localStorage,k)}catch(e){}}},
+    isKey:function(k){return typeof k==='string'&&k.indexOf('dga-')===0&&!EX[k]},
+    pending:pend,
+    setPending:function(a){D.raw.set('dga-sync-pending',JSON.stringify(a))},
+    mark:function(k){var a=pend();if(a.indexOf(k)<0){a.push(k);D.setPending(a)}if(D.onChange)D.onChange()},
+    onChange:null
+  };
+  P.setItem=function(k,v){oSet.call(this,k,v);if(this===window.localStorage&&D.isKey(k))D.mark(k)};
+  P.removeItem=function(k){oRem.call(this,k);if(this===window.localStorage&&D.isKey(k))D.mark(k)};
+})();
+</script>
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('dga-theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
+window.U=(function(){
+  const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+  return {
+    $:id=>document.getElementById(id),
+    fmt:n=>Math.round(n).toLocaleString('de-DE')+' €',
+    fmt2:n=>(+n).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €',
+    pct:(n,d=1)=>(+n).toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d})+' %',
+    num:(n,d=1)=>(+n).toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d}),
+    css:v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim(),
+    esc:s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),
+    store, themeHooks:[]
+  };
+})();
+</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html"><span class="brand-dot"></span><span class="bt">Börsen-Guide</span></a>
+    <span class="crumb">/ Steuern</span>
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+    <button class="icon-btn" id="menuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu">☰ Seiten</button>
+    <button class="icon-btn acct-btn" id="acctBtn" type="button" aria-label="Konto"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true" style="flex-shrink:0"><circle cx="8" cy="5.2" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 14.2c.6-2.9 2.8-4.4 5.5-4.4s4.9 1.5 5.5 4.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="acct-label">Anmelden</span><span class="acct-dot"></span></button>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Hell/Dunkel umschalten"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" style="display:block"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+  </div>
+  <nav class="menu" id="menu" hidden aria-label="Alle Seiten"><div class="mh">Dein Lernpfad</div><a href="index.html" data-f="index.html" class=""><span class="n">⌂</span><span>Übersicht<br><small class="muted" style="font-weight:400">Start & Lernpfad</small></span><span class="v"></span></a><a href="trading101.html" data-f="trading101.html" class=""><span class="n">1</span><span>Grundlagen<br><small class="muted" style="font-weight:400">Investieren von A bis Z</small></span><span class="v"></span></a><a href="budget.html" data-f="budget.html" class=""><span class="n">2</span><span>Budget & Sparrate<br><small class="muted" style="font-weight:400">Erst planen, dann investieren</small></span><span class="v"></span></a><a href="etfanalyse.html" data-f="etfanalyse.html" class=""><span class="n">3</span><span>ETF-Check<br><small class="muted" style="font-weight:400">ETFs selbst analysieren</small></span><span class="v"></span></a><a href="crashsimulator.html" data-f="crashsimulator.html" class=""><span class="n">4</span><span>Crash-Simulator<br><small class="muted" style="font-weight:400">30 Jahre Börse in 3 Minuten</small></span><span class="v"></span></a><a href="depot.html" data-f="depot.html" class=""><span class="n">5</span><span>Mein Depot<br><small class="muted" style="font-weight:400">Tracker & Rebalancing</small></span><span class="v"></span></a><a href="steuern.html" data-f="steuern.html" class="cur"><span class="n">6</span><span>Steuern<br><small class="muted" style="font-weight:400">Freibetrag, NV, Anlage KAP</small></span><span class="v"></span></a><a href="aktien.html" data-f="aktien.html" class=""><span class="n">7</span><span>Einzelaktien<br><small class="muted" style="font-weight:400">Unternehmen analysieren</small></span><span class="v"></span></a><a href="hebel-krypto.html" data-f="hebel-krypto.html" class=""><span class="n">8</span><span>Hebel & Krypto<br><small class="muted" style="font-weight:400">Was dahintersteckt</small></span><span class="v"></span></a><a href="news.html" data-f="news.html" class=""><span class="n">9</span><span>Wirtschaftsnews<br><small class="muted" style="font-weight:400">Schlagzeilen verstehen</small></span><span class="v"></span></a></nav>
+</header>
+<div class="layout">
+<nav class="toc" aria-label="Inhalt"><ol><li><a href="#ueberblick">Das Wichtigste in 2 Minuten</a></li><li><a href="#freistellung">Freistellungsauftrag</a></li><li><a href="#rechner">Steuer-Rechner</a></li><li><a href="#vorab">Vorabpauschale</a></li><li><a href="#nv">NV-Bescheinigung</a></li><li><a href="#guenstiger">Günstigerprüfung</a></li><li><a href="#verluste">Verluste verrechnen</a></li><li><a href="#krypto">Krypto & Steuern</a></li><li><a href="#erklaerung">Steuererklärung</a></li><li><a href="#tricks">Legale Steuer-Tricks</a></li><li><a href="#faq">FAQ</a></li></ol><ol class="home"><li><a href="index.html">Übersicht</a></li></ol></nav>
+<main id="top">
+
+
+<div class="hero">
+  <div class="eyebrow">Lernpfad · Schritt 6</div>
+  <h1>Steuern – weniger kompliziert, als alle sagen.</h1>
+  <p class="lead">Als Anlegerin oder Anleger bei einem deutschen Broker wie Trade Republic musst du für ETFs und Aktien fast nichts selbst tun: Die Steuer wird automatisch abgeführt. Aber mit ein paar Handgriffen zahlst du deutlich weniger. Hier steht, welche.</p>
+  <div class="callout info"><strong>Hinweis</strong>Allgemeine Informationen nach deutschem Steuerrecht, Stand Oktober 2026. Keine Steuerberatung. Steuerregeln ändern sich – bei konkreten Fragen helfen Lohnsteuerhilfevereine, Steuerberater oder das Finanzamt.</div>
+</div>
+
+<section class="chapter" id="ueberblick">
+  <div class="chap-num">Kapitel 01</div>
+  <h2>Das Wichtigste in 2 Minuten</h2>
+  <div class="grid">
+    <div class="card"><h4>💶 Abgeltungsteuer</h4><p>25 % auf Kapitalerträge + 5,5 % Solidaritätszuschlag auf die Steuer = <b>26,375 %</b>. Mit Kirchensteuer etwas mehr (ca. 27,8–28,0 %).</p></div>
+    <div class="card"><h4>🎁 Sparerpauschbetrag</h4><p><b>1.000 € pro Jahr</b> sind steuerfrei (2.000 € bei Zusammenveranlagung). Gilt aber nur mit Freistellungsauftrag bei der Bank.</p></div>
+    <div class="card"><h4>✂️ Teilfreistellung</h4><p>Bei Aktien-ETFs (mind. 51 % Aktien) sind <b>30 %</b> der Erträge steuerfrei. Bei Mischfonds 15 %. Bei Einzelaktien, Anleihen-ETFs und Zinsen: keine.</p></div>
+    <div class="card"><h4>🤖 Automatisch</h4><p>Trade Republic berechnet und zahlt die Steuer direkt ans Finanzamt. Du bekommst einmal im Jahr eine Steuerbescheinigung.</p></div>
+    <div class="card"><h4>📅 Wann?</h4><p>Bei Verkauf mit Gewinn, bei Dividenden/Ausschüttungen, bei Zinsen – und als Vorabpauschale bei thesaurierenden Fonds jedes Jahr im Januar.</p></div>
+    <div class="card"><h4>⏳ Steuerstundung</h4><p>Kursgewinne werden erst beim Verkauf besteuert. Wer lange hält, lässt die „gestundete“ Steuer mitarbeiten.</p></div>
+  </div>
+
+  <h3>Was ist alles ein „Kapitalertrag“?</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Ertrag</th><th>Steuer</th><th>Teilfreistellung</th></tr>
+    <tr><td>Zinsen (Tagesgeld, Verrechnungskonto)</td><td>Abgeltungsteuer</td><td>nein</td></tr>
+    <tr><td>Dividenden von Einzelaktien</td><td>Abgeltungsteuer (+ ggf. ausländische Quellensteuer)</td><td>nein</td></tr>
+    <tr><td>Kursgewinne aus Aktien</td><td>Abgeltungsteuer bei Verkauf</td><td>nein</td></tr>
+    <tr><td>Ausschüttungen &amp; Gewinne aus Aktien-ETFs</td><td>Abgeltungsteuer</td><td>30 %</td></tr>
+    <tr><td>Vorabpauschale (thesaurierende ETFs)</td><td>Abgeltungsteuer</td><td>30 % bei Aktien-ETFs</td></tr>
+    <tr><td>Kryptowährungen (direkt gehalten)</td><td><b>keine</b> Abgeltungsteuer – privates Veräußerungsgeschäft, siehe unten</td><td>–</td></tr>
+  </table></div>
+</section>
+
+<section class="chapter" id="freistellung">
+  <div class="chap-num">Kapitel 02</div>
+  <h2>Freistellungsauftrag – 2 Minuten, die sich jedes Jahr lohnen</h2>
+  <p class="chap-intro">Ohne Freistellungsauftrag zieht die Bank vom ersten Euro an Steuern ab. Du bekommst sie dann nur über die Steuererklärung zurück.</p>
+
+  <ol class="steps">
+    <li><h4>Trade-Republic-App öffnen</h4><p>Profil → Einstellungen bzw. Steuern → Freistellungsauftrag (die genaue Menüführung kann sich ändern).</p></li>
+    <li><h4>Betrag eintragen</h4><p>Hast du nur ein Konto/Depot mit Erträgen: die vollen 1.000 €. Hast du mehrere Banken (z. B. Tagesgeld woanders): aufteilen, je nachdem, wo wie viel Ertrag zu erwarten ist.</p></li>
+    <li><h4>Bestätigen – fertig</h4><p>Gilt unbefristet bis zur Änderung. Einmal im Jahr prüfen, ob die Aufteilung noch passt.</p></li>
+  </ol>
+  <div class="callout warn"><strong>Wichtig</strong>Die Summe aller Freistellungsaufträge darf 1.000 € (bzw. 2.000 € bei Ehepaaren) nicht überschreiten. Die Banken melden die Daten ans Bundeszentralamt für Steuern.</div>
+
+  <h3>Freistellungsauftrag aufteilen</h3>
+  <div class="tool">
+    <span class="tool-label">Rechner</span>
+    <p class="note" style="margin-top:0">Schätze die erwarteten jährlichen Erträge pro Bank. Der Rechner schlägt eine Aufteilung vor.</p>
+    <div class="table-wrap"><table class="edit-table" id="faTable"></table></div>
+    <div class="row-actions"><button class="btn sec small" id="faAdd" type="button">+ Bank</button></div>
+    <div class="controls" style="margin-top:1rem"><div class="ctrl"><label for="faTotal">Dein Pauschbetrag</label><select id="faTotal"><option value="1000">1.000 € (Einzelperson)</option><option value="2000">2.000 € (zusammenveranlagt)</option></select></div></div>
+    <div class="table-wrap"><table id="faOut"></table></div>
+  </div>
+</section>
+
+<section class="chapter" id="rechner">
+  <div class="chap-num">Kapitel 03</div>
+  <h2>Steuer-Rechner: Was bleibt mir?</h2>
+  <p class="chap-intro">Für Verkaufsgewinne, Ausschüttungen, Dividenden oder Zinsen.</p>
+
+  <div class="tool">
+    <span class="tool-label">Rechner</span>
+    <div class="controls">
+      <div class="ctrl"><label for="tGain">Ertrag / Gewinn (€)</label><input type="number" id="tGain" value="2500" step="50"></div>
+      <div class="ctrl"><label for="tType">Art</label><select id="tType"><option value="0.3">Aktien-ETF (30 % steuerfrei)</option><option value="0.15">Mischfonds (15 % steuerfrei)</option><option value="0">Einzelaktie, Anleihen-ETF, Zinsen (0 %)</option></select></div>
+      <div class="ctrl"><label for="tFree">Noch verfügbarer Freibetrag (€)</label><input type="number" id="tFree" value="1000" step="50"></div>
+      <div class="ctrl"><label for="tKi">Kirchensteuer</label><select id="tKi"><option value="0">keine</option><option value="0.08">8 % (Bayern, Baden-Württemberg)</option><option value="0.09">9 % (übrige Bundesländer)</option></select></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><span>Davon steuerfrei (Teilfreistellung)</span><b id="tTf">–</b></div>
+      <div class="kpi"><span>Zu versteuern nach Freibetrag</span><b id="tBase">–</b></div>
+      <div class="kpi bad"><span>Steuer gesamt</span><b id="tTax">–</b></div>
+      <div class="kpi hl"><span>Bleibt dir</span><b id="tNet">–</b></div>
+    </div>
+    <p class="note" id="tDetail"></p>
+  </div>
+  <div class="callout tip"><strong>Wichtige Reihenfolge</strong>Erst wird die Teilfreistellung abgezogen, dann der Freibetrag. Bei Aktien-ETFs reicht der 1.000-€-Freibetrag deshalb für ca. 1.428 € tatsächlichen Gewinn.</div>
+</section>
+
+<section class="chapter" id="vorab">
+  <div class="chap-num">Kapitel 04</div>
+  <h2>Die Vorabpauschale</h2>
+  <p class="chap-intro">Das Wort, das jeden Januar für verwirrte Gesichter sorgt. Dabei ist das Prinzip einfach.</p>
+
+  <p>Thesaurierende ETFs schütten nichts aus – also würde jahrelang keine Steuer anfallen. Damit der Staat trotzdem jährlich etwas bekommt, wird eine <b>fiktive Mindestausschüttung</b> versteuert: die Vorabpauschale. Sie wird am ersten Werktag des Folgejahres vom Verrechnungskonto eingezogen (soweit der Freibetrag nicht reicht).</p>
+
+  <h3>So wird sie berechnet</h3>
+  <ol class="steps">
+    <li><h4>Basisertrag = Wert am Jahresanfang × Basiszins × 0,7</h4><p>Den Basiszins legt das Finanzministerium jedes Jahr fest (für 2026: 3,20 %).</p></li>
+    <li><h4>Deckel: höchstens die tatsächliche Wertsteigerung</h4><p>Ist der ETF im Jahr gefallen, gibt es keine Vorabpauschale.</p></li>
+    <li><h4>Minus Ausschüttungen im Jahr</h4><p>Bei thesaurierenden ETFs meist null.</p></li>
+    <li><h4>Teilfreistellung, Freibetrag, Steuer</h4><p>Wie bei jedem anderen Ertrag. Und: Die Vorabpauschale wird beim späteren Verkauf vom Gewinn abgezogen – du zahlst also nicht doppelt.</p></li>
+  </ol>
+
+  <div class="tool">
+    <span class="tool-label">Rechner</span>
+    <div class="controls">
+      <div class="ctrl"><label for="vStart">Wert am 1. Januar (€)</label><input type="number" id="vStart" value="10000" step="100"></div>
+      <div class="ctrl"><label for="vEnd">Wert am 31. Dezember (€) – ohne neue Einzahlungen</label><input type="number" id="vEnd" value="10800" step="100"></div>
+      <div class="ctrl"><label for="vDist">Ausschüttungen im Jahr (€)</label><input type="number" id="vDist" value="0" step="10"></div>
+      <div class="ctrl"><label for="vBz">Basiszins (%)</label><input type="number" id="vBz" value="3.20" step="0.01"></div>
+      <div class="ctrl"><label for="vFree">Noch verfügbarer Freibetrag (€)</label><input type="number" id="vFree" value="1000" step="50"></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><span>Basisertrag</span><b id="vBase">–</b></div>
+      <div class="kpi"><span>Vorabpauschale</span><b id="vVap">–</b></div>
+      <div class="kpi"><span>Steuerpflichtig (nach 30 % TF)</span><b id="vTaxable">–</b></div>
+      <div class="kpi bad"><span>Steuer im Januar</span><b id="vTax">–</b></div>
+    </div>
+    <p class="note">Vereinfacht für einen Aktien-ETF ohne Kirchensteuer. Für Anteile, die im Laufe des Jahres gekauft wurden (z. B. per Sparplan), wird die Vorabpauschale für jeden vollen Monat vor dem Kauf um 1/12 gekürzt.</p>
+  </div>
+  <div class="callout tip"><strong>Praxis-Tipp</strong>Lass ab Dezember immer ein paar Euro auf dem Verrechnungskonto. Reicht das Guthaben nicht, kann die Bank die Steuer per Lastschrift vom Referenzkonto einziehen. Und: Solange dein Freibetrag reicht, merkst du von der Vorabpauschale gar nichts.</div>
+</section>
+
+<section class="chapter" id="nv">
+  <div class="chap-num">Kapitel 05</div>
+  <h2>NV-Bescheinigung – für Studierende, Azubis &amp; Geringverdiener</h2>
+  <p class="chap-intro">Wer insgesamt so wenig verdient, dass keine Einkommensteuer anfällt, kann auch Kapitalerträge über 1.000 € steuerfrei bekommen.</p>
+
+  <div class="grid">
+    <div class="card"><h4>Wer?</h4><p>Wer voraussichtlich mit seinem gesamten Einkommen unter dem Grundfreibetrag bleibt (2026: 12.348 €), plus Sparerpauschbetrag. Typisch: Studium, Ausbildung, Minijob, Elternzeit, Rente mit kleinem Einkommen.</p></div>
+    <div class="card"><h4>Wie?</h4><p>Antrag beim zuständigen Finanzamt (Formular „NV 1A“, online z. B. über ELSTER). Die Bescheinigung gilt höchstens drei Jahre.</p></div>
+    <div class="card"><h4>Und dann?</h4><p>Bei Trade Republic einreichen. Dann wird gar keine Abgeltungsteuer mehr abgezogen – egal wie hoch die Erträge sind (solange die Voraussetzungen bestehen).</p></div>
+  </div>
+  <div class="callout warn"><strong>Pflicht zur Meldung</strong>Steigt dein Einkommen (z. B. erster Vollzeitjob), musst du die NV-Bescheinigung zurückgeben. Für die meisten Einsteiger mit kleinen Beträgen reicht der normale Freistellungsauftrag völlig aus.</div>
+</section>
+
+<section class="chapter" id="guenstiger">
+  <div class="chap-num">Kapitel 06</div>
+  <h2>Günstigerprüfung</h2>
+  <p class="chap-intro">Abgeltungsteuer ist 25 %. Dein persönlicher Steuersatz kann aber niedriger sein.</p>
+  <p>Wenn dein persönlicher Grenzsteuersatz unter 25 % liegt (z. B. bei Teilzeit, Studium mit Nebenjob, Berufseinstieg), kannst du in der Steuererklärung in der <b>Anlage KAP</b> die Günstigerprüfung beantragen. Das Finanzamt rechnet dann aus, ob die Besteuerung mit deinem persönlichen Steuersatz günstiger ist – und erstattet die Differenz.</p>
+  <div class="callout tip"><strong>Faustregel</strong>Bei einem zu versteuernden Einkommen bis etwa 15.000–20.000 € pro Jahr (Einzelperson) lohnt sich ein Blick auf die Günstigerprüfung oft. Steuersoftware oder ELSTER prüfen das automatisch, wenn du das Häkchen setzt.</div>
+</section>
+
+<section class="chapter" id="verluste">
+  <div class="chap-num">Kapitel 07</div>
+  <h2>Verluste verrechnen</h2>
+  <p class="chap-intro">Verluste sind ärgerlich – aber steuerlich nicht wertlos.</p>
+  <div class="grid">
+    <div class="card"><h4>🗂 Aktien-Verlusttopf</h4><p>Verluste aus dem Verkauf von <b>Einzelaktien</b>. Dürfen nur mit Gewinnen aus Aktienverkäufen verrechnet werden – nicht mit Dividenden oder ETF-Gewinnen.</p></div>
+    <div class="card"><h4>🗂 Allgemeiner Verlusttopf</h4><p>Verluste aus ETFs, Fonds, Anleihen, Derivaten. Verrechnung mit allen anderen Kapitalerträgen (Zinsen, Dividenden, ETF-Gewinne, auch Aktiengewinne).</p></div>
+    <div class="card"><h4>🔁 Automatisch</h4><p>Die Bank verrechnet innerhalb ihres Depots automatisch und trägt nicht genutzte Verluste ins nächste Jahr vor.</p></div>
+    <div class="card"><h4>🏦 Mehrere Banken</h4><p>Willst du Verluste bei Bank A mit Gewinnen bei Bank B verrechnen: bis <b>15. Dezember</b> eine Verlustbescheinigung bei Bank A beantragen und in der Steuererklärung angeben.</p></div>
+  </div>
+</section>
+
+<section class="chapter" id="krypto">
+  <div class="chap-num">Kapitel 08</div>
+  <h2>Krypto &amp; Steuern</h2>
+  <p class="chap-intro">Direkt gehaltene Kryptowährungen werden in Deutschland ganz anders besteuert als Aktien und ETFs.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Regel</th><th>Was das heißt</th></tr>
+    <tr><td>Privates Veräußerungsgeschäft</td><td>Gewinne werden mit deinem <b>persönlichen Einkommensteuersatz</b> besteuert (0–45 %), nicht mit der Abgeltungsteuer.</td></tr>
+    <tr><td>Haltefrist 1 Jahr</td><td>Verkaufst du nach mehr als 12 Monaten: <b>steuerfrei</b>, egal wie hoch der Gewinn.</td></tr>
+    <tr><td>Freigrenze 1.000 €</td><td>Alle privaten Veräußerungsgewinne eines Jahres zusammen unter 1.000 €: steuerfrei. Ab 1.000 € ist <i>alles</i> steuerpflichtig (Freigrenze, kein Freibetrag).</td></tr>
+    <tr><td>Selbst erklären</td><td>Die Bank zieht keine Steuer ab. Du musst Gewinne in der Steuererklärung (Anlage SO) angeben.</td></tr>
+    <tr><td>Krypto-ETPs / ETNs</td><td>Börsengehandelte Krypto-Produkte können steuerlich anders behandelt werden – vor dem Kauf prüfen.</td></tr>
+  </table></div>
+  <p>Mehr zu den Risiken von Krypto auf der Seite <a href="hebel-krypto.html">Hebel &amp; Krypto</a>.</p>
+</section>
+
+<section class="chapter" id="erklaerung">
+  <div class="chap-num">Kapitel 09</div>
+  <h2>Steuererklärung – brauche ich die?</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Situation</th><th>Steuererklärung?</th></tr>
+    <tr><td>Nur ETFs/Aktien bei deutschem Broker, Freistellungsauftrag passt</td><td>Für Kapitalerträge nicht nötig – abgegolten.</td></tr>
+    <tr><td>Freistellungsauftrag vergessen oder zu spät</td><td>Lohnt sich: Anlage KAP, Steuer kommt zurück.</td></tr>
+    <tr><td>Persönlicher Steuersatz unter 25 %</td><td>Lohnt sich: Günstigerprüfung.</td></tr>
+    <tr><td>Krypto-Gewinne innerhalb eines Jahres über der Freigrenze</td><td><b>Pflicht</b>: Anlage SO.</td></tr>
+    <tr><td>Depot bei ausländischem Broker</td><td><b>Pflicht</b>: Anlage KAP, da dort keine deutsche Steuer abgezogen wird.</td></tr>
+    <tr><td>Nebenjob mit Lohnsteuerabzug, wenig Einkommen</td><td>Fast immer lohnenswert – oft gibt es die ganze Lohnsteuer zurück.</td></tr>
+  </table></div>
+  <p>Die nötigen Zahlen stehen in der <b>Jahressteuerbescheinigung</b>, die du in der Trade-Republic-App unter Dokumente findest (meist im Frühjahr des Folgejahres). Kostenlos erklären geht über <a href="https://www.elster.de" target="_blank" rel="noopener">ELSTER</a>.</p>
+</section>
+
+<section class="chapter" id="tricks">
+  <div class="chap-num">Kapitel 10</div>
+  <h2>Legale Steuer-Tricks für Langfristanleger</h2>
+  <details><summary>Freibetrag jedes Jahr ausnutzen („Steuer-Harvesting“)</summary><div>Nutzt du den Freibetrag in einem Jahr nicht, verfällt er. Trick: Gegen Jahresende so viele ETF-Anteile verkaufen, dass der Gewinn den Freibetrag gerade ausschöpft, und sofort wieder kaufen. Dein Einstandskurs steigt, späterer Gewinn sinkt – du sparst beim endgültigen Verkauf Steuern. Kosten: Ordergebühr und Spread. Lohnt sich, sobald dein Depot nennenswerte Gewinne hat.</div></details>
+  <details><summary>Lange halten</summary><div>Jede Umschichtung mit Gewinn kostet sofort Steuern. Wer 30 Jahre hält, lässt die Steuer 30 Jahre lang mitarbeiten – das macht am Ende einen spürbaren Unterschied.</div></details>
+  <details><summary>Verkaufen in Jahren mit niedrigem Einkommen</summary><div>Größere Verkäufe in Jahren mit wenig Einkommen (Sabbatical, Elternzeit, Studium) – dann greift ggf. die Günstigerprüfung oder sogar eine NV-Bescheinigung.</div></details>
+  <details><summary>Aktien-ETFs statt Einzelaktien für das Kerninvestment</summary><div>Die 30 % Teilfreistellung gibt es nur bei Fonds. Bei gleichem Gewinn zahlst du für einen Aktien-ETF weniger Steuern als für Einzelaktien.</div></details>
+  <details><summary>Ausschüttend oder thesaurierend wählen</summary><div>Steuerlich ist der Unterschied in Deutschland gering. Wer seinen Freibetrag mit einem thesaurierenden ETF nicht ausschöpft, kann ihn mit einem ausschüttenden ETF gezielter nutzen – reine Optimierung, kein Muss.</div></details>
+</section>
+
+<section class="chapter" id="faq">
+  <div class="chap-num">Kapitel 11</div>
+  <h2>Häufige Fragen</h2>
+  <details><summary>Muss ich Steuern zahlen, wenn ich nichts verkaufe?</summary><div>Auf Kursgewinne nicht. Auf Ausschüttungen, Zinsen und die Vorabpauschale schon – aber nur, soweit der Freibetrag nicht reicht.</div></details>
+  <details><summary>Welche Anteile werden beim Verkauf zuerst verkauft?</summary><div>Steuerlich gilt „First in, first out“: Die zuerst gekauften Anteile gelten als zuerst verkauft. Da diese meist am meisten gestiegen sind, ist der steuerpflichtige Gewinn entsprechend hoch.</div></details>
+  <details><summary>Was ist mit ausländischer Quellensteuer bei Dividenden?</summary><div>Viele Länder behalten auf Dividenden eine Steuer ein (z. B. USA 15 % mit Steuerabkommen). Diese wird in der Regel bis zu einer Höhe von 15 % auf die deutsche Steuer angerechnet. Bei ETFs passiert das auf Fondsebene, darum musst du dich nicht kümmern.</div></details>
+  <details><summary>Brauche ich eine Steuer-ID?</summary><div>Ja, für die Depoteröffnung. Sie steht auf Schreiben vom Finanzamt, deiner Lohnabrechnung oder kann beim Bundeszentralamt für Steuern neu angefordert werden.</div></details>
+  <details><summary>Was passiert mit Kirchensteuer?</summary><div>Die Bank fragt deine Religionszugehörigkeit automatisch beim Bundeszentralamt ab und führt Kirchensteuer ggf. mit ab. Kirchensteuer wirkt leicht mindernd auf die Abgeltungsteuer.</div></details>
+</section>
+
+<script>
+(function(){
+  const {$,fmt,fmt2,pct,store,esc}=U;
+  // tax core: returns {tf,base,abg,soli,kist,total}
+  function tax(gain,tfq,free,k){
+    const tf=Math.max(0,gain)*tfq;const afterTf=Math.max(0,gain)-tf;const base=Math.max(0,afterTf-Math.max(0,free));
+    const abg=base/(4+k);const soli=abg*0.055;const kist=abg*k;return {tf,base,abg,soli,kist,total:abg+soli+kist};
+  }
+  function calcT(){
+    const g=parseFloat($('tGain').value)||0,q=+$('tType').value,f=parseFloat($('tFree').value)||0,k=+$('tKi').value;
+    const r=tax(g,q,f,k);
+    $('tTf').textContent=fmt2(r.tf);$('tBase').textContent=fmt2(r.base);$('tTax').textContent=fmt2(r.total);$('tNet').textContent=fmt2(Math.max(0,g)-r.total);
+    $('tDetail').innerHTML=r.total>0?`Abgeltungsteuer ${fmt2(r.abg)} + Soli ${fmt2(r.soli)}${k?` + Kirchensteuer ${fmt2(r.kist)}`:''}. Effektive Belastung auf deinen Gewinn: <b>${pct(g>0?r.total/g*100:0)}</b>.`:'Keine Steuer – Teilfreistellung und Freibetrag decken alles ab. 🎉';
+  }
+  ['tGain','tType','tFree','tKi'].forEach(id=>$(id).addEventListener('input',calcT));calcT();
+
+  function calcV(){
+    const s=parseFloat($('vStart').value)||0,e=parseFloat($('vEnd').value)||0,d=parseFloat($('vDist').value)||0,bz=(parseFloat($('vBz').value)||0)/100,f=parseFloat($('vFree').value)||0;
+    const base=s*bz*0.7;const cap=Math.max(0,e-s+d);const vap=Math.max(0,Math.min(base,cap)-d);
+    const r=tax(vap,0.3,f,0);
+    $('vBase').textContent=fmt2(base);$('vVap').textContent=fmt2(vap);$('vTaxable').textContent=fmt2(vap*0.7);$('vTax').textContent=fmt2(r.total);
+  }
+  ['vStart','vEnd','vDist','vBz','vFree'].forEach(id=>$(id).addEventListener('input',calcV));calcV();
+
+  // Freistellungsauftrag split
+  let FA=store.get('dga-fa')||[{n:'Trade Republic (Depot + Zinsen)',e:600},{n:'Tagesgeld bei anderer Bank',e:80}];
+  function renderFA(){
+    $('faTable').innerHTML='<tr><th>Bank</th><th class="num">Erwartete Erträge / Jahr (€)</th><th></th></tr>'+FA.map((r,i)=>`<tr><td><input type="text" data-fa="${i}" data-k="n" value="${esc(r.n)}"></td><td><input type="number" class="num" data-fa="${i}" data-k="e" value="${r.e}"></td><td><button class="x-btn" data-fadel="${i}" aria-label="Löschen">×</button></td></tr>`).join('');calcFA();
+  }
+  function calcFA(){
+    const T=+$('faTotal').value;const sum=FA.reduce((a,r)=>a+(+r.e||0),0);
+    let alloc=FA.map(r=>sum>0?Math.floor((+r.e||0)/sum*T):Math.floor(T/FA.length));
+    if(sum>0&&sum<T){alloc=FA.map(r=>+r.e||0);const rest=T-sum;const top=FA.reduce((bi,r,i,a)=>(+r.e||0)>(+a[bi].e||0)?i:bi,0);alloc[top]+=rest}
+    const diff=T-alloc.reduce((a,b)=>a+b,0);if(alloc.length)alloc[0]+=diff;
+    $('faOut').innerHTML='<tr><th>Bank</th><th class="num">Freistellungsauftrag</th></tr>'+FA.map((r,i)=>`<tr><td>${esc(r.n)}</td><td class="num"><b>${fmt(alloc[i])}</b></td></tr>`).join('')+`<tr><td><b>Summe</b></td><td class="num"><b>${fmt(T)}</b></td></tr>`;
+    store.set('dga-fa',FA);
+  }
+  $('faTable').addEventListener('input',e=>{const t=e.target;if(t.dataset.fa==null)return;FA[+t.dataset.fa][t.dataset.k]=t.dataset.k==='e'?(parseFloat(t.value)||0):t.value;calcFA()});
+  $('faTable').addEventListener('click',e=>{const d=e.target.dataset.fadel;if(d==null)return;FA.splice(+d,1);renderFA()});
+  $('faAdd').onclick=()=>{FA.push({n:'Weitere Bank',e:0});renderFA()};
+  $('faTotal').addEventListener('change',calcFA);
+  renderFA();
+})();
+</script>
+
+<nav class="pager" aria-label="Lernpfad"><a class="prev" href="depot.html"><small>← Zurück</small><b>Mein Depot</b></a><a class="next" href="aktien.html"><small>Weiter im Lernpfad →</small><b>Einzelaktien</b></a></nav>
+</main>
+</div>
+<footer>Bildungsinhalt, keine Anlage- oder Steuerberatung. Investieren ist mit Risiken verbunden, bis hin zum Verlust des eingesetzten Kapitals. Vergangene Wertentwicklungen sind kein verlässlicher Indikator für künftige Ergebnisse. Beispiele und Näherungswerte dienen nur der Veranschaulichung. Stand: Oktober 2026. · <a href="index.html">Übersicht</a></footer>
+<script>
+(function(){
+ const PAGE="steuern.html";
+ try{const v=JSON.parse(localStorage.getItem('dga-visited'))||{};v[PAGE]=1;localStorage.setItem('dga-visited',JSON.stringify(v));
+   document.querySelectorAll('#menu a[data-f]').forEach(a=>{if(v[a.dataset.f])a.querySelector('.v').textContent='✓'})}catch(e){}
+ const mb=document.getElementById('menuBtn'),m=document.getElementById('menu');
+ mb.addEventListener('click',e=>{e.stopPropagation();m.hidden=!m.hidden;mb.setAttribute('aria-expanded',String(!m.hidden))});
+ document.addEventListener('click',e=>{if(!m.hidden&&!m.contains(e.target))m.hidden=true});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')m.hidden=true});
+})();
+</script>
+<script>
+(function(){const root=document.documentElement,U=window.U;
+ const tb=document.getElementById('themeBtn');
+ tb.addEventListener('click',()=>{const cur=root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const n=cur==='dark'?'light':'dark';root.setAttribute('data-theme',n);U.store.set('dga-theme',n);U.themeHooks.forEach(f=>f())});
+ const bar=document.getElementById('bar');const links=[...document.querySelectorAll('nav.toc a[href^="#"]')];const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+ function on(){const h=document.documentElement;bar.style.width=(h.scrollTop/Math.max(1,h.scrollHeight-h.clientHeight)*100)+'%';let i=0;secs.forEach((s,k)=>{if(s&&s.getBoundingClientRect().top<140)i=k});links.forEach((a,k)=>a.classList.toggle('active',k===i))}
+ addEventListener('scroll',on,{passive:true});on();
+})();
+</script>
+<script type="module">
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDcoyIKBteii7mt6F7QIdR2mr0PIx8ON-I",
+  authDomain: "tradings1x1.firebaseapp.com",
+  projectId: "tradings1x1",
+  storageBucket: "tradings1x1.firebasestorage.app",
+  messagingSenderId: "962901431228",
+  appId: "1:962901431228:web:7e1199128eff0caa1051b9"
+};
+const SDK = "https://www.gstatic.com/firebasejs/10.12.2/";
+const D = window.__dga;
+const btn = document.getElementById('acctBtn');
+const lbl = btn && btn.querySelector('.acct-label');
+const dot = btn && btn.querySelector('.acct-dot');
+let user = null, ref = null, api = null, pushing = false, timer = null;
+
+function setStatus(s, text){ if(!dot) return; dot.className = 'acct-dot ' + s; if(text) btn.title = text; }
+function setLabel(t){ if(lbl) lbl.textContent = t; }
+function localKV(){ const o = {}; for(let i=0;i<localStorage.length;i++){ const k = localStorage.key(i); if(D.isKey(k)) o[k] = localStorage.getItem(k); } return o; }
+function wipeLocal(){ Object.keys(localKV()).forEach(k => { if(k !== 'dga-theme') D.raw.rem(k); }); D.setPending([]); }
+
+// ---------- Modal UI ----------
+const back = document.createElement('div');
+back.className = 'modal-back'; back.hidden = true; back.id = 'acctModal';
+back.innerHTML = `<div class="modal acct-modal" role="dialog" aria-modal="true" aria-labelledby="acctTitle">
+  <button class="x-btn acct-close" type="button" aria-label="Schließen">×</button>
+  <div id="acctBody"></div></div>`;
+document.body.appendChild(back);
+const body = back.querySelector('#acctBody');
+function open(){ render(); back.hidden = false; const f = back.querySelector('input,button.btn'); if(f) f.focus(); }
+function close(){ back.hidden = true; }
+back.addEventListener('click', e => { if(e.target === back || e.target.closest('.acct-close')) close(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && !back.hidden) close(); });
+if(btn) btn.addEventListener('click', open);
+
+const ERR = {
+  'auth/invalid-credential':'E-Mail oder Passwort ist falsch.',
+  'auth/wrong-password':'E-Mail oder Passwort ist falsch.',
+  'auth/user-not-found':'Zu dieser E-Mail gibt es noch kein Konto.',
+  'auth/invalid-email':'Das ist keine gültige E-Mail-Adresse.',
+  'auth/email-already-in-use':'Für diese E-Mail gibt es schon ein Konto – bitte anmelden.',
+  'auth/weak-password':'Das Passwort muss mindestens 6 Zeichen haben.',
+  'auth/too-many-requests':'Zu viele Versuche. Bitte kurz warten.',
+  'auth/network-request-failed':'Keine Verbindung. Bitte Internet prüfen.',
+  'auth/unauthorized-domain':'Diese Domain ist in Firebase noch nicht freigegeben (Authentication → Settings → Authorized domains).',
+  'auth/operation-not-allowed':'E-Mail/Passwort-Login ist in Firebase nicht aktiviert.',
+  'permission-denied':'Firestore verweigert den Zugriff – bitte die Sicherheitsregeln prüfen.'
+};
+const msg = e => ERR[e && e.code] || ('Fehler: ' + ((e && (e.code || e.message)) || 'unbekannt'));
+
+function render(note){
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  if(!api){
+    body.innerHTML = `<h3 id="acctTitle">Konto</h3><p class="muted">Die Anmeldung ist gerade nicht erreichbar (keine Internetverbindung oder Firebase blockiert). Deine Eingaben werden weiter lokal in diesem Browser gespeichert.</p>`;
+    return;
+  }
+  if(user){
+    const p = D.pending().length;
+    body.innerHTML = `<h3 id="acctTitle">Dein Konto</h3>
+      <p>Angemeldet als <b>${esc(user.email)}</b></p>
+      <p class="muted" id="acctState">${p ? `⏳ ${p} Änderung(en) werden gespeichert …` : '✓ Alles gespeichert. Deine Eingaben sind auf jedem Gerät verfügbar, auf dem du dich anmeldest.'}</p>
+      ${note ? `<p class="acct-note">${note}</p>` : ''}
+      <div class="row-actions"><button class="btn sec" type="button" id="acctSync">↻ Jetzt synchronisieren</button></div>
+      <hr style="border:0;border-top:1px solid var(--border);margin:1.2rem 0">
+      <label style="display:flex;gap:.5rem;align-items:flex-start;font-size:.92rem"><input type="checkbox" id="acctWipe" checked style="margin-top:.3rem"> Beim Abmelden die Daten auf diesem Gerät entfernen (empfohlen auf gemeinsam genutzten Geräten – in deinem Konto bleibt alles erhalten)</label>
+      <div class="row-actions"><button class="btn" type="button" id="acctOut">Abmelden</button></div>`;
+    body.querySelector('#acctSync').onclick = async () => { await fullSync(true); render('Synchronisiert.'); };
+    body.querySelector('#acctOut').onclick = async () => {
+      const wipe = body.querySelector('#acctWipe').checked;
+      try { await pushNow(); } catch(e){}
+      await api.signOut(api.auth);
+      if(wipe){ wipeLocal(); D.raw.rem('dga-sync-uid'); }
+      location.reload();
+    };
+    return;
+  }
+  body.innerHTML = `<h3 id="acctTitle">Anmelden</h3>
+    <p class="muted" style="margin-top:0">Mit Konto werden alle Eingaben (Budget, Depot, Checklisten, Tagebuch, Crash-Plan …) gespeichert und sind auf jedem Gerät verfügbar.</p>
+    <form id="acctForm" novalidate>
+      <div class="ctrl"><label for="acctMail">E-Mail</label><input type="email" id="acctMail" autocomplete="email" required></div>
+      <div class="ctrl" style="margin-top:.7rem"><label for="acctPw">Passwort</label><input type="password" id="acctPw" autocomplete="current-password" required minlength="6"></div>
+      <p class="acct-note" id="acctMsg">${note || ''}</p>
+      <div class="row-actions">
+        <button class="btn" type="submit" id="acctIn">Anmelden</button>
+        <button class="btn sec" type="button" id="acctNew">Neues Konto erstellen</button>
+      </div>
+      <p style="margin:.8rem 0 0"><button type="button" class="linkbtn" id="acctReset">Passwort vergessen?</button></p>
+    </form>`;
+  const mail = body.querySelector('#acctMail'), pw = body.querySelector('#acctPw'), out = body.querySelector('#acctMsg');
+  const busy = (b) => body.querySelectorAll('button').forEach(x => x.disabled = b);
+  body.querySelector('#acctForm').onsubmit = async e => {
+    e.preventDefault(); busy(true); out.textContent = 'Anmelden …';
+    try { await api.signInWithEmailAndPassword(api.auth, mail.value.trim(), pw.value); close(); }
+    catch(err){ out.textContent = msg(err); busy(false); }
+  };
+  body.querySelector('#acctNew').onclick = async () => {
+    busy(true); out.textContent = 'Konto wird erstellt …';
+    try { await api.createUserWithEmailAndPassword(api.auth, mail.value.trim(), pw.value); close(); }
+    catch(err){ out.textContent = msg(err); busy(false); }
+  };
+  body.querySelector('#acctReset').onclick = async () => {
+    if(!mail.value.trim()){ out.textContent = 'Bitte zuerst deine E-Mail eintragen.'; mail.focus(); return; }
+    try { await api.sendPasswordResetEmail(api.auth, mail.value.trim()); out.textContent = '✓ E-Mail zum Zurücksetzen wurde verschickt (auch im Spam-Ordner nachsehen).'; }
+    catch(err){ out.textContent = msg(err); }
+  };
+}
+
+// ---------- Sync ----------
+async function pushNow(){
+  if(!user || pushing) return;
+  const keys = D.pending(); if(!keys.length) return;
+  pushing = true; setStatus('busy', 'Speichere …');
+  try {
+    const kv = {};
+    keys.forEach(k => { const v = localStorage.getItem(k); kv[k] = v === null ? api.deleteField() : v; });
+    await api.setDoc(ref, { kv, email: user.email, updatedAt: api.serverTimestamp() }, { merge: true });
+    const left = D.pending().filter(k => !keys.includes(k) || localStorage.getItem(k) !== (typeof kv[k] === 'string' ? kv[k] : null));
+    D.setPending(left);
+    setStatus(left.length ? 'busy' : 'ok', left.length ? 'Speichere …' : 'Gespeichert in deinem Konto');
+    const st = document.getElementById('acctState'); if(st && !left.length) st.textContent = '✓ Alles gespeichert.';
+  } catch(e){ console.warn('[sync] push failed', e); setStatus('err', msg(e)); }
+  finally { pushing = false; if(D.pending().length && !timer) schedule(3000); }
+}
+function schedule(ms){ clearTimeout(timer); timer = setTimeout(() => { timer = null; pushNow(); }, ms); }
+
+// Pull remote → local. Returns true if local data changed.
+async function pull(mode){
+  const snap = await api.getDoc(ref);
+  const remote = snap.exists() ? (snap.data().kv || {}) : {};
+  const pend = new Set(D.pending());
+  let changed = false;
+  for(const [k, v] of Object.entries(remote)){
+    if(!D.isKey(k)) continue;
+    if(k === 'dga-visited'){ // merge "visited pages" from all devices
+      try { const m = Object.assign({}, JSON.parse(v) || {}, JSON.parse(localStorage.getItem(k)) || {}); const js = JSON.stringify(m);
+        if(js !== localStorage.getItem(k)){ D.raw.set(k, js); changed = true; } if(js !== v) D.mark(k); } catch(e){}
+      continue;
+    }
+    if(pend.has(k)) continue;
+    if(localStorage.getItem(k) !== v){ D.raw.set(k, v); changed = true; }
+  }
+  // Local keys the account doesn't know yet → upload (first login on this device, or never synced)
+  const local = localKV(); const missing = Object.keys(local).filter(k => !(k in remote));
+  if(missing.length){ D.setPending([...new Set([...D.pending(), ...missing])]); }
+  return changed;
+}
+
+async function fullSync(manual){
+  if(!user) return;
+  setStatus('busy', 'Synchronisiere …');
+  try {
+    await pushNow();
+    const changed = await pull();
+    await pushNow();
+    setStatus('ok', 'Gespeichert in deinem Konto');
+    if(changed && !manual) safeReload();
+    if(changed && manual) location.reload();
+  } catch(e){ console.warn('[sync] sync failed', e); setStatus('err', msg(e)); }
+}
+function safeReload(){
+  // Reload once so the page shows the synced data; guard against loops.
+  try {
+    const last = +sessionStorage.getItem('dga-sync-reload') || 0;
+    if(Date.now() - last < 10000) return;
+    sessionStorage.setItem('dga-sync-reload', String(Date.now()));
+  } catch(e){}
+  location.reload();
+}
+
+// ---------- Boot ----------
+setStatus('', 'Anmelden, um Eingaben geräteübergreifend zu speichern');
+try {
+  const [appM, authM, fsM] = await Promise.all([
+    import(SDK + 'firebase-app.js'), import(SDK + 'firebase-auth.js'), import(SDK + 'firebase-firestore.js')
+  ]);
+  const app = appM.initializeApp(FIREBASE_CONFIG);
+  const auth = authM.getAuth(app);
+  const db = fsM.getFirestore(app);
+  api = { auth, signInWithEmailAndPassword: authM.signInWithEmailAndPassword, createUserWithEmailAndPassword: authM.createUserWithEmailAndPassword,
+          sendPasswordResetEmail: authM.sendPasswordResetEmail, signOut: authM.signOut,
+          doc: fsM.doc, getDoc: fsM.getDoc, setDoc: fsM.setDoc, deleteField: fsM.deleteField, serverTimestamp: fsM.serverTimestamp };
+  auth.languageCode = 'de';
+  authM.onAuthStateChanged(auth, async u => {
+    user = u;
+    if(!u){ ref = null; setLabel('Anmelden'); setStatus('', 'Nicht angemeldet – Eingaben nur in diesem Browser'); if(!back.hidden) render(); return; }
+    ref = fsM.doc(db, 'users', u.uid);
+    setLabel(u.email.split('@')[0]);
+    const prev = localStorage.getItem('dga-sync-uid');
+    if(prev && prev !== u.uid){ wipeLocal(); }           // other family member used this device → don't mix data
+    D.raw.set('dga-sync-uid', u.uid);
+    D.onChange = () => schedule(800);
+    await fullSync(false);
+    if(!back.hidden) render();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if(!user) return;
+    if(document.visibilityState === 'hidden') pushNow();
+    else if(!D.pending().length) fullSync(false);
+  });
+  window.addEventListener('pagehide', () => { if(user) pushNow(); });
+} catch(e){
+  console.warn('[sync] Firebase not available', e);
+  setStatus('err', 'Anmeldung nicht erreichbar – Eingaben werden lokal gespeichert');
+}
+</script>
+</body>
+</html>

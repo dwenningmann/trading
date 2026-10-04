@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETF-Analyse – So prüfst du einen ETF selbst</title>
+<meta name="description" content="Schritt für Schritt einen ETF analysieren: Quellen, Kennzahlen, Factsheet lesen, rote Flaggen – mit interaktiven Rechnern für Kosten, Tracking-Differenz, ETF-Vergleich und Länder-Mix.">
+<style>
+:root{
+  --bg:#f7f6f2; --surface:#ffffff; --surface-2:#f0eee8; --text:#1d1d1f; --muted:#5d5d63;
+  --border:#e2dfd6; --accent:#0f7b5f; --accent-soft:#e3f2ec; --accent-2:#c2410c;
+  --warn-bg:#fff4e5; --warn-border:#f2b46b; --info-bg:#eaf2fb; --info-border:#8bb4e0;
+  --danger-bg:#fdecec; --danger-border:#e8a1a1;
+  --good:#0f7b5f; --mid:#b7791f; --bad:#c53030;
+  --c1:#0f7b5f; --c2:#3b82c4; --c3:#d08a2e; --c4:#8a5cc2; --c5:#c2546b; --c6:#5aa39a; --c7:#9a9a92;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121314; --surface:#1b1c1e; --surface-2:#232427; --text:#ecebe7; --muted:#a3a29d;
+    --border:#2f3033; --accent:#4cc39a; --accent-soft:#16332a; --accent-2:#f08a4b;
+    --warn-bg:#2d2416; --warn-border:#8a6326; --info-bg:#172333; --info-border:#3d6694;
+    --danger-bg:#311b1b; --danger-border:#8a3d3d;
+    --good:#4cc39a; --mid:#e0b04c; --bad:#f07272;
+    --c1:#4cc39a; --c2:#6aa7e0; --c3:#e0a04c; --c4:#ab86e0; --c5:#e07a90; --c6:#7cc4ba; --c7:#77776f;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121314; --surface:#1b1c1e; --surface-2:#232427; --text:#ecebe7; --muted:#a3a29d;
+  --border:#2f3033; --accent:#4cc39a; --accent-soft:#16332a; --accent-2:#f08a4b;
+  --warn-bg:#2d2416; --warn-border:#8a6326; --info-bg:#172333; --info-border:#3d6694;
+  --danger-bg:#311b1b; --danger-border:#8a3d3d;
+  --good:#4cc39a; --mid:#e0b04c; --bad:#f07272;
+  --c1:#4cc39a; --c2:#6aa7e0; --c3:#e0a04c; --c4:#ab86e0; --c5:#e07a90; --c6:#7cc4ba; --c7:#77776f;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+h1,h2,h3,h4{line-height:1.25;letter-spacing:-.01em}
+h2{font-size:1.75rem;margin:0 0 .4rem}
+h3{font-size:1.2rem;margin:1.8rem 0 .5rem}
+p{margin:.6rem 0}
+.muted{color:var(--muted)}
+code{background:var(--surface-2);padding:.1em .35em;border-radius:4px;font-size:.92em}
+
+.topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1180px;margin:0 auto;padding:.7rem 16px;display:flex;align-items:center;gap:1rem}
+.brand{font-weight:700;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:.5rem;white-space:nowrap}
+.brand-dot{width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.back{font-size:.9rem;text-decoration:none;white-space:nowrap}
+.progress{flex:1;height:4px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:var(--accent)}
+.icon-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:8px;padding:.35rem .6rem;cursor:pointer;font:inherit;font-size:.9rem}
+
+.layout{max-width:1180px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:48px}
+nav.toc{position:sticky;top:76px;align-self:start;max-height:calc(100vh - 90px);overflow:auto;padding:1.5rem 0;font-size:.92rem}
+nav.toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
+nav.toc li{counter-increment:toc}
+nav.toc a{display:block;padding:.35rem .6rem;border-radius:6px;color:var(--muted);text-decoration:none;border-left:2px solid transparent}
+nav.toc a::before{content:counter(toc,decimal-leading-zero) "  ";opacity:.6}
+nav.toc a:hover{color:var(--text);background:var(--surface-2)}
+nav.toc a.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft)}
+nav.toc .home{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem}
+nav.toc .home a::before{content:"← "}
+main{min-width:0;padding-bottom:4rem}
+
+.hero{padding:3.5rem 0 2rem}
+.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:700;color:var(--accent)}
+.hero h1{font-size:clamp(2.1rem,5vw,3.2rem);margin:.4rem 0 1rem;max-width:20ch}
+.hero .lead{font-size:1.2rem;color:var(--muted);max-width:62ch}
+
+section.chapter{padding:3rem 0;border-top:1px solid var(--border)}
+.chap-num{font-size:.8rem;font-weight:700;color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
+.chap-intro{color:var(--muted);font-size:1.08rem;max-width:65ch}
+
+.callout{border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;border:1px solid;border-left-width:4px}
+.callout strong:first-child{display:block;margin-bottom:.2rem}
+.tip{background:var(--accent-soft);border-color:var(--accent)}
+.warn{background:var(--warn-bg);border-color:var(--warn-border)}
+.info{background:var(--info-bg);border-color:var(--info-border)}
+.danger{background:var(--danger-bg);border-color:var(--danger-border)}
+.trader{background:var(--surface);border-color:var(--border);border-left-color:var(--accent-2)}
+.trader strong:first-child{color:var(--accent-2)}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:1.2rem 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:var(--shadow)}
+.card h4{margin:0 0 .4rem;font-size:1.05rem}
+.card p{margin:.3rem 0;font-size:.95rem}
+.card a.ext{font-weight:600;text-decoration:none}
+.card a.ext::after{content:" ↗"}
+.tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.12rem .5rem;border-radius:99px;background:var(--surface-2);color:var(--muted);margin:0 .3rem .3rem 0}
+.tag.g{background:var(--accent-soft);color:var(--accent)}
+
+.steps{counter-reset:step;list-style:none;padding:0;margin:1.2rem 0}
+.steps>li{counter-increment:step;position:relative;padding:0 0 1.4rem 3.2rem;border-left:2px solid var(--border);margin-left:1rem}
+.steps>li:last-child{border-left-color:transparent}
+.steps>li::before{content:counter(step);position:absolute;left:-1rem;top:-.1rem;width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.95rem}
+.steps>li h4{margin:0 0 .3rem;font-size:1.05rem}
+
+.table-wrap{overflow-x:auto;margin:1rem 0;border:1px solid var(--border);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.94rem;background:var(--surface)}
+th,td{padding:.65rem .8rem;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+
+details{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:.5rem 0;padding:0 1rem}
+summary{cursor:pointer;padding:.8rem 0;font-weight:600;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";display:inline-block;width:1.2rem;color:var(--accent);font-weight:700}
+details[open] summary::before{content:"–"}
+details>div{padding:0 0 .9rem 1.2rem}
+
+/* Tools */
+.tool{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.4rem;box-shadow:var(--shadow);margin:1.4rem 0}
+.tool h3{margin-top:0}
+.tool-label{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-2);margin-bottom:.3rem}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem 1.4rem}
+.ctrl label{display:flex;justify-content:space-between;gap:.5rem;font-size:.9rem;font-weight:600}
+.ctrl output{font-variant-numeric:tabular-nums;color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=number],input[type=text],select{width:100%;padding:.5rem .6rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:1.2rem 0 .6rem}
+.kpi{background:var(--surface-2);border-radius:10px;padding:.7rem .9rem}
+.kpi span{display:block;font-size:.8rem;color:var(--muted)}
+.kpi b{font-size:1.3rem;font-variant-numeric:tabular-nums}
+.kpi.hl b{color:var(--accent)}
+.kpi.bad b{color:var(--bad)}
+.chart{width:100%;height:auto;display:block}
+.legend{display:flex;gap:1rem;font-size:.85rem;color:var(--muted);flex-wrap:wrap;margin-top:.4rem}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:.35rem;vertical-align:-1px}
+.note{font-size:.85rem;color:var(--muted)}
+.btn{display:inline-block;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:.6rem 1rem;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;font-size:.95rem}
+.btn.sec{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+
+/* Compare */
+.cmp{width:100%;min-width:640px}
+.cmp td,.cmp th{vertical-align:middle}
+.cmp td:first-child{font-weight:600;font-size:.9rem;width:28%}
+.cmp input,.cmp select{font-size:.9rem;padding:.4rem .5rem}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.35rem;vertical-align:0}
+.dot.g{background:var(--good)}.dot.m{background:var(--mid)}.dot.b{background:var(--bad)}
+.cell{display:flex;align-items:center;gap:.35rem}
+.score-row td{font-weight:700;font-size:1.05rem}
+.winner{color:var(--accent)}
+
+/* Bars */
+.bars{margin:1rem 0}
+.bar-row{display:grid;grid-template-columns:130px 1fr 56px;gap:.6rem;align-items:center;font-size:.9rem;margin:.3rem 0}
+.bar-track{height:14px;background:var(--surface-2);border-radius:7px;overflow:hidden}
+.bar-fill{height:100%;border-radius:7px;transition:width .25s}
+.stack{display:flex;height:28px;border-radius:8px;overflow:hidden;margin:.6rem 0}
+.stack div{height:100%;transition:width .25s}
+
+/* Factsheet mock */
+.fs{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;font-size:.92rem;position:relative}
+.fs-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;border-bottom:2px solid var(--accent);padding-bottom:.6rem;margin-bottom:.8rem}
+.fs-head b{font-size:1.05rem}
+.fs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.3rem 1.2rem}
+.fs-grid div{display:flex;justify-content:space-between;border-bottom:1px dotted var(--border);padding:.25rem 0;cursor:pointer}
+.fs-grid div:hover,.fs-grid div.sel{background:var(--accent-soft)}
+.fs-grid span:last-child{font-weight:600;font-variant-numeric:tabular-nums}
+.fs-explain{margin-top:1rem;background:var(--accent-soft);border-radius:10px;padding:.8rem 1rem;min-height:3.2rem}
+
+/* Checklist */
+.checklist{list-style:none;padding:0;margin:1rem 0}
+.checklist li{display:flex;gap:.7rem;align-items:flex-start;padding:.6rem .8rem;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;background:var(--surface)}
+.checklist input{width:1.2rem;height:1.2rem;margin-top:.25rem;accent-color:var(--accent);flex-shrink:0}
+.checklist li.done label{color:var(--muted)}
+.verdict{font-weight:700;padding:.8rem 1rem;border-radius:10px;margin-top:.8rem}
+
+footer{border-top:1px solid var(--border);padding:2rem 16px;text-align:center;color:var(--muted);font-size:.88rem}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;gap:0}
+  nav.toc{display:none}
+  body{font-size:16px}
+  .bar-row{grid-template-columns:100px 1fr 48px}
+}
+
+/* ---- Site navigation (shared) ---- */
+.topbar{position:sticky}
+.crumb{font-size:.88rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:22ch}
+.menu{position:absolute;right:max(16px,calc((100vw - 1180px)/2 + 16px));top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.18);padding:.5rem;width:min(360px,calc(100vw - 32px));max-height:75vh;overflow:auto;z-index:50}
+.menu[hidden]{display:none}
+.menu .mh{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;padding:.5rem .7rem .2rem}
+.menu a{display:flex;align-items:center;gap:.6rem;padding:.55rem .7rem;border-radius:8px;text-decoration:none;color:var(--text);font-size:.95rem}
+.menu a:hover{background:var(--surface-2)}
+.menu a.cur{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.menu .n{color:var(--muted);font-variant-numeric:tabular-nums;width:1.5rem;font-size:.85rem}
+.menu .v{margin-left:auto;color:var(--accent);font-weight:700}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:3rem;border-top:1px solid var(--border);padding-top:2rem}
+.pager a{display:block;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;text-decoration:none;color:var(--text);box-shadow:var(--shadow)}
+.pager a:hover{border-color:var(--accent)}
+.pager small{display:block;color:var(--muted);font-size:.8rem}
+.pager b{color:var(--accent)}
+.pager .next{text-align:right;grid-column:2}
+.layout.single{grid-template-columns:minmax(0,1fr);max-width:1040px}
+.layout.single nav.toc{display:none}
+@media (max-width:640px){.crumb{display:none}.brand .bt{display:none}}
+
+/* ---- Shared tool helpers ---- */
+.row-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem}
+.btn.small{padding:.35rem .7rem;font-size:.85rem}
+.btn.danger{background:var(--bad)}
+.x-btn{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:1.1rem;padding:.2rem .4rem}
+.x-btn:hover{color:var(--bad)}
+.edit-table input,.edit-table select{min-width:70px}
+.pill{display:inline-block;padding:.15rem .6rem;border-radius:99px;font-size:.8rem;font-weight:600}
+.pill.g{background:var(--accent-soft);color:var(--good)}
+.pill.m{background:var(--warn-bg);color:var(--mid)}
+.pill.b{background:var(--danger-bg);color:var(--bad)}
+textarea{width:100%;min-height:80px;padding:.6rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem;resize:vertical}
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;z-index:100;padding:16px}
+.modal-back[hidden]{display:none}
+.modal{background:var(--surface);border-radius:16px;max-width:560px;width:100%;padding:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:90vh;overflow:auto}
+.modal h3{margin-top:0}
+.modal .opts{display:grid;gap:.5rem;margin-top:1rem}
+.modal .opts button{text-align:left;padding:.75rem 1rem;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text);font:inherit;cursor:pointer}
+.modal .opts button:hover{border-color:var(--accent);background:var(--accent-soft)}
+.headline{font-family:Georgia,"Times New Roman",serif;font-size:1.25rem;font-weight:700;border-left:4px solid var(--bad);padding:.3rem 0 .3rem .8rem;margin:.6rem 0}
+.quiz-q{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0}
+.quiz-q p.q{font-weight:600;margin-top:0}
+.quiz-q button{display:block;width:100%;text-align:left;margin:.35rem 0;padding:.6rem .8rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem;cursor:pointer}
+.quiz-q button.right{background:var(--accent-soft);border-color:var(--accent)}
+.quiz-q button.wrong{background:var(--danger-bg);border-color:var(--danger-border)}
+.quiz-q .fb{font-size:.92rem;margin-top:.5rem;display:none}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.gloss div{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:.93rem}
+.gloss b{display:block;color:var(--accent)}
+.search{width:100%;padding:.65rem .9rem;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;margin:.8rem 0}
+.big-num{font-size:2.4rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+@media print{.topbar,nav.toc,.pager,.menu{display:none!important}.layout{display:block}}
+
+/* ---- Account / sync ---- */
+.acct-btn{display:inline-flex;align-items:center;gap:.4rem;max-width:16ch}
+.acct-btn .acct-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;opacity:.6}
+.acct-dot.ok{background:#2a9d6f;opacity:1}.acct-dot.busy{background:#d08a2e;opacity:1}.acct-dot.err{background:#c53030;opacity:1}
+.acct-modal{position:relative;max-width:440px}
+.acct-close{position:absolute;top:.6rem;right:.6rem}
+.acct-modal input[type=email],.acct-modal input[type=password]{width:100%;padding:.6rem .7rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit}
+.acct-note{min-height:1.2em;font-size:.9rem;color:var(--accent-2);margin:.6rem 0 0}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:inherit;font-size:.9rem;cursor:pointer;text-decoration:underline}
+.acct-modal .btn[disabled]{opacity:.6;cursor:wait}
+@media (max-width:640px){.acct-btn .acct-label{display:none}.progress{min-width:20px}}
+</style>
+<script>
+/* Sync hook: mirrors every localStorage write of a "dga-*" key into a pending list.
+   Runs synchronously before page scripts so nothing is missed. */
+(function(){
+  var EX={'dga-sync-pending':1,'dga-sync-uid':1};
+  var P=Storage.prototype,oSet=P.setItem,oRem=P.removeItem;
+  function pend(){try{return JSON.parse(oGet('dga-sync-pending'))||[]}catch(e){return[]}}
+  function oGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  var D=window.__dga={
+    EX:EX,
+    raw:{set:function(k,v){try{oSet.call(localStorage,k,v)}catch(e){}},rem:function(k){try{oRem.call(localStorage,k)}catch(e){}}},
+    isKey:function(k){return typeof k==='string'&&k.indexOf('dga-')===0&&!EX[k]},
+    pending:pend,
+    setPending:function(a){D.raw.set('dga-sync-pending',JSON.stringify(a))},
+    mark:function(k){var a=pend();if(a.indexOf(k)<0){a.push(k);D.setPending(a)}if(D.onChange)D.onChange()},
+    onChange:null
+  };
+  P.setItem=function(k,v){oSet.call(this,k,v);if(this===window.localStorage&&D.isKey(k))D.mark(k)};
+  P.removeItem=function(k){oRem.call(this,k);if(this===window.localStorage&&D.isKey(k))D.mark(k)};
+})();
+</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html"><span class="brand-dot"></span><span class="bt">Börsen-Guide</span></a>
+    <span class="crumb">/ ETF-Check</span>
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+    <button class="icon-btn" id="menuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu">☰ Seiten</button>
+    <button class="icon-btn acct-btn" id="acctBtn" type="button" aria-label="Konto"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true" style="flex-shrink:0"><circle cx="8" cy="5.2" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 14.2c.6-2.9 2.8-4.4 5.5-4.4s4.9 1.5 5.5 4.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="acct-label">Anmelden</span><span class="acct-dot"></span></button>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Hell/Dunkel umschalten"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" style="display:block"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+  </div>
+  <nav class="menu" id="menu" hidden aria-label="Alle Seiten"><div class="mh">Dein Lernpfad</div><a href="index.html" data-f="index.html" class=""><span class="n">⌂</span><span>Übersicht<br><small class="muted" style="font-weight:400">Start & Lernpfad</small></span><span class="v"></span></a><a href="trading101.html" data-f="trading101.html" class=""><span class="n">1</span><span>Grundlagen<br><small class="muted" style="font-weight:400">Investieren von A bis Z</small></span><span class="v"></span></a><a href="budget.html" data-f="budget.html" class=""><span class="n">2</span><span>Budget & Sparrate<br><small class="muted" style="font-weight:400">Erst planen, dann investieren</small></span><span class="v"></span></a><a href="etfanalyse.html" data-f="etfanalyse.html" class="cur"><span class="n">3</span><span>ETF-Check<br><small class="muted" style="font-weight:400">ETFs selbst analysieren</small></span><span class="v"></span></a><a href="crashsimulator.html" data-f="crashsimulator.html" class=""><span class="n">4</span><span>Crash-Simulator<br><small class="muted" style="font-weight:400">30 Jahre Börse in 3 Minuten</small></span><span class="v"></span></a><a href="depot.html" data-f="depot.html" class=""><span class="n">5</span><span>Mein Depot<br><small class="muted" style="font-weight:400">Tracker & Rebalancing</small></span><span class="v"></span></a><a href="steuern.html" data-f="steuern.html" class=""><span class="n">6</span><span>Steuern<br><small class="muted" style="font-weight:400">Freibetrag, NV, Anlage KAP</small></span><span class="v"></span></a><a href="aktien.html" data-f="aktien.html" class=""><span class="n">7</span><span>Einzelaktien<br><small class="muted" style="font-weight:400">Unternehmen analysieren</small></span><span class="v"></span></a><a href="hebel-krypto.html" data-f="hebel-krypto.html" class=""><span class="n">8</span><span>Hebel & Krypto<br><small class="muted" style="font-weight:400">Was dahintersteckt</small></span><span class="v"></span></a><a href="news.html" data-f="news.html" class=""><span class="n">9</span><span>Wirtschaftsnews<br><small class="muted" style="font-weight:400">Schlagzeilen verstehen</small></span><span class="v"></span></a></nav>
+</header>
+
+<div class="layout">
+<nav class="toc" aria-label="Inhalt">
+  <ol>
+    <li><a href="#denken">Wie Profis denken</a></li>
+    <li><a href="#quellen">Wo du analysierst</a></li>
+    <li><a href="#ablauf">Der Ablauf in 8 Schritten</a></li>
+    <li><a href="#kennzahlen">Die Kennzahlen</a></li>
+    <li><a href="#factsheet">Factsheet lesen</a></li>
+    <li><a href="#kosten">Rechner: Kosten</a></li>
+    <li><a href="#td">Rechner: Tracking-Differenz</a></li>
+    <li><a href="#vergleich">Tool: ETF-Vergleich</a></li>
+    <li><a href="#mix">Rechner: Länder-Mix</a></li>
+    <li><a href="#flaggen">Rote Flaggen</a></li>
+    <li><a href="#beispiel">Fallbeispiel</a></li>
+    <li><a href="#check">Dein ETF-Check</a></li>
+    <li><a href="#links">Alle Links</a></li>
+  </ol>
+  <ol class="home"><li><a href="index.html">Übersicht</a></li></ol>
+</nav>
+
+<main id="top">
+
+<div class="hero">
+  <div class="eyebrow">Lernpfad · Schritt 3</div>
+  <h1>Einen ETF analysieren – wie ein Profi, in 15 Minuten.</h1>
+  <p class="lead">Du hast einen ETF gefunden und willst wissen, ob er wirklich gut ist? Hier lernst du, wo du die Daten findest, was die Zahlen bedeuten und wie du mehrere ETFs fair miteinander vergleichst. Dazu gibt es Rechner, die dir zeigen, was Kosten über die Jahre ausmachen.</p>
+  <div class="callout info"><strong>Wichtig vorab</strong>Diese Seite ist Bildung, keine Anlageberatung. Alle Zahlen in Beispielen sind gerundet oder fiktiv. Echte Werte findest du immer im aktuellen Factsheet und auf den verlinkten Seiten. Stand: Oktober 2026.</div>
+</div>
+
+<!-- 1 -->
+<section class="chapter" id="denken">
+  <div class="chap-num">Kapitel 01</div>
+  <h2>Wie Profis an eine ETF-Analyse rangehen</h2>
+  <p class="chap-intro">Die wichtigste Erkenntnis zuerst: Bei ETFs analysierst du nicht, ob die Firmen darin „gut“ sind. Du prüfst, ob das <b>Produkt</b> seinen Job gut macht.</p>
+
+  <p>Ein ETF hat genau eine Aufgabe: einen Index möglichst günstig und genau nachzubilden. Deshalb stellst du immer zwei Fragen, und zwar in dieser Reihenfolge:</p>
+  <div class="grid">
+    <div class="card"><span class="tag g">Frage 1 · 80 % der Entscheidung</span><h4>Will ich diesen Index?</h4><p>Welche Länder, Branchen, Unternehmen? Wie breit gestreut? Passt das zu meiner Strategie? Ein MSCI World ist etwas völlig anderes als ein „Global Clean Energy“-Index.</p></div>
+    <div class="card"><span class="tag">Frage 2 · 20 % der Entscheidung</span><h4>Ist dieser ETF ein gutes Produkt für den Index?</h4><p>Kosten, Größe, Tracking-Genauigkeit, Ertragsverwendung, Sparplanfähigkeit. Hier unterscheiden sich mehrere ETFs auf denselben Index – meist nur gering.</p></div>
+  </div>
+
+  <div class="callout trader"><strong>Aus der Praxis</strong>Anfänger vergleichen oft die Wertentwicklung der letzten 12 Monate und kaufen den Gewinner. Das ist der klassische Fehler. Die vergangene Rendite sagt fast nichts über die Qualität eines ETFs aus – sie sagt nur, welcher <i>Index</i> zuletzt gut lief. Zwei ETFs auf denselben Index haben fast identische Renditen; der Unterschied liegt in Kosten und Tracking.</div>
+</section>
+
+<!-- 2 -->
+<section class="chapter" id="quellen">
+  <div class="chap-num">Kapitel 02</div>
+  <h2>Wo du einen ETF analysierst</h2>
+  <p class="chap-intro">Alle diese Quellen sind kostenlos. Du brauchst keinen Account, um die wichtigsten Daten zu sehen.</p>
+
+  <h3>Die Hauptwerkzeuge</h3>
+  <div class="grid">
+    <div class="card"><span class="tag g">Startpunkt Nr. 1</span><h4>justETF</h4><p>Die bekannteste deutsche ETF-Datenbank. Profil, Kosten, Größe, Rendite, Risiko, Ländergewichte, Vergleich von bis zu mehreren ETFs nebeneinander, Filtersuche.</p><p><a class="ext" href="https://www.justetf.com/de/" target="_blank" rel="noopener">justetf.com/de</a></p></div>
+    <div class="card"><span class="tag g">Sehr gute Grafiken</span><h4>extraETF</h4><p>Ähnlich wie justETF, mit schönen Visualisierungen zu Ländern, Branchen und Top-Positionen. Gut, um den Inhalt eines ETFs „zu sehen“.</p><p><a class="ext" href="https://de.extraetf.com/" target="_blank" rel="noopener">de.extraetf.com</a></p></div>
+    <div class="card"><span class="tag">Für Fortgeschrittene</span><h4>Morningstar</h4><p>Internationale Fondsdatenbank mit Bewertungen, Kategorien und detaillierten Kennzahlen. Etwas unübersichtlicher, aber sehr tief.</p><p><a class="ext" href="https://www.morningstar.de/" target="_blank" rel="noopener">morningstar.de</a></p></div>
+    <div class="card"><span class="tag">Schnellcheck</span><h4>Trade-Republic-App</h4><p>TER, Fondsgröße, Top-Positionen, Länder, Branchen und Kursverlauf direkt beim ETF. Perfekt für den ersten Eindruck – für Vergleiche aber zu knapp.</p></div>
+  </div>
+
+  <h3>Die Originalquellen: ETF-Anbieter</h3>
+  <p>Auf der Website des Anbieters findest du die rechtlich verbindlichen Dokumente. Einfach die ISIN in die Suche eingeben.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Anbieter</th><th>Website</th><th>Bekannt für</th></tr>
+    <tr><td>iShares (BlackRock)</td><td><a href="https://www.ishares.com/de" target="_blank" rel="noopener">ishares.com/de</a></td><td>Größter ETF-Anbieter der Welt</td></tr>
+    <tr><td>Vanguard</td><td><a href="https://www.de.vanguard" target="_blank" rel="noopener">de.vanguard</a></td><td>Pionier der Indexfonds, sehr günstig</td></tr>
+    <tr><td>Xtrackers (DWS)</td><td><a href="https://etf.dws.com/de-de/" target="_blank" rel="noopener">etf.dws.com</a></td><td>Größter deutscher Anbieter</td></tr>
+    <tr><td>Amundi</td><td><a href="https://www.amundietf.de/" target="_blank" rel="noopener">amundietf.de</a></td><td>Größter europäischer Anbieter</td></tr>
+    <tr><td>SPDR (State Street)</td><td><a href="https://www.ssga.com/de/de/intermediary/etfs" target="_blank" rel="noopener">ssga.com</a></td><td>Erfinder des ersten ETFs</td></tr>
+    <tr><td>Invesco</td><td><a href="https://www.invesco.com/de/de/" target="_blank" rel="noopener">invesco.com/de</a></td><td>Oft synthetische ETFs</td></tr>
+  </table></div>
+
+  <h3>Die Dokumente, die du kennen solltest</h3>
+  <div class="grid">
+    <div class="card"><h4>📄 Factsheet</h4><p>1–2 Seiten mit allen Kennzahlen, monatlich aktualisiert. <b>Das wichtigste Dokument.</b></p></div>
+    <div class="card"><h4>📋 Basisinformationsblatt (KID)</h4><p>Gesetzlich vorgeschrieben, 3 Seiten. Risikoklasse (1–7), Kosten, Szenarien. Muss dir vor jedem Kauf angeboten werden.</p></div>
+    <div class="card"><h4>📊 Holdings / Positionen</h4><p>Alle enthaltenen Aktien als Liste (oft Excel). Für Neugierige, die genau wissen wollen, was drin ist.</p></div>
+    <div class="card"><h4>📚 Verkaufsprospekt &amp; Jahresbericht</h4><p>Hunderte Seiten Juristendeutsch. Musst du als Einsteigerin nicht lesen.</p></div>
+  </div>
+
+  <h3>Die Index-Anbieter</h3>
+  <p>Wer den Index selbst verstehen will (Regeln, Zusammensetzung, Historie), schaut beim Index-Anbieter: <a href="https://www.msci.com/indexes" target="_blank" rel="noopener">MSCI</a> (MSCI World, ACWI, EM), <a href="https://www.lseg.com/en/ftse-russell" target="_blank" rel="noopener">FTSE Russell</a> (FTSE All-World), <a href="https://www.spglobal.com/spdji/" target="_blank" rel="noopener">S&amp;P Dow Jones Indices</a> (S&amp;P 500). Dort gibt es Index-Factsheets mit Länder- und Branchengewichten.</p>
+
+  <h3>Unabhängige Ratgeber</h3>
+  <p><a href="https://www.finanztip.de/indexfonds-etf/" target="_blank" rel="noopener">Finanztip</a> (gemeinnützig, mit konkreten ETF-Empfehlungen und Begründung) und die <a href="https://www.verbraucherzentrale.de/geld-versicherungen" target="_blank" rel="noopener">Verbraucherzentrale</a> sind gute Gegenchecks, weil sie nicht am Verkauf verdienen.</p>
+</section>
+
+<!-- 3 -->
+<section class="chapter" id="ablauf">
+  <div class="chap-num">Kapitel 03</div>
+  <h2>Der Ablauf: ETF-Analyse in 8 Schritten</h2>
+  <p class="chap-intro">Druck dir das aus oder speicher es dir. Diese Reihenfolge funktioniert für jeden ETF.</p>
+
+  <ol class="steps">
+    <li><h4>ISIN notieren</h4><p>In der Trade-Republic-App beim ETF ganz unten oder über „Teilen“. Mit der ISIN suchst du überall, so verwechselst du nichts.</p></li>
+    <li><h4>Index verstehen</h4><p>Auf justETF: Welcher Index? Wie viele Unternehmen? Welche Länder und Branchen? Wie groß sind die Top 10? Frag dich: <i>Will ich genau das besitzen?</i></p></li>
+    <li><h4>Kosten prüfen (TER)</h4><p>Für breite Welt-ETFs: unter 0,25 %. Für Spezialthemen werden bis 0,5 % akzeptiert – mehr aber nicht.</p></li>
+    <li><h4>Größe und Alter prüfen</h4><p>Fondsvolumen über 500 Mio. € und mindestens 3 Jahre am Markt. Dann ist das Schließungsrisiko gering und es gibt genug Daten.</p></li>
+    <li><h4>Tracking-Differenz ansehen</h4><p>Wie stark weicht der ETF vom Index ab? Der Vergleich mehrerer ETFs auf denselben Index zeigt dir den effizientesten. (Rechner in Kapitel 07.)</p></li>
+    <li><h4>Struktur checken</h4><p>Thesaurierend oder ausschüttend? Physisch oder synthetisch? Fondsdomizil (meist Irland oder Luxemburg – beides okay).</p></li>
+    <li><h4>Alternativen vergleichen</h4><p>Suche auf justETF nach dem gleichen Index und vergleiche 2–4 ETFs nebeneinander. Nutze dazu das Vergleichstool in Kapitel 08.</p></li>
+    <li><h4>Sparplan &amp; Entscheidung</h4><p>Ist der Favorit bei Trade Republic sparplanfähig? Dann: Entscheidung treffen und nicht mehr wochenlang grübeln.</p></li>
+  </ol>
+  <div class="callout tip"><strong>So vergleichst du auf justETF</strong>ETF aufrufen → im Profil oben auf „Vergleichen“ bzw. das Plus-Symbol tippen → weitere ETFs hinzufügen. Oder: Menü „ETF-Suche“ → Index auswählen (z. B. MSCI World) → Liste nach Fondsgröße oder TER sortieren.</div>
+</section>
+
+<!-- 4 -->
+<section class="chapter" id="kennzahlen">
+  <div class="chap-num">Kapitel 04</div>
+  <h2>Die Kennzahlen – was sie bedeuten und was „gut“ ist</h2>
+  <p class="chap-intro">Klick auf eine Kennzahl, um mehr zu erfahren.</p>
+
+  <div class="table-wrap"><table>
+    <tr><th>Kennzahl</th><th>Gut</th><th>Okay</th><th>Vorsicht</th></tr>
+    <tr><td>TER (laufende Kosten, Welt-ETF)</td><td><span class="dot g"></span>≤ 0,25 %</td><td><span class="dot m"></span>0,26–0,50 %</td><td><span class="dot b"></span>&gt; 0,50 %</td></tr>
+    <tr><td>Fondsvolumen</td><td><span class="dot g"></span>≥ 1 Mrd. €</td><td><span class="dot m"></span>100 Mio.–1 Mrd. €</td><td><span class="dot b"></span>&lt; 100 Mio. €</td></tr>
+    <tr><td>Alter</td><td><span class="dot g"></span>≥ 5 Jahre</td><td><span class="dot m"></span>1–5 Jahre</td><td><span class="dot b"></span>&lt; 1 Jahr</td></tr>
+    <tr><td>Tracking-Differenz p. a.</td><td><span class="dot g"></span>besser als −TER</td><td><span class="dot m"></span>etwa −TER</td><td><span class="dot b"></span>deutlich schlechter</td></tr>
+    <tr><td>Anzahl Positionen</td><td><span class="dot g"></span>≥ 500</td><td><span class="dot m"></span>50–500</td><td><span class="dot b"></span>&lt; 50</td></tr>
+    <tr><td>Anteil Top 10</td><td><span class="dot g"></span>&lt; 25 %</td><td><span class="dot m"></span>25–40 %</td><td><span class="dot b"></span>&gt; 40 %</td></tr>
+    <tr><td>Größtes Land</td><td><span class="dot g"></span>&lt; 70 %</td><td><span class="dot m"></span>70–90 %</td><td><span class="dot b"></span>&gt; 90 % (Einzelland)</td></tr>
+  </table></div>
+  <p class="note">Diese Ampel gilt für einen ETF als <b>Basisinvestment</b>. Ein Länder-ETF (z. B. nur Japan) ist nicht automatisch schlecht – er ist nur kein Fundament.</p>
+
+  <details><summary>TER – Total Expense Ratio (Gesamtkostenquote)</summary><div>Die jährlichen laufenden Kosten in Prozent, z. B. 0,20 %. Sie werden nicht separat abgebucht, sondern täglich anteilig aus dem Fondsvermögen entnommen – du siehst sie also nie auf einer Rechnung, sie stecken im Kurs. Bei 10.000 € und 0,20 % sind das 20 € pro Jahr. Was nicht in der TER steckt: Transaktionskosten innerhalb des Fonds. Deshalb ist die Tracking-Differenz die ehrlichere Zahl.</div></details>
+  <details><summary>Tracking-Differenz (TD)</summary><div>Der Unterschied zwischen der Rendite des ETFs und der Rendite seines Index über einen Zeitraum, meist pro Jahr. Beispiel: Index +10,0 %, ETF +9,8 % → TD = −0,2 %. Sie zeigt die <b>echten Gesamtkosten</b>. Manche ETFs haben sogar eine bessere TD als ihre TER, weil sie Zusatzerträge erwirtschaften (z. B. durch Wertpapierleihe oder Steuervorteile bei Dividenden). Wichtig: über mehrere Jahre anschauen, nicht nur ein Jahr.</div></details>
+  <details><summary>Tracking Error</summary><div>Nicht verwechseln mit der Tracking-Differenz! Der Tracking Error misst, wie stark die Abweichungen <i>schwanken</i>. Ein niedriger Tracking Error heißt: Der ETF folgt dem Index gleichmäßig. Für Langfristanleger ist die Tracking-Differenz wichtiger.</div></details>
+  <details><summary>Fondsvolumen (AuM)</summary><div>Wie viel Geld insgesamt im ETF steckt. Große ETFs sind wirtschaftlich für den Anbieter und werden praktisch nie geschlossen. Kleine ETFs (unter 100 Mio. €) können eingestellt werden – dann wird dein Anteil verkauft, und es können Steuern auf Gewinne fällig werden, obwohl du gar nicht verkaufen wolltest.</div></details>
+  <details><summary>Replikation: physisch vs. synthetisch</summary><div><b>Physisch vollständig:</b> Der ETF kauft alle Aktien des Index. <b>Physisch optimiert (Sampling):</b> Er kauft eine repräsentative Auswahl – bei Indizes mit tausenden Titeln üblich und unproblematisch. <b>Synthetisch (Swap):</b> Der ETF hält einen anderen Wertpapierkorb und tauscht dessen Rendite mit einer Bank gegen die Indexrendite. Das Gegenparteirisiko ist per EU-Recht auf 10 % begrenzt und wird meist besichert. Synthetische ETFs sind bei manchen Indizes (z. B. S&amp;P 500) sogar effizienter. Für Einsteiger ist physisch einfacher zu verstehen – beides ist aber reguliert und seriös.</div></details>
+  <details><summary>Ertragsverwendung: thesaurierend vs. ausschüttend</summary><div><b>Thesaurierend (Acc):</b> Dividenden werden automatisch reinvestiert – maximaler Zinseszins, kein Aufwand. <b>Ausschüttend (Dist):</b> Dividenden werden aufs Konto gezahlt, meist quartalsweise. Steuerlich ist der Unterschied in Deutschland gering. Für den Vermögensaufbau ist „Acc“ bequemer; wer Ausschüttungen nutzt, um den Freibetrag gezielt auszuschöpfen, kann auch „Dist“ wählen.</div></details>
+  <details><summary>Fondsdomizil</summary><div>Wo der Fonds rechtlich sitzt. Irland ist ideal für Aktien-ETFs mit vielen US-Firmen, weil durch ein Steuerabkommen weniger US-Quellensteuer auf Dividenden anfällt. Luxemburg ist ebenfalls üblich. Beides ist für dich in Ordnung; die Unterschiede zeigen sich am Ende in der Tracking-Differenz.</div></details>
+  <details><summary>Fondswährung</summary><div>Die Währung, in der der Fonds bilanziert (z. B. USD). <b>Sie ist für dich praktisch egal.</b> Das Währungsrisiko kommt von den Aktien darin: Ein MSCI World hat Währungsrisiko gegenüber dem US-Dollar, egal ob der ETF in EUR oder USD notiert. Ausnahme: „EUR Hedged“-ETFs sichern Währungsschwankungen ab – das kostet aber zusätzlich und lohnt sich bei Aktien langfristig meist nicht.</div></details>
+  <details><summary>Spread (Geld-Brief-Spanne)</summary><div>Der Unterschied zwischen Kauf- und Verkaufspreis. Bei großen Welt-ETFs während der Börsenzeiten sehr klein (oft unter 0,1 %). Bei Exoten oder abends kann er deutlich größer sein. Beim Sparplan musst du dir darüber kaum Gedanken machen.</div></details>
+  <details><summary>Volatilität</summary><div>Wie stark der Kurs schwankt, in Prozent pro Jahr. Ein Welt-ETF hat oft 12–18 %, Schwellenländer oder Technologie mehr. Höhere Volatilität = stärkere Ausschläge nach oben und unten – und damit mehr Nervenbelastung.</div></details>
+  <details><summary>Maximaler Verlust (Max Drawdown)</summary><div>Der größte Rückgang vom Höchststand bis zum Tiefpunkt in einem Zeitraum. Frag dich: <i>Hätte ich diesen Verlust ausgehalten, ohne zu verkaufen?</i> Das ist eine der ehrlichsten Kennzahlen überhaupt.</div></details>
+  <details><summary>Risikoklasse (SRI 1–7) im Basisinformationsblatt</summary><div>Gesetzliche Einstufung von 1 (sehr niedrig) bis 7 (sehr hoch). Aktien-Welt-ETFs liegen meist bei 4. Hilfreich als grobe Orientierung, aber vereinfachend.</div></details>
+  <details><summary>Wertpapierleihe</summary><div>Der ETF verleiht Aktien gegen Gebühr und Sicherheiten an andere Marktteilnehmer. Das bringt Zusatzerträge (verbessert die TD) und ein kleines Restrisiko. Seriöse Anbieter legen offen, wie viel verliehen wird und wie es besichert ist.</div></details>
+  <details><summary>Gewichtungsmethode</summary><div>Die meisten Indizes sind nach <b>Marktkapitalisierung</b> gewichtet: Große Firmen haben mehr Gewicht. Es gibt auch gleichgewichtete (Equal Weight), Dividenden- oder Faktor-Indizes (Value, Momentum, Quality, Small Cap). Diese sind interessant für Fortgeschrittene, aber keine bessere Basis.</div></details>
+</section>
+
+<!-- 5 -->
+<section class="chapter" id="factsheet">
+  <div class="chap-num">Kapitel 05</div>
+  <h2>Ein Factsheet lesen – interaktiv</h2>
+  <p class="chap-intro">So sieht ein typisches ETF-Factsheet aus (vereinfacht, fiktiver ETF). Tipp auf eine Zeile, um zu sehen, was sie bedeutet und wie du sie bewertest.</p>
+
+  <div class="fs">
+    <div class="fs-head"><div><b>Beispiel Global Equity UCITS ETF (Acc)</b><br><span class="muted">Fiktives Beispiel · Factsheet zum 30.09.2026</span></div><div class="muted">ISIN: XX0000000000</div></div>
+    <div class="fs-grid" id="fsGrid"></div>
+    <div class="fs-explain" id="fsExplain">👆 Wähle eine Zeile aus.</div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="chapter" id="kosten">
+  <div class="chap-num">Kapitel 06</div>
+  <h2>Rechner: Was kosten Kosten wirklich?</h2>
+  <p class="chap-intro">0,2 % oder 0,7 % – klingt nach nichts. Über 30 Jahre ist es ein gebrauchter Kleinwagen. Probier es aus.</p>
+
+  <div class="tool">
+    <span class="tool-label">Rechner</span>
+    <h3>Kostenvergleich zweier ETFs</h3>
+    <div class="controls">
+      <div class="ctrl"><label for="kRate">Sparrate / Monat <output id="kRateO"></output></label><input type="range" id="kRate" min="25" max="1000" step="25" value="150"></div>
+      <div class="ctrl"><label for="kYears">Anlagedauer <output id="kYearsO"></output></label><input type="range" id="kYears" min="5" max="50" step="1" value="30"></div>
+      <div class="ctrl"><label for="kRet">Rendite vor Kosten <output id="kRetO"></output></label><input type="range" id="kRet" min="2" max="10" step="0.5" value="7"></div>
+      <div class="ctrl"><label for="kTerA">Kosten ETF A (TER) <output id="kTerAO"></output></label><input type="range" id="kTerA" min="0.05" max="2" step="0.05" value="0.2"></div>
+      <div class="ctrl"><label for="kTerB">Kosten Produkt B <output id="kTerBO"></output></label><input type="range" id="kTerB" min="0.05" max="2.5" step="0.05" value="0.7"></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><span>Eingezahlt</span><b id="kInv">–</b></div>
+      <div class="kpi hl"><span>Endwert ETF A</span><b id="kA">–</b></div>
+      <div class="kpi"><span>Endwert Produkt B</span><b id="kB">–</b></div>
+      <div class="kpi bad"><span>Unterschied</span><b id="kDiff">–</b></div>
+    </div>
+    <svg class="chart" id="kChart" viewBox="0 0 700 260" role="img" aria-label="Vermögensverlauf bei unterschiedlichen Kosten"></svg>
+    <div class="legend"><span><i style="background:var(--c1)"></i>ETF A</span><span><i style="background:var(--c3)"></i>Produkt B</span><span><i style="background:var(--c7)"></i>Eingezahlt</span></div>
+    <p class="note">Tipp: Setz Produkt B auf 1,8 % – so viel kostet ein typischer aktiv gemanagter Fonds bei einer Filialbank.</p>
+  </div>
+  <div class="callout trader"><strong>Die Lektion</strong>Kosten sind die einzige Größe an der Börse, die du sicher kontrollieren kannst. Rendite ist unsicher, Kosten sind garantiert. Deshalb ist „billig“ bei ETFs fast immer „gut“.</div>
+</section>
+
+<!-- 7 -->
+<section class="chapter" id="td">
+  <div class="chap-num">Kapitel 07</div>
+  <h2>Rechner: Tracking-Differenz</h2>
+  <p class="chap-intro">Die TER ist das Preisschild. Die Tracking-Differenz ist die Rechnung, die du tatsächlich bezahlst.</p>
+
+  <h3>So findest du die Werte</h3>
+  <p>Auf justETF oder im Factsheet stehen die Renditen des ETFs und seines Index für Kalenderjahre (z. B. 2023, 2024, 2025). Trag die Werte hier ein. Wichtig: Beide Renditen müssen in derselben Währung sein (meist EUR) und es muss die <b>Netto-Total-Return-Variante</b> des Index sein (inkl. Dividenden nach Quellensteuer) – das ist bei Aktien-ETFs der Standard.</p>
+
+  <div class="tool">
+    <span class="tool-label">Rechner</span>
+    <h3>Tracking-Differenz berechnen</h3>
+    <div class="table-wrap"><table id="tdTable">
+      <tr><th>Jahr</th><th class="num">Rendite ETF (%)</th><th class="num">Rendite Index (%)</th><th class="num">TD (%-Punkte)</th></tr>
+    </table></div>
+    <div class="controls">
+      <div class="ctrl"><label for="tdTer">TER des ETFs (%)</label><input type="number" id="tdTer" step="0.01" value="0.20"></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><span>Ø Tracking-Differenz p. a.</span><b id="tdAvg">–</b></div>
+      <div class="kpi"><span>TER</span><b id="tdTerO">–</b></div>
+      <div class="kpi hl"><span>Bewertung</span><b id="tdVerdict" style="font-size:1rem">–</b></div>
+    </div>
+    <p class="note">Beispielwerte sind fiktiv. Überschreibe sie mit echten Zahlen. Leere Zeilen werden ignoriert.</p>
+  </div>
+  <div class="callout info"><strong>So interpretierst du das Ergebnis</strong>Negative TD = ETF schlechter als Index (normal). Liegt die TD <b>über</b> der negativen TER (z. B. −0,10 % bei 0,20 % TER), arbeitet der ETF effizienter als sein Preisschild. Vergleiche die TD immer mit anderen ETFs auf <b>denselben</b> Index – nur dann ist der Vergleich fair.</div>
+</section>
+
+<!-- 8 -->
+<section class="chapter" id="vergleich">
+  <div class="chap-num">Kapitel 08</div>
+  <h2>Tool: ETFs nebeneinander vergleichen</h2>
+  <p class="chap-intro">Trag die Daten von bis zu drei ETFs ein (z. B. von justETF). Das Tool bewertet jede Kennzahl mit einer Ampel und vergibt Punkte.</p>
+
+  <div class="tool">
+    <span class="tool-label">Vergleichstool</span>
+    <h3>ETF-Vergleich mit Ampel</h3>
+    <div class="table-wrap"><table class="cmp" id="cmp"></table></div>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+      <button class="btn sec" id="cmpDemo" type="button">Beispieldaten laden</button>
+      <button class="btn sec" id="cmpClear" type="button">Alles leeren</button>
+    </div>
+    <p class="note">Bewertung für ETFs als Basisinvestment. Die Punktzahl ist eine Orientierung, kein Urteil. Wenn die beiden besten ETFs nur 1–2 Punkte auseinanderliegen, ist beides eine gute Wahl. Deine Eingaben werden nur in diesem Browser gespeichert.</p>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="chapter" id="mix">
+  <div class="chap-num">Kapitel 09</div>
+  <h2>Rechner: Was steckt in meinem Mix?</h2>
+  <p class="chap-intro">Wenn du zwei ETFs kombinierst (z. B. 70 % MSCI World + 30 % Emerging Markets), siehst du hier, wie sich dein Geld ungefähr auf die Welt verteilt.</p>
+
+  <div class="tool">
+    <span class="tool-label">Rechner</span>
+    <h3>Länder-Mix deines Portfolios</h3>
+    <div class="controls">
+      <div class="ctrl"><label for="mixW">Anteil MSCI World <output id="mixWO"></output></label><input type="range" id="mixW" min="0" max="100" step="5" value="70"></div>
+      <div class="ctrl"><label>Anteil MSCI Emerging Markets <output id="mixEO"></output></label><p class="note" style="margin:.3rem 0 0">ergibt sich automatisch aus dem Rest</p></div>
+    </div>
+    <div class="stack" id="mixStack"></div>
+    <div class="bars" id="mixBars"></div>
+    <div class="kpis">
+      <div class="kpi"><span>USA-Anteil</span><b id="mixUS">–</b></div>
+      <div class="kpi"><span>Schwellenländer gesamt</span><b id="mixEM">–</b></div>
+      <div class="kpi"><span>Zum Vergleich: Weltmarkt (ACWI)</span><b>≈ 10–12 % EM</b></div>
+    </div>
+    <p class="note">Gerundete Näherungswerte der Index-Gewichte (Stand ca. 2026). Die echten Gewichte ändern sich laufend – aktuelle Werte findest du in den Index-Factsheets von MSCI.</p>
+  </div>
+
+  <h3>Häufige Kombinationen</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Mix</th><th>EM-Anteil</th><th>Charakter</th></tr>
+    <tr><td>100 % FTSE All-World / MSCI ACWI</td><td>≈ 10–12 %</td><td>Weltmarkt neutral, ein Produkt</td></tr>
+    <tr><td>90 % World / 10 % EM</td><td>10 %</td><td>Nachbau des Weltmarkts mit zwei ETFs</td></tr>
+    <tr><td>70 % World / 30 % EM</td><td>30 %</td><td>Bewusste Übergewichtung der Schwellenländer (nach BIP-Logik)</td></tr>
+    <tr><td>100 % MSCI World</td><td>0 %</td><td>Nur Industrieländer – funktioniert, ist aber weniger breit</td></tr>
+  </table></div>
+</section>
+
+<!-- 10 -->
+<section class="chapter" id="flaggen">
+  <div class="chap-num">Kapitel 10</div>
+  <h2>Rote Flaggen – hier solltest du stutzig werden</h2>
+  <p class="chap-intro">Nicht jedes Produkt, das „ETF“ im Namen trägt, ist für dein Fundament geeignet.</p>
+
+  <div class="grid">
+    <div class="card"><h4>🚩 „2x“, „3x“, „Leveraged“, „Daily“</h4><p>Hebel-ETFs verstärken tägliche Bewegungen. Über längere Zeit verlieren sie durch den Volatility Decay oft massiv – selbst wenn der Index steigt.</p></div>
+    <div class="card"><h4>🚩 „Short“ oder „Inverse“</h4><p>Wetten auf fallende Kurse. Langfristig steigen Märkte – diese Produkte sind Werkzeuge für kurzfristige Absicherung, nicht zum Sparen.</p></div>
+    <div class="card"><h4>🚩 ETC oder ETN statt ETF</h4><p>ETCs (z. B. auf Gold, Rohstoffe, Krypto) und ETNs sind <b>Schuldverschreibungen</b>, kein Sondervermögen. Bei Pleite des Emittenten droht Verlust.</p></div>
+    <div class="card"><h4>🚩 Hype-Thema mit tollem Namen</h4><p>„Metaverse“, „Space“, „Cannabis“, „Hydrogen“. Oft erst aufgelegt, wenn das Thema schon teuer ist. Wenige Firmen, hohe Kosten, hohe Schwankung.</p></div>
+    <div class="card"><h4>🚩 Sehr klein und sehr jung</h4><p>Unter 50 Mio. € Volumen und jünger als ein Jahr: Schließungsrisiko und keine belastbare Historie.</p></div>
+    <div class="card"><h4>🚩 TER deutlich über 0,5 %</h4><p>Für Standard-Indizes gibt es immer eine günstigere Alternative.</p></div>
+    <div class="card"><h4>🚩 Top 10 machen über 50 % aus</h4><p>Dann ist das eher ein Paket weniger Aktien als ein breit gestreuter Fonds.</p></div>
+    <div class="card"><h4>🚩 „Covered Call“ / extrem hohe Ausschüttung</h4><p>10 % Ausschüttung klingt toll, geht aber oft auf Kosten des Kurswachstums. Ausschüttung ist nicht gleich Rendite.</p></div>
+  </div>
+  <div class="callout warn"><strong>Trade Republic zeigt dir viel – auch Riskantes</strong>In der App findest du Hebelprodukte, Derivate und Krypto direkt neben Welt-ETFs. Die App ist ein Supermarkt, kein Berater. Dass etwas angeboten wird, heißt nicht, dass es für dich passt.</div>
+</section>
+
+<!-- 11 -->
+<section class="chapter" id="beispiel">
+  <div class="chap-num">Kapitel 11</div>
+  <h2>Fallbeispiel: Lena analysiert drei ETFs</h2>
+  <p class="chap-intro">Ein durchgespieltes Beispiel mit fiktiven, aber realistischen Werten.</p>
+
+  <p>Lena (20) will 100 € im Monat in einen MSCI-World-ETF sparen. Auf justETF findet sie unter „ETF-Suche → MSCI World“ drei Kandidaten:</p>
+  <div class="table-wrap"><table>
+    <tr><th></th><th>ETF A</th><th>ETF B</th><th>ETF C</th></tr>
+    <tr><td>TER</td><td>0,20 %</td><td>0,12 %</td><td>0,45 %</td></tr>
+    <tr><td>Fondsvolumen</td><td>80 Mrd. €</td><td>4 Mrd. €</td><td>60 Mio. €</td></tr>
+    <tr><td>Aufgelegt vor</td><td>16 Jahren</td><td>8 Jahren</td><td>1 Jahr</td></tr>
+    <tr><td>Ø Tracking-Differenz (3 J.)</td><td>−0,05 %</td><td>−0,10 %</td><td>keine Daten</td></tr>
+    <tr><td>Replikation</td><td>physisch</td><td>synthetisch</td><td>physisch</td></tr>
+    <tr><td>Ertragsverwendung</td><td>thesaurierend</td><td>thesaurierend</td><td>ausschüttend</td></tr>
+    <tr><td>Sparplan bei TR</td><td>ja</td><td>ja</td><td>nein</td></tr>
+  </table></div>
+
+  <h3>Lenas Überlegungen</h3>
+  <ol class="steps">
+    <li><h4>ETF C fällt raus</h4><p>Teuer, winzig, zu jung, kein Sparplan. Eindeutig.</p></li>
+    <li><h4>A vs. B: TER ist nicht alles</h4><p>B ist auf dem Papier günstiger (0,12 % vs. 0,20 %). Aber A hat die bessere Tracking-Differenz (−0,05 % vs. −0,10 %) – also <i>tatsächlich</i> geringere Gesamtkosten.</p></li>
+    <li><h4>Struktur</h4><p>A ist physisch repliziert, das versteht Lena intuitiv besser. Beide thesaurieren.</p></li>
+    <li><h4>Entscheidung</h4><p>Lena nimmt ETF A. Hätte sie B genommen, wäre das aber auch völlig in Ordnung gewesen: Der Unterschied liegt bei etwa 0,05 % pro Jahr – bei 100 € Sparrate ein paar hundert Euro über 30 Jahre. Viel wichtiger ist, <b>dass</b> sie anfängt.</p></li>
+  </ol>
+  <div class="callout tip"><strong>Prüf es selbst</strong>Lade im Vergleichstool (Kapitel 08) die Beispieldaten – das sind genau diese drei ETFs.</div>
+</section>
+
+<!-- 12 -->
+<section class="chapter" id="check">
+  <div class="chap-num">Kapitel 12</div>
+  <h2>Dein ETF-Check vor dem Sparplan</h2>
+  <p class="chap-intro">Hake ab, was auf deinen Favoriten zutrifft. Am Ende bekommst du eine Einschätzung.</p>
+
+  <div class="tool">
+    <span class="tool-label">Checkliste</span>
+    <div class="ctrl" style="max-width:420px"><label for="chkName">Welchen ETF prüfst du?</label><input type="text" id="chkName" placeholder="Name oder ISIN"></div>
+    <ul class="checklist" id="chk"></ul>
+    <div class="verdict" id="chkVerdict"></div>
+    <button class="btn sec" id="chkReset" type="button" style="margin-top:.8rem">Neuen ETF prüfen</button>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="chapter" id="links">
+  <div class="chap-num">Kapitel 13</div>
+  <h2>Alle Links auf einen Blick</h2>
+  <p class="chap-intro">Zum Speichern als Lesezeichen.</p>
+
+  <div class="table-wrap"><table>
+    <tr><th>Wofür</th><th>Link</th></tr>
+    <tr><td>ETF-Suche, Profile, Vergleich</td><td><a href="https://www.justetf.com/de/" target="_blank" rel="noopener">justETF</a> · <a href="https://de.extraetf.com/" target="_blank" rel="noopener">extraETF</a> · <a href="https://www.morningstar.de/" target="_blank" rel="noopener">Morningstar</a></td></tr>
+    <tr><td>Factsheets &amp; Basisinformationsblätter</td><td><a href="https://www.ishares.com/de" target="_blank" rel="noopener">iShares</a> · <a href="https://www.de.vanguard" target="_blank" rel="noopener">Vanguard</a> · <a href="https://etf.dws.com/de-de/" target="_blank" rel="noopener">Xtrackers</a> · <a href="https://www.amundietf.de/" target="_blank" rel="noopener">Amundi</a> · <a href="https://www.ssga.com/de/de/intermediary/etfs" target="_blank" rel="noopener">SPDR</a> · <a href="https://www.invesco.com/de/de/" target="_blank" rel="noopener">Invesco</a></td></tr>
+    <tr><td>Index-Daten</td><td><a href="https://www.msci.com/indexes" target="_blank" rel="noopener">MSCI</a> · <a href="https://www.lseg.com/en/ftse-russell" target="_blank" rel="noopener">FTSE Russell</a> · <a href="https://www.spglobal.com/spdji/" target="_blank" rel="noopener">S&amp;P Dow Jones Indices</a></td></tr>
+    <tr><td>Unabhängige Ratgeber</td><td><a href="https://www.finanztip.de/indexfonds-etf/" target="_blank" rel="noopener">Finanztip ETF-Ratgeber</a> · <a href="https://www.verbraucherzentrale.de/geld-versicherungen" target="_blank" rel="noopener">Verbraucherzentrale</a></td></tr>
+    <tr><td>Aufsicht &amp; Verbraucherschutz</td><td><a href="https://www.bafin.de/DE/Verbraucher/verbraucher_node.html" target="_blank" rel="noopener">BaFin für Verbraucher</a></td></tr>
+    <tr><td>Dein Broker</td><td><a href="https://traderepublic.com/de-de" target="_blank" rel="noopener">Trade Republic</a> (Preisverzeichnis, Sparplan-Angebot)</td></tr>
+    <tr><td>Zurück zu den Grundlagen</td><td><a href="trading101.html">Grundlagen</a> · <a href="index.html">Übersicht aller Seiten</a></td></tr>
+  </table></div>
+  <p class="note">Externe Websites können sich ändern. Wenn ein Link nicht mehr funktioniert, such einfach nach dem Namen der Seite.</p>
+</section>
+
+<nav class="pager" aria-label="Lernpfad"><a class="prev" href="budget.html"><small>← Zurück</small><b>Budget & Sparrate</b></a><a class="next" href="crashsimulator.html"><small>Weiter im Lernpfad →</small><b>Crash-Simulator</b></a></nav>
+</main>
+</div>
+
+<footer>
+  Bildungsinhalt, keine Anlage- oder Steuerberatung. Beispiele und Näherungswerte dienen nur der Veranschaulichung. Vergangene Wertentwicklungen sind kein verlässlicher Indikator für künftige Ergebnisse. Stand: Oktober 2026. · <a href="index.html">Übersicht</a>
+</footer>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const fmt = n => Math.round(n).toLocaleString('de-DE') + ' €';
+  const pct = (n,d=2) => n.toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d}) + ' %';
+  const store = {
+    get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } },
+    set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  };
+  const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+  // Theme (shared key with trading101.html)
+  const root = document.documentElement;
+  const saved = store.get('dga-theme'); if(saved) root.setAttribute('data-theme', saved);
+  $('themeBtn').addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next); store.set('dga-theme', next); drawCost(); drawMix();
+  });
+
+  // Progress + TOC
+  const links = [...document.querySelectorAll('nav.toc ol:first-child a')];
+  const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  function onScroll(){
+    const h = document.documentElement;
+    $('bar').style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+    let idx = 0; secs.forEach((s,i) => { if(s && s.getBoundingClientRect().top < 140) idx = i; });
+    links.forEach((a,i) => a.classList.toggle('active', i === idx));
+  }
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  // ---------- Factsheet ----------
+  const FS = [
+    ['Index','MSCI ACWI','Der nachgebildete Index: ca. 2.500 Firmen aus Industrie- und Schwellenländern. Die wichtigste Zeile – hier entscheidest du, ob du das überhaupt besitzen willst.'],
+    ['Laufende Kosten (TER)','0,20 % p. a.','Günstig für einen weltweiten ETF. Bei 10.000 € sind das 20 € pro Jahr, automatisch im Kurs verrechnet. 🟢'],
+    ['Fondsvolumen','12,4 Mrd. EUR','Sehr groß – das Risiko, dass der ETF geschlossen wird, ist praktisch null. 🟢'],
+    ['Auflagedatum','15.06.2011','Seit über 15 Jahren am Markt: lange Historie, die Tracking-Qualität ist gut überprüfbar. 🟢'],
+    ['Replikation','Physisch (optimiert)','Der ETF kauft echte Aktien, aber nur eine repräsentative Auswahl. Bei Indizes mit tausenden Titeln üblich und effizient. 🟢'],
+    ['Ertragsverwendung','Thesaurierend','Dividenden werden automatisch reinvestiert – ideal für den Vermögensaufbau. 🟢'],
+    ['Fondsdomizil','Irland','Steuerlich günstig für US-Dividenden. Standard bei guten Welt-ETFs. 🟢'],
+    ['Fondswährung','USD','Für dich unwichtig: Das Währungsrisiko kommt von den Aktien darin, nicht vom Label.'],
+    ['Anzahl Positionen','2.312','Sehr breit gestreut. Weniger als die ~2.500 des Index, weil „optimiert“ repliziert wird. 🟢'],
+    ['Top 10 Anteil','24,8 %','Die zehn größten Firmen machen ein Viertel aus. Für einen marktbreiten ETF normal – aber du solltest es wissen. 🟡'],
+    ['Größtes Land: USA','63 %','Die USA sind der größte Aktienmarkt der Welt. Das spiegelt sich im Index wider. 🟡'],
+    ['Tracking-Differenz 2025','−0,08 %','Der ETF lag 0,08 Prozentpunkte hinter dem Index – besser als die TER von 0,20 %. Er arbeitet effizient. 🟢'],
+    ['Volatilität (3 J.)','14,1 %','Typische Schwankung eines Welt-Aktien-ETFs. Ausschläge von ±15 % in einem Jahr sind normal.'],
+    ['Risikoklasse (SRI)','4 von 7','Mittleres Risiko laut Basisinformationsblatt – typisch für breite Aktien-ETFs.'],
+    ['Wertpapierleihe','Ja, max. 10 %','Bringt kleine Zusatzerträge. Seriöse Anbieter besichern das mit mehr als 100 %. Kein Grund zur Sorge.']
+  ];
+  const fg = $('fsGrid');
+  FS.forEach(([k,v,e]) => {
+    const d = document.createElement('div'); d.tabIndex = 0;
+    d.innerHTML = `<span>${k}</span><span>${v}</span>`;
+    const show = () => { fg.querySelectorAll('div').forEach(x=>x.classList.remove('sel')); d.classList.add('sel'); $('fsExplain').innerHTML = `<b>${k}: ${v}</b><br>${e}`; };
+    d.addEventListener('click', show); d.addEventListener('keydown', ev => { if(ev.key==='Enter') show(); });
+    fg.appendChild(d);
+  });
+
+  // ---------- Cost calculator ----------
+  function sim(rate, years, ret, ter){
+    const r = Math.pow(1 + (ret-ter)/100, 1/12) - 1; let v=0, inv=0; const pts=[{y:0,v:0,inv:0}];
+    for(let m=1;m<=years*12;m++){ v = v*(1+r) + rate; inv += rate; if(m%12===0) pts.push({y:m/12,v,inv}); }
+    return pts;
+  }
+  function drawCost(){
+    const rate=+$('kRate').value, years=+$('kYears').value, ret=+$('kRet').value, ta=+$('kTerA').value, tb=+$('kTerB').value;
+    $('kRateO').textContent = fmt(rate); $('kYearsO').textContent = years+' Jahre';
+    $('kRetO').textContent = pct(ret,1); $('kTerAO').textContent = pct(ta); $('kTerBO').textContent = pct(tb);
+    const A = sim(rate,years,ret,ta), B = sim(rate,years,ret,tb), la=A.at(-1), lb=B.at(-1);
+    $('kInv').textContent = fmt(la.inv); $('kA').textContent = fmt(la.v); $('kB').textContent = fmt(lb.v);
+    $('kDiff').textContent = (la.v>=lb.v?'':'−') + fmt(Math.abs(la.v-lb.v));
+    const W=700,H=260,pl=64,pr=12,pt=12,pb=30,cw=W-pl-pr,ch=H-pt-pb;
+    const max = Math.max(la.v,lb.v,1)*1.05, x=y=>pl+y/years*cw, y=v=>pt+ch-v/max*ch;
+    const g=css('--border'), m=css('--muted'); let s='';
+    for(let i=0;i<=4;i++){ const val=max*i/4; s+=`<line x1="${pl}" x2="${W-pr}" y1="${y(val)}" y2="${y(val)}" stroke="${g}"/><text x="${pl-8}" y="${y(val)+4}" text-anchor="end" font-size="11" fill="${m}">${Math.round(val/1000)}k</text>`; }
+    const step = years<=10?1:years<=25?5:10;
+    for(let t=0;t<=years;t+=step) s+=`<text x="${x(t)}" y="${H-10}" text-anchor="middle" font-size="11" fill="${m}">${t}</text>`;
+    const line=(pts,key,col,w,dash)=>`<polyline points="${pts.map(p=>x(p.y)+','+y(p[key])).join(' ')}" fill="none" stroke="${col}" stroke-width="${w}" ${dash?'stroke-dasharray="5 4"':''}/>`;
+    s += line(A,'inv',css('--c7'),1.5,true) + line(B,'v',css('--c3'),2.5) + line(A,'v',css('--c1'),2.5);
+    s += `<text x="${W-pr}" y="${H-10}" text-anchor="end" font-size="11" fill="${m}">Jahre</text>`;
+    $('kChart').innerHTML = s;
+  }
+  ['kRate','kYears','kRet','kTerA','kTerB'].forEach(id=>$(id).addEventListener('input',drawCost)); drawCost();
+
+  // ---------- Tracking difference ----------
+  const tdDemo = [[2021,31.0,31.1],[2022,-13.1,-13.0],[2023,19.5,19.6],[2024,25.75,25.8],[2025,8.1,8.2]];
+  const tdT = $('tdTable');
+  tdDemo.forEach(([yr,e,i]) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><input type="number" value="${yr}" style="max-width:90px"></td><td><input type="number" step="0.01" value="${e}" class="num"></td><td><input type="number" step="0.01" value="${i}" class="num"></td><td class="num td-out">–</td>`;
+    tdT.appendChild(tr);
+  });
+  function calcTD(){
+    const vals=[];
+    tdT.querySelectorAll('tr').forEach((tr,i) => {
+      if(i===0) return; const inp = tr.querySelectorAll('input'), out = tr.querySelector('.td-out');
+      const e = parseFloat(inp[1].value), ix = parseFloat(inp[2].value);
+      if(isNaN(e)||isNaN(ix)){ out.textContent='–'; return; }
+      const td = Math.round((e - ix)*1000)/1000 || 0; vals.push(td); out.textContent = (td>0?'+':'') + td.toFixed(2).replace('.',',');
+      out.style.color = td >= 0 ? css('--good') : '';
+    });
+    const ter = parseFloat($('tdTer').value)||0; $('tdTerO').textContent = pct(ter);
+    if(!vals.length){ $('tdAvg').textContent='–'; $('tdVerdict').textContent='–'; return; }
+    const avg = Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*1000)/1000 || 0;
+    $('tdAvg').textContent = (avg>0?'+':'') + pct(avg);
+    let v;
+    if(avg >= -ter + 0.05) v = '🟢 Effizienter als die TER';
+    else if(avg >= -ter - 0.10) v = '🟡 Etwa wie erwartet';
+    else v = '🔴 Deutlich teurer als die TER';
+    $('tdVerdict').textContent = v;
+  }
+  tdT.addEventListener('input', calcTD); $('tdTer').addEventListener('input', calcTD); calcTD();
+
+  // ---------- Comparison ----------
+  const FIELDS = [
+    {k:'name', l:'Name / ISIN', t:'text'},
+    {k:'ter', l:'TER (%)', t:'number', step:'0.01', rate:v=>v===''?null: v<=0.25?2: v<=0.5?1:0},
+    {k:'vol', l:'Fondsvolumen (Mio. €)', t:'number', step:'1', rate:v=>v===''?null: v>=1000?2: v>=100?1:0},
+    {k:'age', l:'Alter (Jahre)', t:'number', step:'1', rate:v=>v===''?null: v>=5?2: v>=1?1:0},
+    {k:'td', l:'Ø Tracking-Differenz (%)', t:'number', step:'0.01', rate:(v,r)=>{ if(v===''||r.ter==='') return null; const ter=+r.ter; return v>=-ter+0.02?2: v>=-ter-0.10?1:0; }},
+    {k:'pos', l:'Anzahl Positionen', t:'number', step:'1', rate:v=>v===''?null: v>=500?2: v>=50?1:0},
+    {k:'top10', l:'Anteil Top 10 (%)', t:'number', step:'0.1', rate:v=>v===''?null: v<25?2: v<=40?1:0},
+    {k:'repl', l:'Replikation', t:'select', o:['','physisch','physisch optimiert','synthetisch'], rate:v=>!v?null: v.startsWith('physisch')?2:1},
+    {k:'acc', l:'Ertragsverwendung', t:'select', o:['','thesaurierend','ausschüttend'], rate:v=>!v?null: v==='thesaurierend'?2:1},
+    {k:'sp', l:'Sparplan bei Trade Republic', t:'select', o:['','ja','nein'], rate:v=>!v?null: v==='ja'?2:0}
+  ];
+  const N = 3;
+  let data = store.get('dga-cmp') || Array.from({length:N},()=>({}));
+  const cmp = $('cmp');
+  function buildCmp(){
+    let h = '<tr><th>Kennzahl</th>' + [...Array(N)].map((_,i)=>`<th>ETF ${String.fromCharCode(65+i)}</th>`).join('') + '</tr>';
+    FIELDS.forEach(f => {
+      h += `<tr><td>${f.l}</td>`;
+      for(let i=0;i<N;i++){
+        const val = data[i][f.k] ?? '';
+        let input;
+        if(f.t==='select') input = `<select data-i="${i}" data-k="${f.k}">${f.o.map(o=>`<option ${o===val?'selected':''} value="${o}">${o||'–'}</option>`).join('')}</select>`;
+        else input = `<input type="${f.t}" ${f.step?`step="${f.step}"`:''} data-i="${i}" data-k="${f.k}" value="${String(val).replace(/"/g,'&quot;')}">`;
+        h += `<td><div class="cell"><span class="dot" id="d_${f.k}_${i}"></span>${input}</div></td>`;
+      }
+      h += '</tr>';
+    });
+    h += '<tr class="score-row"><td>Punkte</td>' + [...Array(N)].map((_,i)=>`<td id="sc_${i}">–</td>`).join('') + '</tr>';
+    cmp.innerHTML = h;
+    scoreCmp();
+  }
+  function scoreCmp(){
+    const scores = [];
+    for(let i=0;i<N;i++){
+      let s=0, mx=0, any=false;
+      FIELDS.forEach(f => {
+        if(!f.rate) return;
+        const raw = data[i][f.k]; const v = (f.t==='number' && raw!=='' && raw!=null) ? +raw : (raw ?? '');
+        const r = f.rate(v, data[i]); const dot = $(`d_${f.k}_${i}`);
+        dot.className = 'dot' + (r===2?' g': r===1?' m': r===0?' b':'');
+        if(r!==null){ s+=r; mx+=2; any=true; }
+      });
+      scores.push(any ? {s,mx,ratio:s/mx} : null);
+    }
+    const best = Math.max(...scores.filter(Boolean).map(x=>x.ratio), -1);
+    scores.forEach((sc,i) => {
+      const el = $(`sc_${i}`);
+      if(!sc){ el.textContent='–'; el.className=''; return; }
+      el.textContent = `${sc.s} / ${sc.mx}` + (sc.ratio===best && scores.filter(Boolean).length>1 ? ' ★' : '');
+      el.className = sc.ratio===best ? 'winner' : '';
+    });
+  }
+  cmp.addEventListener('input', e => {
+    const t = e.target; if(!t.dataset.k) return;
+    data[+t.dataset.i][t.dataset.k] = t.value; store.set('dga-cmp', data); scoreCmp();
+  });
+  $('cmpDemo').addEventListener('click', () => {
+    data = [
+      {name:'ETF A (Beispiel)',ter:'0.20',vol:'80000',age:'16',td:'-0.05',pos:'1400',top10:'26',repl:'physisch',acc:'thesaurierend',sp:'ja'},
+      {name:'ETF B (Beispiel)',ter:'0.12',vol:'4000',age:'8',td:'-0.10',pos:'1400',top10:'26',repl:'synthetisch',acc:'thesaurierend',sp:'ja'},
+      {name:'ETF C (Beispiel)',ter:'0.45',vol:'60',age:'1',td:'',pos:'1350',top10:'26',repl:'physisch',acc:'ausschüttend',sp:'nein'}
+    ];
+    store.set('dga-cmp', data); buildCmp();
+  });
+  $('cmpClear').addEventListener('click', () => { data = Array.from({length:N},()=>({})); store.set('dga-cmp', data); buildCmp(); });
+  buildCmp();
+
+  // ---------- Mix ----------
+  // Approximate index weights (%), rounded
+  const WORLD = {'USA':72,'Japan':5.5,'Großbritannien':3.5,'Kanada':3,'Frankreich':2.6,'Schweiz':2.4,'Deutschland':2.2,'Übrige Industrieländer':8.8};
+  const EM    = {'China':26,'Taiwan':19,'Indien':18,'Südkorea':10,'Brasilien':4,'Übrige Schwellenländer':23};
+  const COLS = ['--c1','--c2','--c3','--c4','--c5','--c6','--c7'];
+  function drawMix(){
+    const w = +$('mixW').value, e = 100 - w;
+    $('mixWO').textContent = w + ' %'; $('mixEO').textContent = e + ' %';
+    const agg = {};
+    Object.entries(WORLD).forEach(([k,v]) => agg[k] = (agg[k]||0) + v*w/100);
+    const emGroups = {};
+    Object.entries(EM).forEach(([k,v]) => emGroups[k] = v*e/100);
+    // Group for display
+    const groups = [
+      ['USA', agg['USA']],
+      ['Europa', agg['Großbritannien']+agg['Frankreich']+agg['Schweiz']+agg['Deutschland']+agg['Übrige Industrieländer']*0.55],
+      ['Japan', agg['Japan']],
+      ['Sonst. Industrie', agg['Kanada']+agg['Übrige Industrieländer']*0.45],
+      ['China', emGroups['China']],
+      ['Indien & Taiwan', emGroups['Indien']+emGroups['Taiwan']],
+      ['Sonst. Schwellenl.', emGroups['Südkorea']+emGroups['Brasilien']+emGroups['Übrige Schwellenländer']]
+    ];
+    $('mixStack').innerHTML = groups.map(([k,v],i)=>`<div title="${k}: ${v.toFixed(1)} %" style="width:${v}%;background:var(${COLS[i]})"></div>`).join('');
+    $('mixBars').innerHTML = groups.map(([k,v],i)=>`<div class="bar-row"><span>${k}</span><div class="bar-track"><div class="bar-fill" style="width:${v}%;background:var(${COLS[i]})"></div></div><span class="num">${v.toFixed(1).replace('.',',')} %</span></div>`).join('');
+    $('mixUS').textContent = pct(agg['USA'],1);
+    $('mixEM').textContent = pct(e,0);
+  }
+  $('mixW').addEventListener('input', drawMix); drawMix();
+
+  // ---------- Checklist ----------
+  const CHK = [
+    ['Ich verstehe, welchen Index der ETF abbildet und welche Länder/Branchen drin sind.',2],
+    ['Der Index ist breit gestreut (mehrere hundert Unternehmen, mehrere Länder).',2],
+    ['Die TER liegt unter 0,25 % (Welt-ETF) bzw. unter 0,5 % (Spezial-ETF).',1],
+    ['Das Fondsvolumen liegt über 500 Mio. €.',1],
+    ['Der ETF ist mindestens 3 Jahre alt.',1],
+    ['Die Tracking-Differenz ist im Vergleich zu Alternativen auf denselben Index gut.',1],
+    ['Ich habe mindestens 2 Alternativen auf denselben Index verglichen.',1],
+    ['Die Ertragsverwendung passt zu mir (thesaurierend für Vermögensaufbau).',1],
+    ['Es ist ein echter ETF (UCITS) – kein ETC/ETN, kein Hebel, kein Short.',2],
+    ['Der ETF ist bei Trade Republic sparplanfähig.',2],
+    ['Ich habe mir den maximalen Verlust der Vergangenheit angesehen und könnte ihn aushalten.',2],
+    ['Ich kaufe ihn nicht, weil er zuletzt besonders stark gestiegen ist oder weil er gerade gehypt wird.',2]
+  ];
+  let cs = store.get('dga-etfcheck') || {name:'',c:{}};
+  $('chkName').value = cs.name || '';
+  const ul = $('chk');
+  CHK.forEach(([t],i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<input type="checkbox" id="k${i}"><label for="k${i}">${t}</label>`;
+    const cb = li.querySelector('input'); cb.checked = !!cs.c[i]; li.classList.toggle('done', cb.checked);
+    cb.addEventListener('change', () => { cs.c[i]=cb.checked; li.classList.toggle('done',cb.checked); store.set('dga-etfcheck',cs); verdict(); });
+    ul.appendChild(li);
+  });
+  $('chkName').addEventListener('input', e => { cs.name = e.target.value; store.set('dga-etfcheck',cs); verdict(); });
+  function verdict(){
+    const max = CHK.reduce((a,[,w])=>a+w,0);
+    const got = CHK.reduce((a,[,w],i)=>a+(cs.c[i]?w:0),0);
+    const critMissing = CHK.some(([,w],i)=>w===2 && !cs.c[i]);
+    const name = cs.name ? `„${cs.name}“` : 'Dein ETF';
+    const el = $('chkVerdict');
+    if(got===0){ el.textContent = 'Hake die Punkte ab, die auf deinen ETF zutreffen.'; el.style.background='var(--surface-2)'; return; }
+    if(got===max){ el.innerHTML = `🟢 ${name} besteht alle Prüfungen. Sparplan einrichten und laufen lassen!`; el.style.background='var(--accent-soft)'; }
+    else if(!critMissing && got/max>=0.75){ el.innerHTML = `🟢 ${name} sieht gut aus (${got}/${max} Punkte). Kleine Abstriche sind normal.`; el.style.background='var(--accent-soft)'; }
+    else if(critMissing){ el.innerHTML = `🔴 ${got}/${max} Punkte. Mindestens ein <b>wichtiger</b> Punkt fehlt noch – schau dir die offenen Punkte mit doppeltem Gewicht nochmal genau an, bevor du investierst.`; el.style.background='var(--danger-bg)'; }
+    else { el.innerHTML = `🟡 ${name}: ${got}/${max} Punkte. Vergleiche nochmal mit Alternativen auf denselben Index.`; el.style.background='var(--warn-bg)'; }
+  }
+  $('chkReset').addEventListener('click', () => { cs={name:'',c:{}}; store.set('dga-etfcheck',cs); $('chkName').value=''; ul.querySelectorAll('input').forEach(c=>{c.checked=false;c.closest('li').classList.remove('done');}); verdict(); });
+  verdict();
+})();
+</script>
+<script>
+(function(){
+ const PAGE="etfanalyse.html";
+ try{const v=JSON.parse(localStorage.getItem('dga-visited'))||{};v[PAGE]=1;localStorage.setItem('dga-visited',JSON.stringify(v));
+   document.querySelectorAll('#menu a[data-f]').forEach(a=>{if(v[a.dataset.f])a.querySelector('.v').textContent='✓'})}catch(e){}
+ const mb=document.getElementById('menuBtn'),m=document.getElementById('menu');
+ mb.addEventListener('click',e=>{e.stopPropagation();m.hidden=!m.hidden;mb.setAttribute('aria-expanded',String(!m.hidden))});
+ document.addEventListener('click',e=>{if(!m.hidden&&!m.contains(e.target))m.hidden=true});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')m.hidden=true});
+})();
+</script>
+<script type="module">
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDcoyIKBteii7mt6F7QIdR2mr0PIx8ON-I",
+  authDomain: "tradings1x1.firebaseapp.com",
+  projectId: "tradings1x1",
+  storageBucket: "tradings1x1.firebasestorage.app",
+  messagingSenderId: "962901431228",
+  appId: "1:962901431228:web:7e1199128eff0caa1051b9"
+};
+const SDK = "https://www.gstatic.com/firebasejs/10.12.2/";
+const D = window.__dga;
+const btn = document.getElementById('acctBtn');
+const lbl = btn && btn.querySelector('.acct-label');
+const dot = btn && btn.querySelector('.acct-dot');
+let user = null, ref = null, api = null, pushing = false, timer = null;
+
+function setStatus(s, text){ if(!dot) return; dot.className = 'acct-dot ' + s; if(text) btn.title = text; }
+function setLabel(t){ if(lbl) lbl.textContent = t; }
+function localKV(){ const o = {}; for(let i=0;i<localStorage.length;i++){ const k = localStorage.key(i); if(D.isKey(k)) o[k] = localStorage.getItem(k); } return o; }
+function wipeLocal(){ Object.keys(localKV()).forEach(k => { if(k !== 'dga-theme') D.raw.rem(k); }); D.setPending([]); }
+
+// ---------- Modal UI ----------
+const back = document.createElement('div');
+back.className = 'modal-back'; back.hidden = true; back.id = 'acctModal';
+back.innerHTML = `<div class="modal acct-modal" role="dialog" aria-modal="true" aria-labelledby="acctTitle">
+  <button class="x-btn acct-close" type="button" aria-label="Schließen">×</button>
+  <div id="acctBody"></div></div>`;
+document.body.appendChild(back);
+const body = back.querySelector('#acctBody');
+function open(){ render(); back.hidden = false; const f = back.querySelector('input,button.btn'); if(f) f.focus(); }
+function close(){ back.hidden = true; }
+back.addEventListener('click', e => { if(e.target === back || e.target.closest('.acct-close')) close(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && !back.hidden) close(); });
+if(btn) btn.addEventListener('click', open);
+
+const ERR = {
+  'auth/invalid-credential':'E-Mail oder Passwort ist falsch.',
+  'auth/wrong-password':'E-Mail oder Passwort ist falsch.',
+  'auth/user-not-found':'Zu dieser E-Mail gibt es noch kein Konto.',
+  'auth/invalid-email':'Das ist keine gültige E-Mail-Adresse.',
+  'auth/email-already-in-use':'Für diese E-Mail gibt es schon ein Konto – bitte anmelden.',
+  'auth/weak-password':'Das Passwort muss mindestens 6 Zeichen haben.',
+  'auth/too-many-requests':'Zu viele Versuche. Bitte kurz warten.',
+  'auth/network-request-failed':'Keine Verbindung. Bitte Internet prüfen.',
+  'auth/unauthorized-domain':'Diese Domain ist in Firebase noch nicht freigegeben (Authentication → Settings → Authorized domains).',
+  'auth/operation-not-allowed':'E-Mail/Passwort-Login ist in Firebase nicht aktiviert.',
+  'permission-denied':'Firestore verweigert den Zugriff – bitte die Sicherheitsregeln prüfen.'
+};
+const msg = e => ERR[e && e.code] || ('Fehler: ' + ((e && (e.code || e.message)) || 'unbekannt'));
+
+function render(note){
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  if(!api){
+    body.innerHTML = `<h3 id="acctTitle">Konto</h3><p class="muted">Die Anmeldung ist gerade nicht erreichbar (keine Internetverbindung oder Firebase blockiert). Deine Eingaben werden weiter lokal in diesem Browser gespeichert.</p>`;
+    return;
+  }
+  if(user){
+    const p = D.pending().length;
+    body.innerHTML = `<h3 id="acctTitle">Dein Konto</h3>
+      <p>Angemeldet als <b>${esc(user.email)}</b></p>
+      <p class="muted" id="acctState">${p ? `⏳ ${p} Änderung(en) werden gespeichert …` : '✓ Alles gespeichert. Deine Eingaben sind auf jedem Gerät verfügbar, auf dem du dich anmeldest.'}</p>
+      ${note ? `<p class="acct-note">${note}</p>` : ''}
+      <div class="row-actions"><button class="btn sec" type="button" id="acctSync">↻ Jetzt synchronisieren</button></div>
+      <hr style="border:0;border-top:1px solid var(--border);margin:1.2rem 0">
+      <label style="display:flex;gap:.5rem;align-items:flex-start;font-size:.92rem"><input type="checkbox" id="acctWipe" checked style="margin-top:.3rem"> Beim Abmelden die Daten auf diesem Gerät entfernen (empfohlen auf gemeinsam genutzten Geräten – in deinem Konto bleibt alles erhalten)</label>
+      <div class="row-actions"><button class="btn" type="button" id="acctOut">Abmelden</button></div>`;
+    body.querySelector('#acctSync').onclick = async () => { await fullSync(true); render('Synchronisiert.'); };
+    body.querySelector('#acctOut').onclick = async () => {
+      const wipe = body.querySelector('#acctWipe').checked;
+      try { await pushNow(); } catch(e){}
+      await api.signOut(api.auth);
+      if(wipe){ wipeLocal(); D.raw.rem('dga-sync-uid'); }
+      location.reload();
+    };
+    return;
+  }
+  body.innerHTML = `<h3 id="acctTitle">Anmelden</h3>
+    <p class="muted" style="margin-top:0">Mit Konto werden alle Eingaben (Budget, Depot, Checklisten, Tagebuch, Crash-Plan …) gespeichert und sind auf jedem Gerät verfügbar.</p>
+    <form id="acctForm" novalidate>
+      <div class="ctrl"><label for="acctMail">E-Mail</label><input type="email" id="acctMail" autocomplete="email" required></div>
+      <div class="ctrl" style="margin-top:.7rem"><label for="acctPw">Passwort</label><input type="password" id="acctPw" autocomplete="current-password" required minlength="6"></div>
+      <p class="acct-note" id="acctMsg">${note || ''}</p>
+      <div class="row-actions">
+        <button class="btn" type="submit" id="acctIn">Anmelden</button>
+        <button class="btn sec" type="button" id="acctNew">Neues Konto erstellen</button>
+      </div>
+      <p style="margin:.8rem 0 0"><button type="button" class="linkbtn" id="acctReset">Passwort vergessen?</button></p>
+    </form>`;
+  const mail = body.querySelector('#acctMail'), pw = body.querySelector('#acctPw'), out = body.querySelector('#acctMsg');
+  const busy = (b) => body.querySelectorAll('button').forEach(x => x.disabled = b);
+  body.querySelector('#acctForm').onsubmit = async e => {
+    e.preventDefault(); busy(true); out.textContent = 'Anmelden …';
+    try { await api.signInWithEmailAndPassword(api.auth, mail.value.trim(), pw.value); close(); }
+    catch(err){ out.textContent = msg(err); busy(false); }
+  };
+  body.querySelector('#acctNew').onclick = async () => {
+    busy(true); out.textContent = 'Konto wird erstellt …';
+    try { await api.createUserWithEmailAndPassword(api.auth, mail.value.trim(), pw.value); close(); }
+    catch(err){ out.textContent = msg(err); busy(false); }
+  };
+  body.querySelector('#acctReset').onclick = async () => {
+    if(!mail.value.trim()){ out.textContent = 'Bitte zuerst deine E-Mail eintragen.'; mail.focus(); return; }
+    try { await api.sendPasswordResetEmail(api.auth, mail.value.trim()); out.textContent = '✓ E-Mail zum Zurücksetzen wurde verschickt (auch im Spam-Ordner nachsehen).'; }
+    catch(err){ out.textContent = msg(err); }
+  };
+}
+
+// ---------- Sync ----------
+async function pushNow(){
+  if(!user || pushing) return;
+  const keys = D.pending(); if(!keys.length) return;
+  pushing = true; setStatus('busy', 'Speichere …');
+  try {
+    const kv = {};
+    keys.forEach(k => { const v = localStorage.getItem(k); kv[k] = v === null ? api.deleteField() : v; });
+    await api.setDoc(ref, { kv, email: user.email, updatedAt: api.serverTimestamp() }, { merge: true });
+    const left = D.pending().filter(k => !keys.includes(k) || localStorage.getItem(k) !== (typeof kv[k] === 'string' ? kv[k] : null));
+    D.setPending(left);
+    setStatus(left.length ? 'busy' : 'ok', left.length ? 'Speichere …' : 'Gespeichert in deinem Konto');
+    const st = document.getElementById('acctState'); if(st && !left.length) st.textContent = '✓ Alles gespeichert.';
+  } catch(e){ console.warn('[sync] push failed', e); setStatus('err', msg(e)); }
+  finally { pushing = false; if(D.pending().length && !timer) schedule(3000); }
+}
+function schedule(ms){ clearTimeout(timer); timer = setTimeout(() => { timer = null; pushNow(); }, ms); }
+
+// Pull remote → local. Returns true if local data changed.
+async function pull(mode){
+  const snap = await api.getDoc(ref);
+  const remote = snap.exists() ? (snap.data().kv || {}) : {};
+  const pend = new Set(D.pending());
+  let changed = false;
+  for(const [k, v] of Object.entries(remote)){
+    if(!D.isKey(k)) continue;
+    if(k === 'dga-visited'){ // merge "visited pages" from all devices
+      try { const m = Object.assign({}, JSON.parse(v) || {}, JSON.parse(localStorage.getItem(k)) || {}); const js = JSON.stringify(m);
+        if(js !== localStorage.getItem(k)){ D.raw.set(k, js); changed = true; } if(js !== v) D.mark(k); } catch(e){}
+      continue;
+    }
+    if(pend.has(k)) continue;
+    if(localStorage.getItem(k) !== v){ D.raw.set(k, v); changed = true; }
+  }
+  // Local keys the account doesn't know yet → upload (first login on this device, or never synced)
+  const local = localKV(); const missing = Object.keys(local).filter(k => !(k in remote));
+  if(missing.length){ D.setPending([...new Set([...D.pending(), ...missing])]); }
+  return changed;
+}
+
+async function fullSync(manual){
+  if(!user) return;
+  setStatus('busy', 'Synchronisiere …');
+  try {
+    await pushNow();
+    const changed = await pull();
+    await pushNow();
+    setStatus('ok', 'Gespeichert in deinem Konto');
+    if(changed && !manual) safeReload();
+    if(changed && manual) location.reload();
+  } catch(e){ console.warn('[sync] sync failed', e); setStatus('err', msg(e)); }
+}
+function safeReload(){
+  // Reload once so the page shows the synced data; guard against loops.
+  try {
+    const last = +sessionStorage.getItem('dga-sync-reload') || 0;
+    if(Date.now() - last < 10000) return;
+    sessionStorage.setItem('dga-sync-reload', String(Date.now()));
+  } catch(e){}
+  location.reload();
+}
+
+// ---------- Boot ----------
+setStatus('', 'Anmelden, um Eingaben geräteübergreifend zu speichern');
+try {
+  const [appM, authM, fsM] = await Promise.all([
+    import(SDK + 'firebase-app.js'), import(SDK + 'firebase-auth.js'), import(SDK + 'firebase-firestore.js')
+  ]);
+  const app = appM.initializeApp(FIREBASE_CONFIG);
+  const auth = authM.getAuth(app);
+  const db = fsM.getFirestore(app);
+  api = { auth, signInWithEmailAndPassword: authM.signInWithEmailAndPassword, createUserWithEmailAndPassword: authM.createUserWithEmailAndPassword,
+          sendPasswordResetEmail: authM.sendPasswordResetEmail, signOut: authM.signOut,
+          doc: fsM.doc, getDoc: fsM.getDoc, setDoc: fsM.setDoc, deleteField: fsM.deleteField, serverTimestamp: fsM.serverTimestamp };
+  auth.languageCode = 'de';
+  authM.onAuthStateChanged(auth, async u => {
+    user = u;
+    if(!u){ ref = null; setLabel('Anmelden'); setStatus('', 'Nicht angemeldet – Eingaben nur in diesem Browser'); if(!back.hidden) render(); return; }
+    ref = fsM.doc(db, 'users', u.uid);
+    setLabel(u.email.split('@')[0]);
+    const prev = localStorage.getItem('dga-sync-uid');
+    if(prev && prev !== u.uid){ wipeLocal(); }           // other family member used this device → don't mix data
+    D.raw.set('dga-sync-uid', u.uid);
+    D.onChange = () => schedule(800);
+    await fullSync(false);
+    if(!back.hidden) render();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if(!user) return;
+    if(document.visibilityState === 'hidden') pushNow();
+    else if(!D.pending().length) fullSync(false);
+  });
+  window.addEventListener('pagehide', () => { if(user) pushNow(); });
+} catch(e){
+  console.warn('[sync] Firebase not available', e);
+  setStatus('err', 'Anmeldung nicht erreichbar – Eingaben werden lokal gespeichert');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Börsen-Guide für Einsteiger – Schritt für Schritt investieren</title>
+<meta name="description" content="Ein kostenloser Online-Guide für Börseneinsteiger: Grundlagen, Budget, ETF-Analyse, Crash-Simulator, Depot-Tracker, Steuern, Einzelaktien, Hebel & Krypto und Wirtschaftsnews – mit interaktiven Rechnern.">
+<style>
+:root{
+  --bg:#f7f6f2; --surface:#ffffff; --surface-2:#f0eee8; --text:#1d1d1f; --muted:#5d5d63;
+  --border:#e2dfd6; --accent:#0f7b5f; --accent-soft:#e3f2ec; --accent-2:#c2410c;
+  --warn-bg:#fff4e5; --warn-border:#f2b46b; --info-bg:#eaf2fb; --info-border:#8bb4e0;
+  --danger-bg:#fdecec; --danger-border:#e8a1a1;
+  --good:#0f7b5f; --mid:#b7791f; --bad:#c53030;
+  --c1:#0f7b5f; --c2:#3b82c4; --c3:#d08a2e; --c4:#8a5cc2; --c5:#c2546b; --c6:#5aa39a; --c7:#9a9a92;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121314; --surface:#1b1c1e; --surface-2:#232427; --text:#ecebe7; --muted:#a3a29d;
+    --border:#2f3033; --accent:#4cc39a; --accent-soft:#16332a; --accent-2:#f08a4b;
+    --warn-bg:#2d2416; --warn-border:#8a6326; --info-bg:#172333; --info-border:#3d6694;
+    --danger-bg:#311b1b; --danger-border:#8a3d3d;
+    --good:#4cc39a; --mid:#e0b04c; --bad:#f07272;
+    --c1:#4cc39a; --c2:#6aa7e0; --c3:#e0a04c; --c4:#ab86e0; --c5:#e07a90; --c6:#7cc4ba; --c7:#77776f;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121314; --surface:#1b1c1e; --surface-2:#232427; --text:#ecebe7; --muted:#a3a29d;
+  --border:#2f3033; --accent:#4cc39a; --accent-soft:#16332a; --accent-2:#f08a4b;
+  --warn-bg:#2d2416; --warn-border:#8a6326; --info-bg:#172333; --info-border:#3d6694;
+  --danger-bg:#311b1b; --danger-border:#8a3d3d;
+  --good:#4cc39a; --mid:#e0b04c; --bad:#f07272;
+  --c1:#4cc39a; --c2:#6aa7e0; --c3:#e0a04c; --c4:#ab86e0; --c5:#e07a90; --c6:#7cc4ba; --c7:#77776f;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+h1,h2,h3,h4{line-height:1.25;letter-spacing:-.01em}
+h2{font-size:1.75rem;margin:0 0 .4rem}
+h3{font-size:1.2rem;margin:1.8rem 0 .5rem}
+p{margin:.6rem 0}
+.muted{color:var(--muted)}
+code{background:var(--surface-2);padding:.1em .35em;border-radius:4px;font-size:.92em}
+
+.topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1180px;margin:0 auto;padding:.7rem 16px;display:flex;align-items:center;gap:1rem}
+.brand{font-weight:700;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:.5rem;white-space:nowrap}
+.brand-dot{width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.back{font-size:.9rem;text-decoration:none;white-space:nowrap}
+.progress{flex:1;height:4px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:var(--accent)}
+.icon-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:8px;padding:.35rem .6rem;cursor:pointer;font:inherit;font-size:.9rem}
+
+.layout{max-width:1180px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:48px}
+nav.toc{position:sticky;top:76px;align-self:start;max-height:calc(100vh - 90px);overflow:auto;padding:1.5rem 0;font-size:.92rem}
+nav.toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
+nav.toc li{counter-increment:toc}
+nav.toc a{display:block;padding:.35rem .6rem;border-radius:6px;color:var(--muted);text-decoration:none;border-left:2px solid transparent}
+nav.toc a::before{content:counter(toc,decimal-leading-zero) "  ";opacity:.6}
+nav.toc a:hover{color:var(--text);background:var(--surface-2)}
+nav.toc a.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft)}
+nav.toc .home{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem}
+nav.toc .home a::before{content:"← "}
+main{min-width:0;padding-bottom:4rem}
+
+.hero{padding:3.5rem 0 2rem}
+.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:700;color:var(--accent)}
+.hero h1{font-size:clamp(2.1rem,5vw,3.2rem);margin:.4rem 0 1rem;max-width:20ch}
+.hero .lead{font-size:1.2rem;color:var(--muted);max-width:62ch}
+
+section.chapter{padding:3rem 0;border-top:1px solid var(--border)}
+.chap-num{font-size:.8rem;font-weight:700;color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
+.chap-intro{color:var(--muted);font-size:1.08rem;max-width:65ch}
+
+.callout{border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;border:1px solid;border-left-width:4px}
+.callout strong:first-child{display:block;margin-bottom:.2rem}
+.tip{background:var(--accent-soft);border-color:var(--accent)}
+.warn{background:var(--warn-bg);border-color:var(--warn-border)}
+.info{background:var(--info-bg);border-color:var(--info-border)}
+.danger{background:var(--danger-bg);border-color:var(--danger-border)}
+.trader{background:var(--surface);border-color:var(--border);border-left-color:var(--accent-2)}
+.trader strong:first-child{color:var(--accent-2)}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:1.2rem 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:var(--shadow)}
+.card h4{margin:0 0 .4rem;font-size:1.05rem}
+.card p{margin:.3rem 0;font-size:.95rem}
+.card a.ext{font-weight:600;text-decoration:none}
+.card a.ext::after{content:" ↗"}
+.tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.12rem .5rem;border-radius:99px;background:var(--surface-2);color:var(--muted);margin:0 .3rem .3rem 0}
+.tag.g{background:var(--accent-soft);color:var(--accent)}
+
+.steps{counter-reset:step;list-style:none;padding:0;margin:1.2rem 0}
+.steps>li{counter-increment:step;position:relative;padding:0 0 1.4rem 3.2rem;border-left:2px solid var(--border);margin-left:1rem}
+.steps>li:last-child{border-left-color:transparent}
+.steps>li::before{content:counter(step);position:absolute;left:-1rem;top:-.1rem;width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.95rem}
+.steps>li h4{margin:0 0 .3rem;font-size:1.05rem}
+
+.table-wrap{overflow-x:auto;margin:1rem 0;border:1px solid var(--border);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.94rem;background:var(--surface)}
+th,td{padding:.65rem .8rem;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+
+details{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:.5rem 0;padding:0 1rem}
+summary{cursor:pointer;padding:.8rem 0;font-weight:600;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";display:inline-block;width:1.2rem;color:var(--accent);font-weight:700}
+details[open] summary::before{content:"–"}
+details>div{padding:0 0 .9rem 1.2rem}
+
+/* Tools */
+.tool{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.4rem;box-shadow:var(--shadow);margin:1.4rem 0}
+.tool h3{margin-top:0}
+.tool-label{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-2);margin-bottom:.3rem}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem 1.4rem}
+.ctrl label{display:flex;justify-content:space-between;gap:.5rem;font-size:.9rem;font-weight:600}
+.ctrl output{font-variant-numeric:tabular-nums;color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=number],input[type=text],select{width:100%;padding:.5rem .6rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:1.2rem 0 .6rem}
+.kpi{background:var(--surface-2);border-radius:10px;padding:.7rem .9rem}
+.kpi span{display:block;font-size:.8rem;color:var(--muted)}
+.kpi b{font-size:1.3rem;font-variant-numeric:tabular-nums}
+.kpi.hl b{color:var(--accent)}
+.kpi.bad b{color:var(--bad)}
+.chart{width:100%;height:auto;display:block}
+.legend{display:flex;gap:1rem;font-size:.85rem;color:var(--muted);flex-wrap:wrap;margin-top:.4rem}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:.35rem;vertical-align:-1px}
+.note{font-size:.85rem;color:var(--muted)}
+.btn{display:inline-block;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:.6rem 1rem;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;font-size:.95rem}
+.btn.sec{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+
+/* Compare */
+.cmp{width:100%;min-width:640px}
+.cmp td,.cmp th{vertical-align:middle}
+.cmp td:first-child{font-weight:600;font-size:.9rem;width:28%}
+.cmp input,.cmp select{font-size:.9rem;padding:.4rem .5rem}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.35rem;vertical-align:0}
+.dot.g{background:var(--good)}.dot.m{background:var(--mid)}.dot.b{background:var(--bad)}
+.cell{display:flex;align-items:center;gap:.35rem}
+.score-row td{font-weight:700;font-size:1.05rem}
+.winner{color:var(--accent)}
+
+/* Bars */
+.bars{margin:1rem 0}
+.bar-row{display:grid;grid-template-columns:130px 1fr 56px;gap:.6rem;align-items:center;font-size:.9rem;margin:.3rem 0}
+.bar-track{height:14px;background:var(--surface-2);border-radius:7px;overflow:hidden}
+.bar-fill{height:100%;border-radius:7px;transition:width .25s}
+.stack{display:flex;height:28px;border-radius:8px;overflow:hidden;margin:.6rem 0}
+.stack div{height:100%;transition:width .25s}
+
+/* Factsheet mock */
+.fs{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;font-size:.92rem;position:relative}
+.fs-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;border-bottom:2px solid var(--accent);padding-bottom:.6rem;margin-bottom:.8rem}
+.fs-head b{font-size:1.05rem}
+.fs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.3rem 1.2rem}
+.fs-grid div{display:flex;justify-content:space-between;border-bottom:1px dotted var(--border);padding:.25rem 0;cursor:pointer}
+.fs-grid div:hover,.fs-grid div.sel{background:var(--accent-soft)}
+.fs-grid span:last-child{font-weight:600;font-variant-numeric:tabular-nums}
+.fs-explain{margin-top:1rem;background:var(--accent-soft);border-radius:10px;padding:.8rem 1rem;min-height:3.2rem}
+
+/* Checklist */
+.checklist{list-style:none;padding:0;margin:1rem 0}
+.checklist li{display:flex;gap:.7rem;align-items:flex-start;padding:.6rem .8rem;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;background:var(--surface)}
+.checklist input{width:1.2rem;height:1.2rem;margin-top:.25rem;accent-color:var(--accent);flex-shrink:0}
+.checklist li.done label{color:var(--muted)}
+.verdict{font-weight:700;padding:.8rem 1rem;border-radius:10px;margin-top:.8rem}
+
+footer{border-top:1px solid var(--border);padding:2rem 16px;text-align:center;color:var(--muted);font-size:.88rem}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;gap:0}
+  nav.toc{display:none}
+  body{font-size:16px}
+  .bar-row{grid-template-columns:100px 1fr 48px}
+}
+
+/* ---- Site navigation (shared) ---- */
+.topbar{position:sticky}
+.crumb{font-size:.88rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:22ch}
+.menu{position:absolute;right:max(16px,calc((100vw - 1180px)/2 + 16px));top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.18);padding:.5rem;width:min(360px,calc(100vw - 32px));max-height:75vh;overflow:auto;z-index:50}
+.menu[hidden]{display:none}
+.menu .mh{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;padding:.5rem .7rem .2rem}
+.menu a{display:flex;align-items:center;gap:.6rem;padding:.55rem .7rem;border-radius:8px;text-decoration:none;color:var(--text);font-size:.95rem}
+.menu a:hover{background:var(--surface-2)}
+.menu a.cur{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.menu .n{color:var(--muted);font-variant-numeric:tabular-nums;width:1.5rem;font-size:.85rem}
+.menu .v{margin-left:auto;color:var(--accent);font-weight:700}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:3rem;border-top:1px solid var(--border);padding-top:2rem}
+.pager a{display:block;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;text-decoration:none;color:var(--text);box-shadow:var(--shadow)}
+.pager a:hover{border-color:var(--accent)}
+.pager small{display:block;color:var(--muted);font-size:.8rem}
+.pager b{color:var(--accent)}
+.pager .next{text-align:right;grid-column:2}
+.layout.single{grid-template-columns:minmax(0,1fr);max-width:1040px}
+.layout.single nav.toc{display:none}
+@media (max-width:640px){.crumb{display:none}.brand .bt{display:none}}
+
+/* ---- Shared tool helpers ---- */
+.row-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem}
+.btn.small{padding:.35rem .7rem;font-size:.85rem}
+.btn.danger{background:var(--bad)}
+.x-btn{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:1.1rem;padding:.2rem .4rem}
+.x-btn:hover{color:var(--bad)}
+.edit-table input,.edit-table select{min-width:70px}
+.pill{display:inline-block;padding:.15rem .6rem;border-radius:99px;font-size:.8rem;font-weight:600}
+.pill.g{background:var(--accent-soft);color:var(--good)}
+.pill.m{background:var(--warn-bg);color:var(--mid)}
+.pill.b{background:var(--danger-bg);color:var(--bad)}
+textarea{width:100%;min-height:80px;padding:.6rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem;resize:vertical}
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;z-index:100;padding:16px}
+.modal-back[hidden]{display:none}
+.modal{background:var(--surface);border-radius:16px;max-width:560px;width:100%;padding:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:90vh;overflow:auto}
+.modal h3{margin-top:0}
+.modal .opts{display:grid;gap:.5rem;margin-top:1rem}
+.modal .opts button{text-align:left;padding:.75rem 1rem;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text);font:inherit;cursor:pointer}
+.modal .opts button:hover{border-color:var(--accent);background:var(--accent-soft)}
+.headline{font-family:Georgia,"Times New Roman",serif;font-size:1.25rem;font-weight:700;border-left:4px solid var(--bad);padding:.3rem 0 .3rem .8rem;margin:.6rem 0}
+.quiz-q{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0}
+.quiz-q p.q{font-weight:600;margin-top:0}
+.quiz-q button{display:block;width:100%;text-align:left;margin:.35rem 0;padding:.6rem .8rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem;cursor:pointer}
+.quiz-q button.right{background:var(--accent-soft);border-color:var(--accent)}
+.quiz-q button.wrong{background:var(--danger-bg);border-color:var(--danger-border)}
+.quiz-q .fb{font-size:.92rem;margin-top:.5rem;display:none}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.gloss div{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:.93rem}
+.gloss b{display:block;color:var(--accent)}
+.search{width:100%;padding:.65rem .9rem;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;margin:.8rem 0}
+.big-num{font-size:2.4rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+@media print{.topbar,nav.toc,.pager,.menu{display:none!important}.layout{display:block}}
+
+/* ---- Account / sync ---- */
+.acct-btn{display:inline-flex;align-items:center;gap:.4rem;max-width:16ch}
+.acct-btn .acct-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;opacity:.6}
+.acct-dot.ok{background:#2a9d6f;opacity:1}.acct-dot.busy{background:#d08a2e;opacity:1}.acct-dot.err{background:#c53030;opacity:1}
+.acct-modal{position:relative;max-width:440px}
+.acct-close{position:absolute;top:.6rem;right:.6rem}
+.acct-modal input[type=email],.acct-modal input[type=password]{width:100%;padding:.6rem .7rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit}
+.acct-note{min-height:1.2em;font-size:.9rem;color:var(--accent-2);margin:.6rem 0 0}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:inherit;font-size:.9rem;cursor:pointer;text-decoration:underline}
+.acct-modal .btn[disabled]{opacity:.6;cursor:wait}
+@media (max-width:640px){.acct-btn .acct-label{display:none}.progress{min-width:20px}}
+</style>
+<script>
+/* Sync hook: mirrors every localStorage write of a "dga-*" key into a pending list.
+   Runs synchronously before page scripts so nothing is missed. */
+(function(){
+  var EX={'dga-sync-pending':1,'dga-sync-uid':1};
+  var P=Storage.prototype,oSet=P.setItem,oRem=P.removeItem;
+  function pend(){try{return JSON.parse(oGet('dga-sync-pending'))||[]}catch(e){return[]}}
+  function oGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  var D=window.__dga={
+    EX:EX,
+    raw:{set:function(k,v){try{oSet.call(localStorage,k,v)}catch(e){}},rem:function(k){try{oRem.call(localStorage,k)}catch(e){}}},
+    isKey:function(k){return typeof k==='string'&&k.indexOf('dga-')===0&&!EX[k]},
+    pending:pend,
+    setPending:function(a){D.raw.set('dga-sync-pending',JSON.stringify(a))},
+    mark:function(k){var a=pend();if(a.indexOf(k)<0){a.push(k);D.setPending(a)}if(D.onChange)D.onChange()},
+    onChange:null
+  };
+  P.setItem=function(k,v){oSet.call(this,k,v);if(this===window.localStorage&&D.isKey(k))D.mark(k)};
+  P.removeItem=function(k){oRem.call(this,k);if(this===window.localStorage&&D.isKey(k))D.mark(k)};
+})();
+</script>
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('dga-theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
+window.U=(function(){
+  const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+  return {
+    $:id=>document.getElementById(id),
+    fmt:n=>Math.round(n).toLocaleString('de-DE')+' €',
+    fmt2:n=>(+n).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €',
+    pct:(n,d=1)=>(+n).toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d})+' %',
+    num:(n,d=1)=>(+n).toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d}),
+    css:v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim(),
+    esc:s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),
+    store, themeHooks:[]
+  };
+})();
+</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html"><span class="brand-dot"></span><span class="bt">Börsen-Guide</span></a>
+    <span class="crumb">/ Übersicht</span>
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+    <button class="icon-btn" id="menuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu">☰ Seiten</button>
+    <button class="icon-btn acct-btn" id="acctBtn" type="button" aria-label="Konto"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true" style="flex-shrink:0"><circle cx="8" cy="5.2" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 14.2c.6-2.9 2.8-4.4 5.5-4.4s4.9 1.5 5.5 4.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="acct-label">Anmelden</span><span class="acct-dot"></span></button>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Hell/Dunkel umschalten"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" style="display:block"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+  </div>
+  <nav class="menu" id="menu" hidden aria-label="Alle Seiten"><div class="mh">Dein Lernpfad</div><a href="index.html" data-f="index.html" class="cur"><span class="n">⌂</span><span>Übersicht<br><small class="muted" style="font-weight:400">Start & Lernpfad</small></span><span class="v"></span></a><a href="trading101.html" data-f="trading101.html" class=""><span class="n">1</span><span>Grundlagen<br><small class="muted" style="font-weight:400">Investieren von A bis Z</small></span><span class="v"></span></a><a href="budget.html" data-f="budget.html" class=""><span class="n">2</span><span>Budget & Sparrate<br><small class="muted" style="font-weight:400">Erst planen, dann investieren</small></span><span class="v"></span></a><a href="etfanalyse.html" data-f="etfanalyse.html" class=""><span class="n">3</span><span>ETF-Check<br><small class="muted" style="font-weight:400">ETFs selbst analysieren</small></span><span class="v"></span></a><a href="crashsimulator.html" data-f="crashsimulator.html" class=""><span class="n">4</span><span>Crash-Simulator<br><small class="muted" style="font-weight:400">30 Jahre Börse in 3 Minuten</small></span><span class="v"></span></a><a href="depot.html" data-f="depot.html" class=""><span class="n">5</span><span>Mein Depot<br><small class="muted" style="font-weight:400">Tracker & Rebalancing</small></span><span class="v"></span></a><a href="steuern.html" data-f="steuern.html" class=""><span class="n">6</span><span>Steuern<br><small class="muted" style="font-weight:400">Freibetrag, NV, Anlage KAP</small></span><span class="v"></span></a><a href="aktien.html" data-f="aktien.html" class=""><span class="n">7</span><span>Einzelaktien<br><small class="muted" style="font-weight:400">Unternehmen analysieren</small></span><span class="v"></span></a><a href="hebel-krypto.html" data-f="hebel-krypto.html" class=""><span class="n">8</span><span>Hebel & Krypto<br><small class="muted" style="font-weight:400">Was dahintersteckt</small></span><span class="v"></span></a><a href="news.html" data-f="news.html" class=""><span class="n">9</span><span>Wirtschaftsnews<br><small class="muted" style="font-weight:400">Schlagzeilen verstehen</small></span><span class="v"></span></a></nav>
+</header>
+<div class="layout single">
+<nav class="toc" aria-label="Inhalt"><ol></ol><ol class="home"><li><a href="index.html">Übersicht</a></li></ol></nav>
+<main id="top">
+
+
+<div class="hero" style="padding-bottom:1rem">
+  <div class="eyebrow">Börsen-Guide für Einsteiger</div>
+  <h1 style="max-width:22ch">Lass dein Geld für dich arbeiten – Schritt für Schritt.</h1>
+  <p class="lead">Ein kostenloser Leitfaden für alle, die mit dem Investieren anfangen wollen: verständlich erklärt, ehrlich in den Risiken und mit über 20 interaktiven Rechnern und Werkzeugen. Gedacht für den Start mit einer Trading-App wie Trade Republic, die Prinzipien gelten aber für jeden Broker.</p>
+  <div class="row-actions" style="margin-top:1.4rem">
+    <a class="btn" href="trading101.html" id="ctaStart">Jetzt mit Schritt 1 starten →</a>
+    <a class="btn sec" href="#pfad">Lernpfad ansehen</a>
+  </div>
+</div>
+
+<section class="chapter" id="pfad" style="border-top:0;padding-top:1rem">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5rem">
+    <h2>Dein Lernpfad</h2>
+    <span class="muted" id="progText"></span>
+  </div>
+  <div class="bar-track" style="height:10px;margin:.4rem 0 1.2rem"><div class="bar-fill" id="progBar" style="background:var(--accent);width:0"></div></div>
+  <div class="grid" id="pathGrid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))"></div>
+  <p class="note">✓ markiert Seiten, die du in diesem Browser schon geöffnet hast. <button type="button" class="btn sec small" id="resetVisited" style="margin-left:.4rem">Fortschritt zurücksetzen</button></p>
+</section>
+
+<section class="chapter" id="schnell">
+  <h2>Was möchtest du gerade?</h2>
+  <p class="chap-intro">Du musst nicht von vorne anfangen. Spring direkt dorthin, wo du stehst.</p>
+  <div class="grid">
+    <a class="card" href="trading101.html" style="text-decoration:none;color:inherit"><h4>🌱 „Ich habe keine Ahnung von der Börse.“</h4><p>Starte mit den Grundlagen: Aktie, ETF, Zinseszins, Risiko.</p></a>
+    <a class="card" href="budget.html" style="text-decoration:none;color:inherit"><h4>💶 „Wie viel kann ich überhaupt sparen?“</h4><p>Budget-Rechner, Notgroschen und Sparziele.</p></a>
+    <a class="card" href="etfanalyse.html" style="text-decoration:none;color:inherit"><h4>🔍 „Ich habe einen ETF gefunden. Ist der gut?“</h4><p>ETF-Check mit Vergleichstool und Kostenrechner.</p></a>
+    <a class="card" href="crashsimulator.html" style="text-decoration:none;color:inherit"><h4>😰 „Was, wenn die Börse crasht?“</h4><p>Spiel 30 Jahre Börse durch und schreib deinen Crash-Plan.</p></a>
+    <a class="card" href="depot.html" style="text-decoration:none;color:inherit"><h4>📊 „Ich bin schon investiert.“</h4><p>Depot-Tracker, Rebalancing und Jahrescheck.</p></a>
+    <a class="card" href="steuern.html" style="text-decoration:none;color:inherit"><h4>🧾 „Muss ich da Steuern zahlen?“</h4><p>Freistellungsauftrag, Vorabpauschale, Steuer-Rechner.</p></a>
+    <a class="card" href="aktien.html" style="text-decoration:none;color:inherit"><h4>🏢 „Ich will einzelne Aktien kaufen.“</h4><p>Unternehmen analysieren, Kennzahlen, Positionsgröße.</p></a>
+    <a class="card" href="hebel-krypto.html" style="text-decoration:none;color:inherit"><h4>🎰 „Was ist mit Krypto und Hebel?“</h4><p>Ehrlich erklärt, mit Rechnern zum Selbstausprobieren.</p></a>
+    <a class="card" href="news.html" style="text-decoration:none;color:inherit"><h4>📰 „Was bedeuten all die Nachrichten?“</h4><p>Zinsen, Inflation, Rezession – und warum du meist nichts tun musst.</p></a>
+  </div>
+</section>
+
+<section class="chapter" id="regeln">
+  <h2>Die 10 goldenen Regeln</h2>
+  <p class="chap-intro">Wenn du nur diese Seite liest, lies das hier.</p>
+  <ol class="steps">
+    <li><h4>Erst der Notgroschen, dann die Börse</h4><p>3 Monatsausgaben auf dem Tagesgeld. Keine teuren Schulden.</p></li>
+    <li><h4>Nur Geld anlegen, das du 7+ Jahre nicht brauchst</h4><p>Kurzfristige Ziele gehören aufs Tagesgeld.</p></li>
+    <li><h4>Breit streuen</h4><p>Ein weltweiter Aktien-ETF ist für die meisten das beste Fundament.</p></li>
+    <li><h4>Kosten niedrig halten</h4><p>Unter 0,25 % pro Jahr für einen Welt-ETF. Kosten sind die einzige sichere Größe.</p></li>
+    <li><h4>Automatisieren</h4><p>Sparplan einrichten, am Tag nach dem Geldeingang. Zuerst sparen, dann ausgeben.</p></li>
+    <li><h4>Früh anfangen – auch mit kleinen Beträgen</h4><p>Zeit ist der stärkste Faktor im Zinseszins.</p></li>
+    <li><h4>Im Crash nicht verkaufen</h4><p>Verluste entstehen beim Verkauf. Der Sparplan kauft dann günstig.</p></li>
+    <li><h4>Spekulation begrenzen</h4><p>Einzelaktien, Krypto, Hebel: zusammen höchstens 5–10 %.</p></li>
+    <li><h4>Freistellungsauftrag nicht vergessen</h4><p>1.000 € Kapitalerträge pro Jahr sind steuerfrei – aber nur damit.</p></li>
+    <li><h4>Sparrate jedes Jahr erhöhen</h4><p>Bei jeder Gehaltserhöhung mindestens die Hälfte in den Sparplan.</p></li>
+  </ol>
+</section>
+
+<section class="chapter" id="nutzung">
+  <h2>So funktioniert dieser Guide</h2>
+  <div class="grid">
+    <div class="card"><h4>👤 Mit Konto auf allen Geräten</h4><p>Melde dich oben rechts mit E-Mail und Passwort an – dann werden alle Eingaben in Rechnern, Tracker, Checklisten und Tagebuch in deinem Konto gespeichert. Ohne Anmeldung bleibt alles nur in diesem Browser.</p></div>
+    <div class="card"><h4>💾 Sicherung</h4><p>Zusätzlich kannst du auf der Seite <a href="depot.html#datensicherung">Mein Depot</a> alle Eingaben als Datei exportieren und wieder laden.</p></div>
+    <div class="card"><h4>📱 Überall nutzbar</h4><p>Funktioniert auf Handy, Tablet und Computer, im hellen und dunklen Modus (◐ oben rechts).</p></div>
+    <div class="card"><h4>⚖️ Keine Beratung</h4><p>Dieser Guide ist Bildung. Er nennt Beispiele, aber keine Kaufempfehlungen. Konditionen von Brokern und Steuerregeln ändern sich – prüfe sie immer aktuell.</p></div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const P=[
+    ['trading101.html','01','Grundlagen','Warum investieren, Aktien, ETFs, Zinseszins, Risiko, Strategie, Sparplan, Psychologie.','Zinseszins-Rechner · Quiz · Checkliste'],
+    ['budget.html','02','Budget & Sparrate','Wie viel du sparen kannst, Notgroschen, Sparziele und das 3-Konten-Modell.','Budget-Rechner · Notgroschen · Ziel-Sparrechner'],
+    ['etfanalyse.html','03','ETF-Check','Einen ETF selbst analysieren: Quellen, Kennzahlen, Factsheet, rote Flaggen.','Kostenrechner · ETF-Vergleich · Länder-Mix'],
+    ['crashsimulator.html','04','Crash-Simulator','30 Jahre Börse mit Crashs und Hypes – triff Entscheidungen wie im echten Leben.','Simulator · Persönlicher Crash-Plan'],
+    ['depot.html','05','Mein Depot','Positionen tracken, Zielaufteilung halten, Meilensteine, Jahrescheck.','Tracker · Rebalancing · Datensicherung'],
+    ['steuern.html','06','Steuern','Freistellungsauftrag, Teilfreistellung, Vorabpauschale, NV-Bescheinigung, Krypto.','Steuer-Rechner · Vorabpauschale · FSA-Aufteilung'],
+    ['aktien.html','07','Einzelaktien','Geschäftsmodell, Burggraben, Kennzahlen und Risikomanagement.','Kennzahlen-Rechner · Positionsgröße · Tagebuch'],
+    ['hebel-krypto.html','08','Hebel & Krypto','Knock-outs, Faktor-Zertifikate, CFDs, Bitcoin & Co. – ehrlich erklärt.','Knock-out-Rechner · Faktor-Simulator · Selbsttest'],
+    ['news.html','09','Wirtschaftsnews','Zinsen, Inflation, Rezession, Quartalszahlen – und wie du ruhig bleibst.','Schlagzeilen-Übersetzer · Quiz · Glossar']
+  ];
+  let v={};try{v=JSON.parse(localStorage.getItem('dga-visited'))||{}}catch(e){}
+  function render(){
+    const done=P.filter(p=>v[p[0]]).length;
+    U.$('progText').textContent=`${done} von ${P.length} Schritten geöffnet`;
+    U.$('progBar').style.width=done/P.length*100+'%';
+    const next=P.find(p=>!v[p[0]]);
+    const cta=U.$('ctaStart');
+    if(next&&done>0){cta.href=next[0];cta.textContent=`Weiter mit Schritt ${next[1]}: ${next[2]} →`}
+    else if(!next){cta.href='depot.html';cta.textContent='Alles durch 🎉 Zum Depot-Tracker →'}
+    U.$('pathGrid').innerHTML=P.map(p=>`<a class="card" href="${p[0]}" style="text-decoration:none;color:inherit;position:relative${next&&next[0]===p[0]?';border-color:var(--accent);border-width:2px':''}">
+      <div style="display:flex;justify-content:space-between;align-items:center"><span class="chap-num">Schritt ${p[1]}</span>${v[p[0]]?'<span class="pill g">✓ geöffnet</span>':(next&&next[0]===p[0]?'<span class="pill m">als Nächstes</span>':'')}</div>
+      <h4 style="margin:.3rem 0">${p[2]}</h4><p>${p[3]}</p><p class="note" style="margin-top:.5rem">🛠 ${p[4]}</p></a>`).join('');
+  }
+  U.$('resetVisited').onclick=()=>{v={index_html:1};try{localStorage.setItem('dga-visited',JSON.stringify({'index.html':1}))}catch(e){}v={'index.html':1};render();document.querySelectorAll('#menu .v').forEach(s=>s.textContent='');};
+  render();
+})();
+</script>
+
+<nav class="pager" aria-label="Lernpfad"><a class="next" href="trading101.html"><small>Weiter im Lernpfad →</small><b>Grundlagen</b></a></nav>
+</main>
+</div>
+<footer>Bildungsinhalt, keine Anlage- oder Steuerberatung. Investieren ist mit Risiken verbunden, bis hin zum Verlust des eingesetzten Kapitals. Vergangene Wertentwicklungen sind kein verlässlicher Indikator für künftige Ergebnisse. Beispiele und Näherungswerte dienen nur der Veranschaulichung. Stand: Oktober 2026. · <a href="index.html">Übersicht</a></footer>
+<script>
+(function(){
+ const PAGE="index.html";
+ try{const v=JSON.parse(localStorage.getItem('dga-visited'))||{};v[PAGE]=1;localStorage.setItem('dga-visited',JSON.stringify(v));
+   document.querySelectorAll('#menu a[data-f]').forEach(a=>{if(v[a.dataset.f])a.querySelector('.v').textContent='✓'})}catch(e){}
+ const mb=document.getElementById('menuBtn'),m=document.getElementById('menu');
+ mb.addEventListener('click',e=>{e.stopPropagation();m.hidden=!m.hidden;mb.setAttribute('aria-expanded',String(!m.hidden))});
+ document.addEventListener('click',e=>{if(!m.hidden&&!m.contains(e.target))m.hidden=true});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')m.hidden=true});
+})();
+</script>
+<script>
+(function(){const root=document.documentElement,U=window.U;
+ const tb=document.getElementById('themeBtn');
+ tb.addEventListener('click',()=>{const cur=root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const n=cur==='dark'?'light':'dark';root.setAttribute('data-theme',n);U.store.set('dga-theme',n);U.themeHooks.forEach(f=>f())});
+ const bar=document.getElementById('bar');const links=[...document.querySelectorAll('nav.toc a[href^="#"]')];const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+ function on(){const h=document.documentElement;bar.style.width=(h.scrollTop/Math.max(1,h.scrollHeight-h.clientHeight)*100)+'%';let i=0;secs.forEach((s,k)=>{if(s&&s.getBoundingClientRect().top<140)i=k});links.forEach((a,k)=>a.classList.toggle('active',k===i))}
+ addEventListener('scroll',on,{passive:true});on();
+})();
+</script>
+<script type="module">
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDcoyIKBteii7mt6F7QIdR2mr0PIx8ON-I",
+  authDomain: "tradings1x1.firebaseapp.com",
+  projectId: "tradings1x1",
+  storageBucket: "tradings1x1.firebasestorage.app",
+  messagingSenderId: "962901431228",
+  appId: "1:962901431228:web:7e1199128eff0caa1051b9"
+};
+const SDK = "https://www.gstatic.com/firebasejs/10.12.2/";
+const D = window.__dga;
+const btn = document.getElementById('acctBtn');
+const lbl = btn && btn.querySelector('.acct-label');
+const dot = btn && btn.querySelector('.acct-dot');
+let user = null, ref = null, api = null, pushing = false, timer = null;
+
+function setStatus(s, text){ if(!dot) return; dot.className = 'acct-dot ' + s; if(text) btn.title = text; }
+function setLabel(t){ if(lbl) lbl.textContent = t; }
+function localKV(){ const o = {}; for(let i=0;i<localStorage.length;i++){ const k = localStorage.key(i); if(D.isKey(k)) o[k] = localStorage.getItem(k); } return o; }
+function wipeLocal(){ Object.keys(localKV()).forEach(k => { if(k !== 'dga-theme') D.raw.rem(k); }); D.setPending([]); }
+
+// ---------- Modal UI ----------
+const back = document.createElement('div');
+back.className = 'modal-back'; back.hidden = true; back.id = 'acctModal';
+back.innerHTML = `<div class="modal acct-modal" role="dialog" aria-modal="true" aria-labelledby="acctTitle">
+  <button class="x-btn acct-close" type="button" aria-label="Schließen">×</button>
+  <div id="acctBody"></div></div>`;
+document.body.appendChild(back);
+const body = back.querySelector('#acctBody');
+function open(){ render(); back.hidden = false; const f = back.querySelector('input,button.btn'); if(f) f.focus(); }
+function close(){ back.hidden = true; }
+back.addEventListener('click', e => { if(e.target === back || e.target.closest('.acct-close')) close(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && !back.hidden) close(); });
+if(btn) btn.addEventListener('click', open);
+
+const ERR = {
+  'auth/invalid-credential':'E-Mail oder Passwort ist falsch.',
+  'auth/wrong-password':'E-Mail oder Passwort ist falsch.',
+  'auth/user-not-found':'Zu dieser E-Mail gibt es noch kein Konto.',
+  'auth/invalid-email':'Das ist keine gültige E-Mail-Adresse.',
+  'auth/email-already-in-use':'Für diese E-Mail gibt es schon ein Konto – bitte anmelden.',
+  'auth/weak-password':'Das Passwort muss mindestens 6 Zeichen haben.',
+  'auth/too-many-requests':'Zu viele Versuche. Bitte kurz warten.',
+  'auth/network-request-failed':'Keine Verbindung. Bitte Internet prüfen.',
+  'auth/unauthorized-domain':'Diese Domain ist in Firebase noch nicht freigegeben (Authentication → Settings → Authorized domains).',
+  'auth/operation-not-allowed':'E-Mail/Passwort-Login ist in Firebase nicht aktiviert.',
+  'permission-denied':'Firestore verweigert den Zugriff – bitte die Sicherheitsregeln prüfen.'
+};
+const msg = e => ERR[e && e.code] || ('Fehler: ' + ((e && (e.code || e.message)) || 'unbekannt'));
+
+function render(note){
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  if(!api){
+    body.innerHTML = `<h3 id="acctTitle">Konto</h3><p class="muted">Die Anmeldung ist gerade nicht erreichbar (keine Internetverbindung oder Firebase blockiert). Deine Eingaben werden weiter lokal in diesem Browser gespeichert.</p>`;
+    return;
+  }
+  if(user){
+    const p = D.pending().length;
+    body.innerHTML = `<h3 id="acctTitle">Dein Konto</h3>
+      <p>Angemeldet als <b>${esc(user.email)}</b></p>
+      <p class="muted" id="acctState">${p ? `⏳ ${p} Änderung(en) werden gespeichert …` : '✓ Alles gespeichert. Deine Eingaben sind auf jedem Gerät verfügbar, auf dem du dich anmeldest.'}</p>
+      ${note ? `<p class="acct-note">${note}</p>` : ''}
+      <div class="row-actions"><button class="btn sec" type="button" id="acctSync">↻ Jetzt synchronisieren</button></div>
+      <hr style="border:0;border-top:1px solid var(--border);margin:1.2rem 0">
+      <label style="display:flex;gap:.5rem;align-items:flex-start;font-size:.92rem"><input type="checkbox" id="acctWipe" checked style="margin-top:.3rem"> Beim Abmelden die Daten auf diesem Gerät entfernen (empfohlen auf gemeinsam genutzten Geräten – in deinem Konto bleibt alles erhalten)</label>
+      <div class="row-actions"><button class="btn" type="button" id="acctOut">Abmelden</button></div>`;
+    body.querySelector('#acctSync').onclick = async () => { await fullSync(true); render('Synchronisiert.'); };
+    body.querySelector('#acctOut').onclick = async () => {
+      const wipe = body.querySelector('#acctWipe').checked;
+      try { await pushNow(); } catch(e){}
+      await api.signOut(api.auth);
+      if(wipe){ wipeLocal(); D.raw.rem('dga-sync-uid'); }
+      location.reload();
+    };
+    return;
+  }
+  body.innerHTML = `<h3 id="acctTitle">Anmelden</h3>
+    <p class="muted" style="margin-top:0">Mit Konto werden alle Eingaben (Budget, Depot, Checklisten, Tagebuch, Crash-Plan …) gespeichert und sind auf jedem Gerät verfügbar.</p>
+    <form id="acctForm" novalidate>
+      <div class="ctrl"><label for="acctMail">E-Mail</label><input type="email" id="acctMail" autocomplete="email" required></div>
+      <div class="ctrl" style="margin-top:.7rem"><label for="acctPw">Passwort</label><input type="password" id="acctPw" autocomplete="current-password" required minlength="6"></div>
+      <p class="acct-note" id="acctMsg">${note || ''}</p>
+      <div class="row-actions">
+        <button class="btn" type="submit" id="acctIn">Anmelden</button>
+        <button class="btn sec" type="button" id="acctNew">Neues Konto erstellen</button>
+      </div>
+      <p style="margin:.8rem 0 0"><button type="button" class="linkbtn" id="acctReset">Passwort vergessen?</button></p>
+    </form>`;
+  const mail = body.querySelector('#acctMail'), pw = body.querySelector('#acctPw'), out = body.querySelector('#acctMsg');
+  const busy = (b) => body.querySelectorAll('button').forEach(x => x.disabled = b);
+  body.querySelector('#acctForm').onsubmit = async e => {
+    e.preventDefault(); busy(true); out.textContent = 'Anmelden …';
+    try { await api.signInWithEmailAndPassword(api.auth, mail.value.trim(), pw.value); close(); }
+    catch(err){ out.textContent = msg(err); busy(false); }
+  };
+  body.querySelector('#acctNew').onclick = async () => {
+    busy(true); out.textContent = 'Konto wird erstellt …';
+    try { await api.createUserWithEmailAndPassword(api.auth, mail.value.trim(), pw.value); close(); }
+    catch(err){ out.textContent = msg(err); busy(false); }
+  };
+  body.querySelector('#acctReset').onclick = async () => {
+    if(!mail.value.trim()){ out.textContent = 'Bitte zuerst deine E-Mail eintragen.'; mail.focus(); return; }
+    try { await api.sendPasswordResetEmail(api.auth, mail.value.trim()); out.textContent = '✓ E-Mail zum Zurücksetzen wurde verschickt (auch im Spam-Ordner nachsehen).'; }
+    catch(err){ out.textContent = msg(err); }
+  };
+}
+
+// ---------- Sync ----------
+async function pushNow(){
+  if(!user || pushing) return;
+  const keys = D.pending(); if(!keys.length) return;
+  pushing = true; setStatus('busy', 'Speichere …');
+  try {
+    const kv = {};
+    keys.forEach(k => { const v = localStorage.getItem(k); kv[k] = v === null ? api.deleteField() : v; });
+    await api.setDoc(ref, { kv, email: user.email, updatedAt: api.serverTimestamp() }, { merge: true });
+    const left = D.pending().filter(k => !keys.includes(k) || localStorage.getItem(k) !== (typeof kv[k] === 'string' ? kv[k] : null));
+    D.setPending(left);
+    setStatus(left.length ? 'busy' : 'ok', left.length ? 'Speichere …' : 'Gespeichert in deinem Konto');
+    const st = document.getElementById('acctState'); if(st && !left.length) st.textContent = '✓ Alles gespeichert.';
+  } catch(e){ console.warn('[sync] push failed', e); setStatus('err', msg(e)); }
+  finally { pushing = false; if(D.pending().length && !timer) schedule(3000); }
+}
+function schedule(ms){ clearTimeout(timer); timer = setTimeout(() => { timer = null; pushNow(); }, ms); }
+
+// Pull remote → local. Returns true if local data changed.
+async function pull(mode){
+  const snap = await api.getDoc(ref);
+  const remote = snap.exists() ? (snap.data().kv || {}) : {};
+  const pend = new Set(D.pending());
+  let changed = false;
+  for(const [k, v] of Object.entries(remote)){
+    if(!D.isKey(k)) continue;
+    if(k === 'dga-visited'){ // merge "visited pages" from all devices
+      try { const m = Object.assign({}, JSON.parse(v) || {}, JSON.parse(localStorage.getItem(k)) || {}); const js = JSON.stringify(m);
+        if(js !== localStorage.getItem(k)){ D.raw.set(k, js); changed = true; } if(js !== v) D.mark(k); } catch(e){}
+      continue;
+    }
+    if(pend.has(k)) continue;
+    if(localStorage.getItem(k) !== v){ D.raw.set(k, v); changed = true; }
+  }
+  // Local keys the account doesn't know yet → upload (first login on this device, or never synced)
+  const local = localKV(); const missing = Object.keys(local).filter(k => !(k in remote));
+  if(missing.length){ D.setPending([...new Set([...D.pending(), ...missing])]); }
+  return changed;
+}
+
+async function fullSync(manual){
+  if(!user) return;
+  setStatus('busy', 'Synchronisiere …');
+  try {
+    await pushNow();
+    const changed = await pull();
+    await pushNow();
+    setStatus('ok', 'Gespeichert in deinem Konto');
+    if(changed && !manual) safeReload();
+    if(changed && manual) location.reload();
+  } catch(e){ console.warn('[sync] sync failed', e); setStatus('err', msg(e)); }
+}
+function safeReload(){
+  // Reload once so the page shows the synced data; guard against loops.
+  try {
+    const last = +sessionStorage.getItem('dga-sync-reload') || 0;
+    if(Date.now() - last < 10000) return;
+    sessionStorage.setItem('dga-sync-reload', String(Date.now()));
+  } catch(e){}
+  location.reload();
+}
+
+// ---------- Boot ----------
+setStatus('', 'Anmelden, um Eingaben geräteübergreifend zu speichern');
+try {
+  const [appM, authM, fsM] = await Promise.all([
+    import(SDK + 'firebase-app.js'), import(SDK + 'firebase-auth.js'), import(SDK + 'firebase-firestore.js')
+  ]);
+  const app = appM.initializeApp(FIREBASE_CONFIG);
+  const auth = authM.getAuth(app);
+  const db = fsM.getFirestore(app);
+  api = { auth, signInWithEmailAndPassword: authM.signInWithEmailAndPassword, createUserWithEmailAndPassword: authM.createUserWithEmailAndPassword,
+          sendPasswordResetEmail: authM.sendPasswordResetEmail, signOut: authM.signOut,
+          doc: fsM.doc, getDoc: fsM.getDoc, setDoc: fsM.setDoc, deleteField: fsM.deleteField, serverTimestamp: fsM.serverTimestamp };
+  auth.languageCode = 'de';
+  authM.onAuthStateChanged(auth, async u => {
+    user = u;
+    if(!u){ ref = null; setLabel('Anmelden'); setStatus('', 'Nicht angemeldet – Eingaben nur in diesem Browser'); if(!back.hidden) render(); return; }
+    ref = fsM.doc(db, 'users', u.uid);
+    setLabel(u.email.split('@')[0]);
+    const prev = localStorage.getItem('dga-sync-uid');
+    if(prev && prev !== u.uid){ wipeLocal(); }           // other family member used this device → don't mix data
+    D.raw.set('dga-sync-uid', u.uid);
+    D.onChange = () => schedule(800);
+    await fullSync(false);
+    if(!back.hidden) render();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if(!user) return;
+    if(document.visibilityState === 'hidden') pushNow();
+    else if(!D.pending().length) fullSync(false);
+  });
+  window.addEventListener('pagehide', () => { if(user) pushNow(); });
+} catch(e){
+  console.warn('[sync] Firebase not available', e);
+  setStatus('err', 'Anmeldung nicht erreichbar – Eingaben werden lokal gespeichert');
+}
+</script>
+</body>
+</html>

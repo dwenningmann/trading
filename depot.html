@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mein Depot – Tracker & Rebalancing</title>
+<meta name="description" content="Behalte dein Depot im Blick: Positionen, Zielaufteilung, Rebalancing mit neuem Geld, Sparplan-Aufteilung, Meilensteine und Jahrescheck.">
+<style>
+:root{
+  --bg:#f7f6f2; --surface:#ffffff; --surface-2:#f0eee8; --text:#1d1d1f; --muted:#5d5d63;
+  --border:#e2dfd6; --accent:#0f7b5f; --accent-soft:#e3f2ec; --accent-2:#c2410c;
+  --warn-bg:#fff4e5; --warn-border:#f2b46b; --info-bg:#eaf2fb; --info-border:#8bb4e0;
+  --danger-bg:#fdecec; --danger-border:#e8a1a1;
+  --good:#0f7b5f; --mid:#b7791f; --bad:#c53030;
+  --c1:#0f7b5f; --c2:#3b82c4; --c3:#d08a2e; --c4:#8a5cc2; --c5:#c2546b; --c6:#5aa39a; --c7:#9a9a92;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121314; --surface:#1b1c1e; --surface-2:#232427; --text:#ecebe7; --muted:#a3a29d;
+    --border:#2f3033; --accent:#4cc39a; --accent-soft:#16332a; --accent-2:#f08a4b;
+    --warn-bg:#2d2416; --warn-border:#8a6326; --info-bg:#172333; --info-border:#3d6694;
+    --danger-bg:#311b1b; --danger-border:#8a3d3d;
+    --good:#4cc39a; --mid:#e0b04c; --bad:#f07272;
+    --c1:#4cc39a; --c2:#6aa7e0; --c3:#e0a04c; --c4:#ab86e0; --c5:#e07a90; --c6:#7cc4ba; --c7:#77776f;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121314; --surface:#1b1c1e; --surface-2:#232427; --text:#ecebe7; --muted:#a3a29d;
+  --border:#2f3033; --accent:#4cc39a; --accent-soft:#16332a; --accent-2:#f08a4b;
+  --warn-bg:#2d2416; --warn-border:#8a6326; --info-bg:#172333; --info-border:#3d6694;
+  --danger-bg:#311b1b; --danger-border:#8a3d3d;
+  --good:#4cc39a; --mid:#e0b04c; --bad:#f07272;
+  --c1:#4cc39a; --c2:#6aa7e0; --c3:#e0a04c; --c4:#ab86e0; --c5:#e07a90; --c6:#7cc4ba; --c7:#77776f;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+h1,h2,h3,h4{line-height:1.25;letter-spacing:-.01em}
+h2{font-size:1.75rem;margin:0 0 .4rem}
+h3{font-size:1.2rem;margin:1.8rem 0 .5rem}
+p{margin:.6rem 0}
+.muted{color:var(--muted)}
+code{background:var(--surface-2);padding:.1em .35em;border-radius:4px;font-size:.92em}
+
+.topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1180px;margin:0 auto;padding:.7rem 16px;display:flex;align-items:center;gap:1rem}
+.brand{font-weight:700;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:.5rem;white-space:nowrap}
+.brand-dot{width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.back{font-size:.9rem;text-decoration:none;white-space:nowrap}
+.progress{flex:1;height:4px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:var(--accent)}
+.icon-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:8px;padding:.35rem .6rem;cursor:pointer;font:inherit;font-size:.9rem}
+
+.layout{max-width:1180px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:48px}
+nav.toc{position:sticky;top:76px;align-self:start;max-height:calc(100vh - 90px);overflow:auto;padding:1.5rem 0;font-size:.92rem}
+nav.toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
+nav.toc li{counter-increment:toc}
+nav.toc a{display:block;padding:.35rem .6rem;border-radius:6px;color:var(--muted);text-decoration:none;border-left:2px solid transparent}
+nav.toc a::before{content:counter(toc,decimal-leading-zero) "  ";opacity:.6}
+nav.toc a:hover{color:var(--text);background:var(--surface-2)}
+nav.toc a.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft)}
+nav.toc .home{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem}
+nav.toc .home a::before{content:"← "}
+main{min-width:0;padding-bottom:4rem}
+
+.hero{padding:3.5rem 0 2rem}
+.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:700;color:var(--accent)}
+.hero h1{font-size:clamp(2.1rem,5vw,3.2rem);margin:.4rem 0 1rem;max-width:20ch}
+.hero .lead{font-size:1.2rem;color:var(--muted);max-width:62ch}
+
+section.chapter{padding:3rem 0;border-top:1px solid var(--border)}
+.chap-num{font-size:.8rem;font-weight:700;color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
+.chap-intro{color:var(--muted);font-size:1.08rem;max-width:65ch}
+
+.callout{border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;border:1px solid;border-left-width:4px}
+.callout strong:first-child{display:block;margin-bottom:.2rem}
+.tip{background:var(--accent-soft);border-color:var(--accent)}
+.warn{background:var(--warn-bg);border-color:var(--warn-border)}
+.info{background:var(--info-bg);border-color:var(--info-border)}
+.danger{background:var(--danger-bg);border-color:var(--danger-border)}
+.trader{background:var(--surface);border-color:var(--border);border-left-color:var(--accent-2)}
+.trader strong:first-child{color:var(--accent-2)}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:1.2rem 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:var(--shadow)}
+.card h4{margin:0 0 .4rem;font-size:1.05rem}
+.card p{margin:.3rem 0;font-size:.95rem}
+.card a.ext{font-weight:600;text-decoration:none}
+.card a.ext::after{content:" ↗"}
+.tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.12rem .5rem;border-radius:99px;background:var(--surface-2);color:var(--muted);margin:0 .3rem .3rem 0}
+.tag.g{background:var(--accent-soft);color:var(--accent)}
+
+.steps{counter-reset:step;list-style:none;padding:0;margin:1.2rem 0}
+.steps>li{counter-increment:step;position:relative;padding:0 0 1.4rem 3.2rem;border-left:2px solid var(--border);margin-left:1rem}
+.steps>li:last-child{border-left-color:transparent}
+.steps>li::before{content:counter(step);position:absolute;left:-1rem;top:-.1rem;width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.95rem}
+.steps>li h4{margin:0 0 .3rem;font-size:1.05rem}
+
+.table-wrap{overflow-x:auto;margin:1rem 0;border:1px solid var(--border);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.94rem;background:var(--surface)}
+th,td{padding:.65rem .8rem;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+
+details{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:.5rem 0;padding:0 1rem}
+summary{cursor:pointer;padding:.8rem 0;font-weight:600;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";display:inline-block;width:1.2rem;color:var(--accent);font-weight:700}
+details[open] summary::before{content:"–"}
+details>div{padding:0 0 .9rem 1.2rem}
+
+/* Tools */
+.tool{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.4rem;box-shadow:var(--shadow);margin:1.4rem 0}
+.tool h3{margin-top:0}
+.tool-label{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-2);margin-bottom:.3rem}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem 1.4rem}
+.ctrl label{display:flex;justify-content:space-between;gap:.5rem;font-size:.9rem;font-weight:600}
+.ctrl output{font-variant-numeric:tabular-nums;color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=number],input[type=text],select{width:100%;padding:.5rem .6rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:1.2rem 0 .6rem}
+.kpi{background:var(--surface-2);border-radius:10px;padding:.7rem .9rem}
+.kpi span{display:block;font-size:.8rem;color:var(--muted)}
+.kpi b{font-size:1.3rem;font-variant-numeric:tabular-nums}
+.kpi.hl b{color:var(--accent)}
+.kpi.bad b{color:var(--bad)}
+.chart{width:100%;height:auto;display:block}
+.legend{display:flex;gap:1rem;font-size:.85rem;color:var(--muted);flex-wrap:wrap;margin-top:.4rem}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:.35rem;vertical-align:-1px}
+.note{font-size:.85rem;color:var(--muted)}
+.btn{display:inline-block;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:.6rem 1rem;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;font-size:.95rem}
+.btn.sec{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+
+/* Compare */
+.cmp{width:100%;min-width:640px}
+.cmp td,.cmp th{vertical-align:middle}
+.cmp td:first-child{font-weight:600;font-size:.9rem;width:28%}
+.cmp input,.cmp select{font-size:.9rem;padding:.4rem .5rem}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.35rem;vertical-align:0}
+.dot.g{background:var(--good)}.dot.m{background:var(--mid)}.dot.b{background:var(--bad)}
+.cell{display:flex;align-items:center;gap:.35rem}
+.score-row td{font-weight:700;font-size:1.05rem}
+.winner{color:var(--accent)}
+
+/* Bars */
+.bars{margin:1rem 0}
+.bar-row{display:grid;grid-template-columns:130px 1fr 56px;gap:.6rem;align-items:center;font-size:.9rem;margin:.3rem 0}
+.bar-track{height:14px;background:var(--surface-2);border-radius:7px;overflow:hidden}
+.bar-fill{height:100%;border-radius:7px;transition:width .25s}
+.stack{display:flex;height:28px;border-radius:8px;overflow:hidden;margin:.6rem 0}
+.stack div{height:100%;transition:width .25s}
+
+/* Factsheet mock */
+.fs{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;font-size:.92rem;position:relative}
+.fs-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;border-bottom:2px solid var(--accent);padding-bottom:.6rem;margin-bottom:.8rem}
+.fs-head b{font-size:1.05rem}
+.fs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.3rem 1.2rem}
+.fs-grid div{display:flex;justify-content:space-between;border-bottom:1px dotted var(--border);padding:.25rem 0;cursor:pointer}
+.fs-grid div:hover,.fs-grid div.sel{background:var(--accent-soft)}
+.fs-grid span:last-child{font-weight:600;font-variant-numeric:tabular-nums}
+.fs-explain{margin-top:1rem;background:var(--accent-soft);border-radius:10px;padding:.8rem 1rem;min-height:3.2rem}
+
+/* Checklist */
+.checklist{list-style:none;padding:0;margin:1rem 0}
+.checklist li{display:flex;gap:.7rem;align-items:flex-start;padding:.6rem .8rem;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;background:var(--surface)}
+.checklist input{width:1.2rem;height:1.2rem;margin-top:.25rem;accent-color:var(--accent);flex-shrink:0}
+.checklist li.done label{color:var(--muted)}
+.verdict{font-weight:700;padding:.8rem 1rem;border-radius:10px;margin-top:.8rem}
+
+footer{border-top:1px solid var(--border);padding:2rem 16px;text-align:center;color:var(--muted);font-size:.88rem}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;gap:0}
+  nav.toc{display:none}
+  body{font-size:16px}
+  .bar-row{grid-template-columns:100px 1fr 48px}
+}
+
+/* ---- Site navigation (shared) ---- */
+.topbar{position:sticky}
+.crumb{font-size:.88rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:22ch}
+.menu{position:absolute;right:max(16px,calc((100vw - 1180px)/2 + 16px));top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.18);padding:.5rem;width:min(360px,calc(100vw - 32px));max-height:75vh;overflow:auto;z-index:50}
+.menu[hidden]{display:none}
+.menu .mh{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;padding:.5rem .7rem .2rem}
+.menu a{display:flex;align-items:center;gap:.6rem;padding:.55rem .7rem;border-radius:8px;text-decoration:none;color:var(--text);font-size:.95rem}
+.menu a:hover{background:var(--surface-2)}
+.menu a.cur{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.menu .n{color:var(--muted);font-variant-numeric:tabular-nums;width:1.5rem;font-size:.85rem}
+.menu .v{margin-left:auto;color:var(--accent);font-weight:700}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:3rem;border-top:1px solid var(--border);padding-top:2rem}
+.pager a{display:block;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;text-decoration:none;color:var(--text);box-shadow:var(--shadow)}
+.pager a:hover{border-color:var(--accent)}
+.pager small{display:block;color:var(--muted);font-size:.8rem}
+.pager b{color:var(--accent)}
+.pager .next{text-align:right;grid-column:2}
+.layout.single{grid-template-columns:minmax(0,1fr);max-width:1040px}
+.layout.single nav.toc{display:none}
+@media (max-width:640px){.crumb{display:none}.brand .bt{display:none}}
+
+/* ---- Shared tool helpers ---- */
+.row-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem}
+.btn.small{padding:.35rem .7rem;font-size:.85rem}
+.btn.danger{background:var(--bad)}
+.x-btn{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:1.1rem;padding:.2rem .4rem}
+.x-btn:hover{color:var(--bad)}
+.edit-table input,.edit-table select{min-width:70px}
+.pill{display:inline-block;padding:.15rem .6rem;border-radius:99px;font-size:.8rem;font-weight:600}
+.pill.g{background:var(--accent-soft);color:var(--good)}
+.pill.m{background:var(--warn-bg);color:var(--mid)}
+.pill.b{background:var(--danger-bg);color:var(--bad)}
+textarea{width:100%;min-height:80px;padding:.6rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem;resize:vertical}
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;z-index:100;padding:16px}
+.modal-back[hidden]{display:none}
+.modal{background:var(--surface);border-radius:16px;max-width:560px;width:100%;padding:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:90vh;overflow:auto}
+.modal h3{margin-top:0}
+.modal .opts{display:grid;gap:.5rem;margin-top:1rem}
+.modal .opts button{text-align:left;padding:.75rem 1rem;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text);font:inherit;cursor:pointer}
+.modal .opts button:hover{border-color:var(--accent);background:var(--accent-soft)}
+.headline{font-family:Georgia,"Times New Roman",serif;font-size:1.25rem;font-weight:700;border-left:4px solid var(--bad);padding:.3rem 0 .3rem .8rem;margin:.6rem 0}
+.quiz-q{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0}
+.quiz-q p.q{font-weight:600;margin-top:0}
+.quiz-q button{display:block;width:100%;text-align:left;margin:.35rem 0;padding:.6rem .8rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem;cursor:pointer}
+.quiz-q button.right{background:var(--accent-soft);border-color:var(--accent)}
+.quiz-q button.wrong{background:var(--danger-bg);border-color:var(--danger-border)}
+.quiz-q .fb{font-size:.92rem;margin-top:.5rem;display:none}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.gloss div{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:.93rem}
+.gloss b{display:block;color:var(--accent)}
+.search{width:100%;padding:.65rem .9rem;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;margin:.8rem 0}
+.big-num{font-size:2.4rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+@media print{.topbar,nav.toc,.pager,.menu{display:none!important}.layout{display:block}}
+
+/* ---- Account / sync ---- */
+.acct-btn{display:inline-flex;align-items:center;gap:.4rem;max-width:16ch}
+.acct-btn .acct-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;opacity:.6}
+.acct-dot.ok{background:#2a9d6f;opacity:1}.acct-dot.busy{background:#d08a2e;opacity:1}.acct-dot.err{background:#c53030;opacity:1}
+.acct-modal{position:relative;max-width:440px}
+.acct-close{position:absolute;top:.6rem;right:.6rem}
+.acct-modal input[type=email],.acct-modal input[type=password]{width:100%;padding:.6rem .7rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit}
+.acct-note{min-height:1.2em;font-size:.9rem;color:var(--accent-2);margin:.6rem 0 0}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:inherit;font-size:.9rem;cursor:pointer;text-decoration:underline}
+.acct-modal .btn[disabled]{opacity:.6;cursor:wait}
+@media (max-width:640px){.acct-btn .acct-label{display:none}.progress{min-width:20px}}
+</style>
+<script>
+/* Sync hook: mirrors every localStorage write of a "dga-*" key into a pending list.
+   Runs synchronously before page scripts so nothing is missed. */
+(function(){
+  var EX={'dga-sync-pending':1,'dga-sync-uid':1};
+  var P=Storage.prototype,oSet=P.setItem,oRem=P.removeItem;
+  function pend(){try{return JSON.parse(oGet('dga-sync-pending'))||[]}catch(e){return[]}}
+  function oGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  var D=window.__dga={
+    EX:EX,
+    raw:{set:function(k,v){try{oSet.call(localStorage,k,v)}catch(e){}},rem:function(k){try{oRem.call(localStorage,k)}catch(e){}}},
+    isKey:function(k){return typeof k==='string'&&k.indexOf('dga-')===0&&!EX[k]},
+    pending:pend,
+    setPending:function(a){D.raw.set('dga-sync-pending',JSON.stringify(a))},
+    mark:function(k){var a=pend();if(a.indexOf(k)<0){a.push(k);D.setPending(a)}if(D.onChange)D.onChange()},
+    onChange:null
+  };
+  P.setItem=function(k,v){oSet.call(this,k,v);if(this===window.localStorage&&D.isKey(k))D.mark(k)};
+  P.removeItem=function(k){oRem.call(this,k);if(this===window.localStorage&&D.isKey(k))D.mark(k)};
+})();
+</script>
+<script>
+(function(){try{var t=JSON.parse(localStorage.getItem('dga-theme'));if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}})();
+window.U=(function(){
+  const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+  return {
+    $:id=>document.getElementById(id),
+    fmt:n=>Math.round(n).toLocaleString('de-DE')+' €',
+    fmt2:n=>(+n).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2})+' €',
+    pct:(n,d=1)=>(+n).toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d})+' %',
+    num:(n,d=1)=>(+n).toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d}),
+    css:v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim(),
+    esc:s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),
+    store, themeHooks:[]
+  };
+})();
+</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html"><span class="brand-dot"></span><span class="bt">Börsen-Guide</span></a>
+    <span class="crumb">/ Mein Depot</span>
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+    <button class="icon-btn" id="menuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu">☰ Seiten</button>
+    <button class="icon-btn acct-btn" id="acctBtn" type="button" aria-label="Konto"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true" style="flex-shrink:0"><circle cx="8" cy="5.2" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 14.2c.6-2.9 2.8-4.4 5.5-4.4s4.9 1.5 5.5 4.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="acct-label">Anmelden</span><span class="acct-dot"></span></button>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Hell/Dunkel umschalten"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" style="display:block"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+  </div>
+  <nav class="menu" id="menu" hidden aria-label="Alle Seiten"><div class="mh">Dein Lernpfad</div><a href="index.html" data-f="index.html" class=""><span class="n">⌂</span><span>Übersicht<br><small class="muted" style="font-weight:400">Start & Lernpfad</small></span><span class="v"></span></a><a href="trading101.html" data-f="trading101.html" class=""><span class="n">1</span><span>Grundlagen<br><small class="muted" style="font-weight:400">Investieren von A bis Z</small></span><span class="v"></span></a><a href="budget.html" data-f="budget.html" class=""><span class="n">2</span><span>Budget & Sparrate<br><small class="muted" style="font-weight:400">Erst planen, dann investieren</small></span><span class="v"></span></a><a href="etfanalyse.html" data-f="etfanalyse.html" class=""><span class="n">3</span><span>ETF-Check<br><small class="muted" style="font-weight:400">ETFs selbst analysieren</small></span><span class="v"></span></a><a href="crashsimulator.html" data-f="crashsimulator.html" class=""><span class="n">4</span><span>Crash-Simulator<br><small class="muted" style="font-weight:400">30 Jahre Börse in 3 Minuten</small></span><span class="v"></span></a><a href="depot.html" data-f="depot.html" class="cur"><span class="n">5</span><span>Mein Depot<br><small class="muted" style="font-weight:400">Tracker & Rebalancing</small></span><span class="v"></span></a><a href="steuern.html" data-f="steuern.html" class=""><span class="n">6</span><span>Steuern<br><small class="muted" style="font-weight:400">Freibetrag, NV, Anlage KAP</small></span><span class="v"></span></a><a href="aktien.html" data-f="aktien.html" class=""><span class="n">7</span><span>Einzelaktien<br><small class="muted" style="font-weight:400">Unternehmen analysieren</small></span><span class="v"></span></a><a href="hebel-krypto.html" data-f="hebel-krypto.html" class=""><span class="n">8</span><span>Hebel & Krypto<br><small class="muted" style="font-weight:400">Was dahintersteckt</small></span><span class="v"></span></a><a href="news.html" data-f="news.html" class=""><span class="n">9</span><span>Wirtschaftsnews<br><small class="muted" style="font-weight:400">Schlagzeilen verstehen</small></span><span class="v"></span></a></nav>
+</header>
+<div class="layout">
+<nav class="toc" aria-label="Inhalt"><ol><li><a href="#tracker">Depot-Tracker</a></li><li><a href="#aufteilung">Ist vs. Ziel</a></li><li><a href="#rebalancing">Rebalancing-Rechner</a></li><li><a href="#meilensteine">Meilensteine</a></li><li><a href="#datensicherung">Daten sichern</a></li><li><a href="#jahrescheck">Der Jahrescheck</a></li><li><a href="#verkaufen">Wann verkaufen?</a></li></ol><ol class="home"><li><a href="index.html">Übersicht</a></li></ol></nav>
+<main id="top">
+
+
+<div class="hero">
+  <div class="eyebrow">Lernpfad · Schritt 5</div>
+  <h1>Dein Depot im Griff – in 10 Minuten pro Jahr.</h1>
+  <p class="lead">Trag hier deine Positionen ein und leg fest, wie dein Depot aufgeteilt sein soll. Der Tracker zeigt dir, wo du stehst, und rechnet aus, wie du neues Geld verteilst, damit alles im Gleichgewicht bleibt – ganz ohne Verkaufen.</p>
+  <div class="callout info"><strong>Speichern &amp; Datenschutz</strong>Ohne Anmeldung bleiben alle Eingaben nur in deinem Browser auf diesem Gerät. Wenn du dich oben rechts anmeldest, werden sie in deinem Konto gespeichert und sind auf all deinen Geräten verfügbar. Zusätzlich kannst du jederzeit eine Sicherungsdatei herunterladen.</div>
+</div>
+
+<section class="chapter" id="tracker">
+  <div class="chap-num">Kapitel 01</div>
+  <h2>Depot-Tracker</h2>
+  <p class="chap-intro">Die Werte findest du in der Trade-Republic-App unter „Depot“: aktueller Wert und – wenn du auf die Position tippst – dein Einstand bzw. investierter Betrag.</p>
+
+  <div class="tool">
+    <span class="tool-label">Tracker</span>
+    <div class="table-wrap"><table class="edit-table" id="posTable" style="min-width:760px"></table></div>
+    <div class="row-actions">
+      <button class="btn sec small" id="posAdd" type="button">+ Position</button>
+      <button class="btn sec small" id="posDemo" type="button">Beispieldepot laden</button>
+      <button class="btn sec small" id="posClear" type="button">Alles leeren</button>
+    </div>
+    <div class="kpis">
+      <div class="kpi hl"><span>Depotwert</span><b id="tVal">–</b></div>
+      <div class="kpi"><span>Investiert</span><b id="tInv">–</b></div>
+      <div class="kpi" id="tGainBox"><span>Gewinn / Verlust</span><b id="tGain">–</b></div>
+      <div class="kpi"><span>Sparpläne / Monat</span><b id="tSp">–</b></div>
+    </div>
+    <p class="note" id="tTargetNote"></p>
+  </div>
+</section>
+
+<section class="chapter" id="aufteilung">
+  <div class="chap-num">Kapitel 02</div>
+  <h2>Ist vs. Ziel</h2>
+  <p class="chap-intro">Durch unterschiedliche Kursentwicklungen verschiebt sich deine Aufteilung mit der Zeit. Das ist normal. Erst ab einer Abweichung von etwa 5 Prozentpunkten lohnt es sich gegenzusteuern.</p>
+  <div class="tool">
+    <span class="tool-label">Aufteilung</span>
+    <div id="allocBars"></div>
+    <div class="legend"><span><i style="background:var(--c1)"></i>Aktueller Anteil</span><span><i style="background:transparent;border:2px solid var(--text)"></i>Zielanteil (Strich)</span></div>
+  </div>
+</section>
+
+<section class="chapter" id="rebalancing">
+  <div class="chap-num">Kapitel 03</div>
+  <h2>Rebalancing-Rechner</h2>
+  <p class="chap-intro">Die steuerlich klügste Art, dein Depot auszubalancieren: nicht verkaufen, sondern neues Geld gezielt in die untergewichteten Positionen lenken.</p>
+
+  <div class="tool">
+    <span class="tool-label">Rechner</span>
+    <div class="controls">
+      <div class="ctrl"><label for="rbNew">Neues Geld (Einmalbetrag oder Monatsrate) <output id="rbNewO"></output></label><input type="range" id="rbNew" min="25" max="5000" step="25" value="150"></div>
+    </div>
+    <div class="table-wrap"><table id="rbTable"></table></div>
+    <p class="note" id="rbNote"></p>
+  </div>
+
+  <h3>Die drei Arten des Rebalancings</h3>
+  <div class="grid">
+    <div class="card"><span class="tag g">Empfohlen</span><h4>1. Mit neuem Geld</h4><p>Sparraten oder Einmalbeträge gezielt in die untergewichtete Position. Keine Steuern, keine Gebühren.</p></div>
+    <div class="card"><h4>2. Sparpläne anpassen</h4><p>Für einige Monate die Sparrate der untergewichteten Position erhöhen, die der übergewichteten senken.</p></div>
+    <div class="card"><h4>3. Umschichten</h4><p>Verkaufen und umkaufen. Nur bei großen Abweichungen (über 10 Prozentpunkte) und am besten im Rahmen des Freibetrags – sonst fallen Steuern an.</p></div>
+  </div>
+  <div class="callout tip"><strong>Mit nur einem Welt-ETF?</strong>Dann brauchst du gar kein Rebalancing – der ETF balanciert sich selbst. Einer der großen Vorteile der Ein-ETF-Strategie.</div>
+</section>
+
+<section class="chapter" id="meilensteine">
+  <div class="chap-num">Kapitel 04</div>
+  <h2>Meilensteine</h2>
+  <p class="chap-intro">Vermögensaufbau ist ein Marathon. Meilensteine helfen, motiviert zu bleiben.</p>
+  <div class="tool">
+    <span class="tool-label">Fortschritt</span>
+    <div class="controls">
+      <div class="ctrl"><label for="msRet">Angenommene Rendite p. a. <output id="msRetO"></output></label><input type="range" id="msRet" min="0" max="9" step="0.5" value="6"></div>
+    </div>
+    <div class="table-wrap"><table id="msTable"></table></div>
+    <p class="note">Schätzung auf Basis deines aktuellen Depotwerts und deiner Sparpläne. Die Börse hält sich nicht an Prognosen – die Richtung stimmt aber.</p>
+  </div>
+  <div class="callout trader"><strong>Der magische Moment</strong>Irgendwann verdient dein Depot in einem durchschnittlichen Jahr mehr, als du im ganzen Jahr einzahlst. Ab da arbeitet dein Geld härter als du. Bei 150 € Sparrate (1.800 € im Jahr) und 6 % Rendite ist das ab etwa 30.000 € Depotwert der Fall.</div>
+</section>
+
+<section class="chapter" id="datensicherung">
+  <div class="chap-num">Kapitel 05</div>
+  <h2>Daten sichern &amp; übertragen</h2>
+  <p class="chap-intro">Mit Anmeldung wird automatisch in deinem Konto gespeichert. Ohne Anmeldung liegt alles nur im Browser – dann exportiere ab und zu eine Sicherung, sonst sind die Eingaben beim Löschen der Browserdaten weg.</p>
+  <div class="tool">
+    <div class="row-actions">
+      <button class="btn" id="exp" type="button">⬇ Sicherung herunterladen</button>
+      <label class="btn sec" for="imp" style="cursor:pointer">⬆ Sicherung laden</label>
+      <input type="file" id="imp" accept="application/json,.json" hidden>
+    </div>
+    <p class="note" id="impNote"></p>
+  </div>
+</section>
+
+<section class="chapter" id="jahrescheck">
+  <div class="chap-num">Kapitel 06</div>
+  <h2>Der Jahrescheck</h2>
+  <p class="chap-intro">Einmal im Jahr, z. B. an deinem Geburtstag oder zwischen den Jahren. Mehr Pflege braucht ein gutes Depot nicht.</p>
+  <ul class="checklist" id="yc"></ul>
+  <div class="row-actions"><button class="btn sec small" id="ycReset" type="button">Für neues Jahr zurücksetzen</button></div>
+
+  <h3>Was du <i>nicht</i> tun musst</h3>
+  <ul>
+    <li>Täglich oder wöchentlich ins Depot schauen.</li>
+    <li>Auf jede Nachricht reagieren.</li>
+    <li>Jedes Jahr den „besten ETF“ suchen und umschichten.</li>
+    <li>Gewinne „mitnehmen“ – bei einem Langfristdepot gibt es nichts mitzunehmen, nur Steuern zu zahlen.</li>
+  </ul>
+</section>
+
+<section class="chapter" id="verkaufen">
+  <div class="chap-num">Kapitel 07</div>
+  <h2>Wann verkaufen?</h2>
+  <p class="chap-intro">Die Frage kommt irgendwann. Die Antwort ist einfacher, als viele denken.</p>
+
+  <div class="grid">
+    <div class="card"><span class="tag g">Guter Grund</span><h4>Du erreichst dein Ziel</h4><p>Wohnung, Weltreise, Rente. Dafür hast du gespart. Wichtig: rechtzeitig umschichten (siehe unten).</p></div>
+    <div class="card"><span class="tag g">Guter Grund</span><h4>Du brauchst das Geld wirklich</h4><p>Wenn der Notgroschen nicht reicht. Deshalb ist er so wichtig.</p></div>
+    <div class="card"><span class="tag g">Guter Grund</span><h4>Freibetrag nutzen</h4><p>Gewinne bis zum Freibetrag realisieren und direkt wieder kaufen – das spart später Steuern. Mehr auf der <a href="steuern.html">Steuer-Seite</a>.</p></div>
+    <div class="card"><span class="tag" style="background:var(--danger-bg);color:var(--bad)">Schlechter Grund</span><h4>Angst, Nachrichten, Bauchgefühl</h4><p>Siehe <a href="crashsimulator.html">Crash-Simulator</a>.</p></div>
+    <div class="card"><span class="tag" style="background:var(--danger-bg);color:var(--bad)">Schlechter Grund</span><h4>„Es ist so hoch gestiegen“</h4><p>Allzeithochs sind an der Börse der Normalzustand, nicht die Ausnahme.</p></div>
+    <div class="card"><span class="tag" style="background:var(--danger-bg);color:var(--bad)">Schlechter Grund</span><h4>Etwas anderes ist gerade heißer</h4><p>Das Gras ist immer grüner. Bleib bei deiner Strategie.</p></div>
+  </div>
+
+  <h3>Umschichten vor dem Ziel</h3>
+  <p>Wenn du für ein konkretes Ziel sparst (z. B. Eigenkapital für eine Wohnung in 10 Jahren), verringere das Risiko schrittweise, je näher das Ziel rückt:</p>
+  <div class="table-wrap"><table>
+    <tr><th>Jahre bis zum Ziel</th><th class="num">Aktien-ETF</th><th class="num">Tagesgeld / Anleihen</th></tr>
+    <tr><td>mehr als 7</td><td class="num">100 %</td><td class="num">0 %</td></tr>
+    <tr><td>5</td><td class="num">70 %</td><td class="num">30 %</td></tr>
+    <tr><td>3</td><td class="num">40 %</td><td class="num">60 %</td></tr>
+    <tr><td>1</td><td class="num">0–10 %</td><td class="num">90–100 %</td></tr>
+  </table></div>
+  <p class="note">Orientierungswerte, keine starre Regel. Für die Altersvorsorge gilt das Prinzip ähnlich – nur über einen viel längeren Zeitraum.</p>
+</section>
+
+<script>
+(function(){
+  const {$,fmt,pct,store,css,esc}=U;
+  const TYPES=['ETF Welt','ETF Industrieländer','ETF Schwellenländer','ETF Anleihen','Einzelaktie','Krypto','Tagesgeld/Cash','Sonstiges'];
+  const DEMO=[
+    {n:'Welt-ETF (MSCI World)',t:'ETF Industrieländer',tg:70,v:3420,i:3000,s:105},
+    {n:'Schwellenländer-ETF (MSCI EM)',t:'ETF Schwellenländer',tg:20,v:790,i:820,s:30},
+    {n:'Einzelaktien (Satellit)',t:'Einzelaktie',tg:10,v:610,i:500,s:15}
+  ];
+  let P=store.get('dga-depot')||[];
+  const save=()=>store.set('dga-depot',P);
+  function render(){
+    $('posTable').innerHTML='<tr><th>Position</th><th>Art</th><th class="num">Ziel %</th><th class="num">Wert €</th><th class="num">Investiert €</th><th class="num">Sparplan €/Mon.</th><th class="num">+/−</th><th></th></tr>'+
+      (P.length?P.map((r,i)=>`<tr><td><input type="text" data-i="${i}" data-k="n" value="${esc(r.n)}" style="min-width:170px"></td><td><select data-i="${i}" data-k="t">${TYPES.map(t=>`<option ${t===r.t?'selected':''}>${t}</option>`).join('')}</select></td><td><input type="number" class="num" data-i="${i}" data-k="tg" value="${r.tg}" style="max-width:80px"></td><td><input type="number" class="num" data-i="${i}" data-k="v" value="${r.v}"></td><td><input type="number" class="num" data-i="${i}" data-k="i" value="${r.i}"></td><td><input type="number" class="num" data-i="${i}" data-k="s" value="${r.s}" style="max-width:100px"></td><td class="num" id="g_${i}">–</td><td><button class="x-btn" data-del="${i}" aria-label="Position löschen">×</button></td></tr>`).join(''):'<tr><td colspan="8" class="muted">Noch keine Positionen. Füge eine hinzu oder lade das Beispieldepot.</td></tr>');
+    calc();
+  }
+  function calc(){
+    const V=P.reduce((a,r)=>a+(+r.v||0),0),I=P.reduce((a,r)=>a+(+r.i||0),0),Sp=P.reduce((a,r)=>a+(+r.s||0),0),T=P.reduce((a,r)=>a+(+r.tg||0),0);
+    $('tVal').textContent=fmt(V);$('tInv').textContent=fmt(I);$('tSp').textContent=fmt(Sp);
+    const G=V-I;$('tGain').textContent=(G>=0?'+':'−')+fmt(Math.abs(G))+(I>0?` (${G>=0?'+':''}${pct(G/I*100)})`:'');$('tGain').style.color=G>=0?css('--good'):css('--bad');
+    P.forEach((r,i)=>{const el=$('g_'+i);if(!el)return;const g=(+r.v||0)-(+r.i||0);el.textContent=(+r.i>0)?((g>=0?'+':'')+pct(g/r.i*100)):'–';el.style.color=g>=0?css('--good'):css('--bad')});
+    $('tTargetNote').innerHTML=P.length?(Math.abs(T-100)<0.01?'✓ Zielanteile ergeben 100 %.':`<span style="color:var(--bad)">⚠ Deine Zielanteile ergeben ${pct(T,0)} – sie sollten zusammen 100 % sein.</span>`):'';
+    // allocation
+    $('allocBars').innerHTML=P.length&&V>0?P.map((r,i)=>{const a=(+r.v||0)/V*100,t=+r.tg||0,d=a-t;const cls=Math.abs(d)<2?'g':Math.abs(d)<5?'m':'b';
+      return `<div style="margin:.7rem 0"><div style="display:flex;justify-content:space-between;font-size:.9rem;gap:.5rem"><b>${esc(r.n)}</b><span>${pct(a)} <span class="muted">/ Ziel ${pct(t,0)}</span> <span class="pill ${cls}">${d>=0?'+':''}${U.num(d)} PP</span></span></div><div class="bar-track" style="height:16px;position:relative;margin-top:.25rem"><div class="bar-fill" style="width:${Math.min(100,a)}%;background:var(--c${i%6+1})"></div><div style="position:absolute;top:-3px;bottom:-3px;left:calc(${Math.min(100,t)}% - 1px);width:2px;background:var(--text)"></div></div></div>`}).join('')+'<p class="note">🟢 unter 2 PP Abweichung · 🟡 2–5 PP · 🔴 über 5 PP → gegensteuern</p>':'<p class="muted">Trag zuerst Positionen mit Werten ein.</p>';
+    rebalance();milestones(V,Sp);
+  }
+  function rebalance(){
+    const N=+$('rbNew').value;$('rbNewO').textContent=fmt(N);
+    const V=P.reduce((a,r)=>a+(+r.v||0),0),T=P.reduce((a,r)=>a+(+r.tg||0),0)||1;
+    if(!P.length){$('rbTable').innerHTML='';$('rbNote').textContent='';return}
+    const tot=V+N;const def=P.map(r=>Math.max(0,(+r.tg||0)/T*tot-(+r.v||0)));const sd=def.reduce((a,b)=>a+b,0);
+    let alloc;
+    if(sd>=N)alloc=def.map(d=>sd>0?N*d/sd:0);else alloc=def.map((d,i)=>d+(N-sd)*(+P[i].tg||0)/T);
+    $('rbTable').innerHTML='<tr><th>Position</th><th class="num">Anteil jetzt</th><th class="num">Ziel</th><th class="num">Neues Geld hierhin</th><th class="num">Anteil danach</th></tr>'+P.map((r,i)=>`<tr><td>${esc(r.n)}</td><td class="num">${V>0?pct((+r.v||0)/V*100):'–'}</td><td class="num">${pct((+r.tg||0)/T*100,0)}</td><td class="num"><b>${fmt(alloc[i])}</b></td><td class="num">${pct(((+r.v||0)+alloc[i])/tot*100)}</td></tr>`).join('');
+    $('rbNote').textContent=sd>N?`Um die Zielaufteilung komplett zu erreichen, bräuchtest du insgesamt ${fmt(sd)} neues Geld. Mit ${fmt(N)} kommst du schon näher ran – über einige Monate gleicht sich das aus.`:'Mit diesem Betrag erreichst du deine Zielaufteilung. Der Rest wird nach deinen Zielanteilen verteilt.';
+  }
+  function milestones(V,Sp){
+    const r=+$('msRet').value;$('msRetO').textContent=pct(r);
+    const i=Math.pow(1+r/100,1/12)-1;const MS=[1000,5000,10000,25000,50000,100000,250000,500000,1000000];
+    $('msTable').innerHTML='<tr><th>Meilenstein</th><th>Status</th><th class="num">Voraussichtlich in</th></tr>'+MS.map(m=>{
+      if(V>=m)return `<tr><td>${fmt(m)}</td><td><span class="pill g">✓ erreicht</span></td><td class="num">–</td></tr>`;
+      if(Sp<=0&&i<=0)return `<tr><td>${fmt(m)}</td><td><span class="pill m">offen</span></td><td class="num">mit Sparplan berechenbar</td></tr>`;
+      let v=V,k=0;while(v<m&&k<1200){v=v*(1+i)+Sp;k++}
+      const txt=k>=1200?'über 100 Jahre':k<12?`${k} Monaten`:`${Math.floor(k/12)} J. ${k%12} M.`;
+      return `<tr><td>${fmt(m)}</td><td><span class="pill m">offen</span></td><td class="num">${txt}</td></tr>`}).join('');
+  }
+  document.addEventListener('input',e=>{const t=e.target;if(t.dataset.k==null||t.dataset.i==null)return;const r=P[+t.dataset.i];r[t.dataset.k]=['n','t'].includes(t.dataset.k)?t.value:(parseFloat(t.value)||0);save();calc()});
+  document.addEventListener('click',e=>{const d=e.target.dataset&&e.target.dataset.del;if(d==null)return;P.splice(+d,1);save();render()});
+  $('posAdd').onclick=()=>{P.push({n:'Neue Position',t:'ETF Welt',tg:0,v:0,i:0,s:0});save();render()};
+  $('posDemo').onclick=()=>{P=JSON.parse(JSON.stringify(DEMO));save();render()};
+  $('posClear').onclick=()=>{if(confirmClear()){P=[];save();render()}};
+  function confirmClear(){const b=$('posClear');if(b.dataset.c){delete b.dataset.c;b.textContent='Alles leeren';return true}b.dataset.c=1;b.textContent='Wirklich leeren? Nochmal klicken';setTimeout(()=>{delete b.dataset.c;b.textContent='Alles leeren'},3000);return false}
+  $('rbNew').addEventListener('input',rebalance);$('msRet').addEventListener('input',calc);
+
+  // Export / Import
+  $('exp').onclick=()=>{const data={app:'boersen-guide',version:1,date:new Date().toISOString(),depot:P,budget:store.get('dga-budget'),crashplan:store.get('dga-crashplan'),journal:store.get('dga-journal'),yearcheck:store.get('dga-yearcheck')};
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download=`boersen-guide-sicherung-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();a.remove();$('impNote').textContent='✓ Sicherung erstellt (enthält Depot, Budget, Crash-Plan, Trading-Tagebuch).'};
+  $('imp').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);if(d.app!=='boersen-guide')throw 0;
+      if(Array.isArray(d.depot)){P=d.depot;save()}['budget','crashplan','journal','yearcheck'].forEach(k=>{if(d[k])store.set('dga-'+k,d[k])});render();$('impNote').textContent='✓ Sicherung geladen.'}catch(err){$('impNote').textContent='⚠ Die Datei konnte nicht gelesen werden. Ist es eine Sicherung aus diesem Guide?'}};rd.readAsText(f);e.target.value=''};
+
+  // Year check
+  const YC=['Depotwert und Aufteilung im Tracker aktualisiert','Abweichung von der Zielaufteilung geprüft (über 5 PP? → Sparraten anpassen)','Sparrate erhöht (z. B. um 5–10 % oder um die Hälfte der letzten Gehaltserhöhung)','Freistellungsauftrag geprüft und ggf. angepasst','Notgroschen passt noch zu meinen Fixkosten','Kosten meiner ETFs kurz gegengecheckt (gibt es etwas deutlich Günstigeres auf denselben Index?)','Steuerbescheinigung heruntergeladen (für die Steuererklärung)','Etwas Guthaben auf dem Verrechnungskonto für die Vorabpauschale im Januar','Crash-Plan noch einmal gelesen','Mich bewusst gefreut, dass ich dranbleibe 🎉'];
+  let yc=store.get('dga-yearcheck')||{};
+  $('yc').innerHTML=YC.map((t,i)=>`<li class="${yc[i]?'done':''}"><input type="checkbox" id="yc${i}" ${yc[i]?'checked':''}><label for="yc${i}">${t}</label></li>`).join('');
+  $('yc').addEventListener('change',e=>{const i=+e.target.id.slice(2);yc[i]=e.target.checked;e.target.closest('li').classList.toggle('done',e.target.checked);store.set('dga-yearcheck',yc)});
+  $('ycReset').onclick=()=>{yc={};store.set('dga-yearcheck',yc);$('yc').querySelectorAll('input').forEach(c=>{c.checked=false;c.closest('li').classList.remove('done')})};
+  render();
+})();
+</script>
+
+<nav class="pager" aria-label="Lernpfad"><a class="prev" href="crashsimulator.html"><small>← Zurück</small><b>Crash-Simulator</b></a><a class="next" href="steuern.html"><small>Weiter im Lernpfad →</small><b>Steuern</b></a></nav>
+</main>
+</div>
+<footer>Bildungsinhalt, keine Anlage- oder Steuerberatung. Investieren ist mit Risiken verbunden, bis hin zum Verlust des eingesetzten Kapitals. Vergangene Wertentwicklungen sind kein verlässlicher Indikator für künftige Ergebnisse. Beispiele und Näherungswerte dienen nur der Veranschaulichung. Stand: Oktober 2026. · <a href="index.html">Übersicht</a></footer>
+<script>
+(function(){
+ const PAGE="depot.html";
+ try{const v=JSON.parse(localStorage.getItem('dga-visited'))||{};v[PAGE]=1;localStorage.setItem('dga-visited',JSON.stringify(v));
+   document.querySelectorAll('#menu a[data-f]').forEach(a=>{if(v[a.dataset.f])a.querySelector('.v').textContent='✓'})}catch(e){}
+ const mb=document.getElementById('menuBtn'),m=document.getElementById('menu');
+ mb.addEventListener('click',e=>{e.stopPropagation();m.hidden=!m.hidden;mb.setAttribute('aria-expanded',String(!m.hidden))});
+ document.addEventListener('click',e=>{if(!m.hidden&&!m.contains(e.target))m.hidden=true});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')m.hidden=true});
+})();
+</script>
+<script>
+(function(){const root=document.documentElement,U=window.U;
+ const tb=document.getElementById('themeBtn');
+ tb.addEventListener('click',()=>{const cur=root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');const n=cur==='dark'?'light':'dark';root.setAttribute('data-theme',n);U.store.set('dga-theme',n);U.themeHooks.forEach(f=>f())});
+ const bar=document.getElementById('bar');const links=[...document.querySelectorAll('nav.toc a[href^="#"]')];const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+ function on(){const h=document.documentElement;bar.style.width=(h.scrollTop/Math.max(1,h.scrollHeight-h.clientHeight)*100)+'%';let i=0;secs.forEach((s,k)=>{if(s&&s.getBoundingClientRect().top<140)i=k});links.forEach((a,k)=>a.classList.toggle('active',k===i))}
+ addEventListener('scroll',on,{passive:true});on();
+})();
+</script>
+<script type="module">
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDcoyIKBteii7mt6F7QIdR2mr0PIx8ON-I",
+  authDomain: "tradings1x1.firebaseapp.com",
+  projectId: "tradings1x1",
+  storageBucket: "tradings1x1.firebasestorage.app",
+  messagingSenderId: "962901431228",
+  appId: "1:962901431228:web:7e1199128eff0caa1051b9"
+};
+const SDK = "https://www.gstatic.com/firebasejs/10.12.2/";
+const D = window.__dga;
+const btn = document.getElementById('acctBtn');
+const lbl = btn && btn.querySelector('.acct-label');
+const dot = btn && btn.querySelector('.acct-dot');
+let user = null, ref = null, api = null, pushing = false, timer = null;
+
+function setStatus(s, text){ if(!dot) return; dot.className = 'acct-dot ' + s; if(text) btn.title = text; }
+function setLabel(t){ if(lbl) lbl.textContent = t; }
+function localKV(){ const o = {}; for(let i=0;i<localStorage.length;i++){ const k = localStorage.key(i); if(D.isKey(k)) o[k] = localStorage.getItem(k); } return o; }
+function wipeLocal(){ Object.keys(localKV()).forEach(k => { if(k !== 'dga-theme') D.raw.rem(k); }); D.setPending([]); }
+
+// ---------- Modal UI ----------
+const back = document.createElement('div');
+back.className = 'modal-back'; back.hidden = true; back.id = 'acctModal';
+back.innerHTML = `<div class="modal acct-modal" role="dialog" aria-modal="true" aria-labelledby="acctTitle">
+  <button class="x-btn acct-close" type="button" aria-label="Schließen">×</button>
+  <div id="acctBody"></div></div>`;
+document.body.appendChild(back);
+const body = back.querySelector('#acctBody');
+function open(){ render(); back.hidden = false; const f = back.querySelector('input,button.btn'); if(f) f.focus(); }
+function close(){ back.hidden = true; }
+back.addEventListener('click', e => { if(e.target === back || e.target.closest('.acct-close')) close(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && !back.hidden) close(); });
+if(btn) btn.addEventListener('click', open);
+
+const ERR = {
+  'auth/invalid-credential':'E-Mail oder Passwort ist falsch.',
+  'auth/wrong-password':'E-Mail oder Passwort ist falsch.',
+  'auth/user-not-found':'Zu dieser E-Mail gibt es noch kein Konto.',
+  'auth/invalid-email':'Das ist keine gültige E-Mail-Adresse.',
+  'auth/email-already-in-use':'Für diese E-Mail gibt es schon ein Konto – bitte anmelden.',
+  'auth/weak-password':'Das Passwort muss mindestens 6 Zeichen haben.',
+  'auth/too-many-requests':'Zu viele Versuche. Bitte kurz warten.',
+  'auth/network-request-failed':'Keine Verbindung. Bitte Internet prüfen.',
+  'auth/unauthorized-domain':'Diese Domain ist in Firebase noch nicht freigegeben (Authentication → Settings → Authorized domains).',
+  'auth/operation-not-allowed':'E-Mail/Passwort-Login ist in Firebase nicht aktiviert.',
+  'permission-denied':'Firestore verweigert den Zugriff – bitte die Sicherheitsregeln prüfen.'
+};
+const msg = e => ERR[e && e.code] || ('Fehler: ' + ((e && (e.code || e.message)) || 'unbekannt'));
+
+function render(note){
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  if(!api){
+    body.innerHTML = `<h3 id="acctTitle">Konto</h3><p class="muted">Die Anmeldung ist gerade nicht erreichbar (keine Internetverbindung oder Firebase blockiert). Deine Eingaben werden weiter lokal in diesem Browser gespeichert.</p>`;
+    return;
+  }
+  if(user){
+    const p = D.pending().length;
+    body.innerHTML = `<h3 id="acctTitle">Dein Konto</h3>
+      <p>Angemeldet als <b>${esc(user.email)}</b></p>
+      <p class="muted" id="acctState">${p ? `⏳ ${p} Änderung(en) werden gespeichert …` : '✓ Alles gespeichert. Deine Eingaben sind auf jedem Gerät verfügbar, auf dem du dich anmeldest.'}</p>
+      ${note ? `<p class="acct-note">${note}</p>` : ''}
+      <div class="row-actions"><button class="btn sec" type="button" id="acctSync">↻ Jetzt synchronisieren</button></div>
+      <hr style="border:0;border-top:1px solid var(--border);margin:1.2rem 0">
+      <label style="display:flex;gap:.5rem;align-items:flex-start;font-size:.92rem"><input type="checkbox" id="acctWipe" checked style="margin-top:.3rem"> Beim Abmelden die Daten auf diesem Gerät entfernen (empfohlen auf gemeinsam genutzten Geräten – in deinem Konto bleibt alles erhalten)</label>
+      <div class="row-actions"><button class="btn" type="button" id="acctOut">Abmelden</button></div>`;
+    body.querySelector('#acctSync').onclick = async () => { await fullSync(true); render('Synchronisiert.'); };
+    body.querySelector('#acctOut').onclick = async () => {
+      const wipe = body.querySelector('#acctWipe').checked;
+      try { await pushNow(); } catch(e){}
+      await api.signOut(api.auth);
+      if(wipe){ wipeLocal(); D.raw.rem('dga-sync-uid'); }
+      location.reload();
+    };
+    return;
+  }
+  body.innerHTML = `<h3 id="acctTitle">Anmelden</h3>
+    <p class="muted" style="margin-top:0">Mit Konto werden alle Eingaben (Budget, Depot, Checklisten, Tagebuch, Crash-Plan …) gespeichert und sind auf jedem Gerät verfügbar.</p>
+    <form id="acctForm" novalidate>
+      <div class="ctrl"><label for="acctMail">E-Mail</label><input type="email" id="acctMail" autocomplete="email" required></div>
+      <div class="ctrl" style="margin-top:.7rem"><label for="acctPw">Passwort</label><input type="password" id="acctPw" autocomplete="current-password" required minlength="6"></div>
+      <p class="acct-note" id="acctMsg">${note || ''}</p>
+      <div class="row-actions">
+        <button class="btn" type="submit" id="acctIn">Anmelden</button>
+        <button class="btn sec" type="button" id="acctNew">Neues Konto erstellen</button>
+      </div>
+      <p style="margin:.8rem 0 0"><button type="button" class="linkbtn" id="acctReset">Passwort vergessen?</button></p>
+    </form>`;
+  const mail = body.querySelector('#acctMail'), pw = body.querySelector('#acctPw'), out = body.querySelector('#acctMsg');
+  const busy = (b) => body.querySelectorAll('button').forEach(x => x.disabled = b);
+  body.querySelector('#acctForm').onsubmit = async e => {
+    e.preventDefault(); busy(true); out.textContent = 'Anmelden …';
+    try { await api.signInWithEmailAndPassword(api.auth, mail.value.trim(), pw.value); close(); }
+    catch(err){ out.textContent = msg(err); busy(false); }
+  };
+  body.querySelector('#acctNew').onclick = async () => {
+    busy(true); out.textContent = 'Konto wird erstellt …';
+    try { await api.createUserWithEmailAndPassword(api.auth, mail.value.trim(), pw.value); close(); }
+    catch(err){ out.textContent = msg(err); busy(false); }
+  };
+  body.querySelector('#acctReset').onclick = async () => {
+    if(!mail.value.trim()){ out.textContent = 'Bitte zuerst deine E-Mail eintragen.'; mail.focus(); return; }
+    try { await api.sendPasswordResetEmail(api.auth, mail.value.trim()); out.textContent = '✓ E-Mail zum Zurücksetzen wurde verschickt (auch im Spam-Ordner nachsehen).'; }
+    catch(err){ out.textContent = msg(err); }
+  };
+}
+
+// ---------- Sync ----------
+async function pushNow(){
+  if(!user || pushing) return;
+  const keys = D.pending(); if(!keys.length) return;
+  pushing = true; setStatus('busy', 'Speichere …');
+  try {
+    const kv = {};
+    keys.forEach(k => { const v = localStorage.getItem(k); kv[k] = v === null ? api.deleteField() : v; });
+    await api.setDoc(ref, { kv, email: user.email, updatedAt: api.serverTimestamp() }, { merge: true });
+    const left = D.pending().filter(k => !keys.includes(k) || localStorage.getItem(k) !== (typeof kv[k] === 'string' ? kv[k] : null));
+    D.setPending(left);
+    setStatus(left.length ? 'busy' : 'ok', left.length ? 'Speichere …' : 'Gespeichert in deinem Konto');
+    const st = document.getElementById('acctState'); if(st && !left.length) st.textContent = '✓ Alles gespeichert.';
+  } catch(e){ console.warn('[sync] push failed', e); setStatus('err', msg(e)); }
+  finally { pushing = false; if(D.pending().length && !timer) schedule(3000); }
+}
+function schedule(ms){ clearTimeout(timer); timer = setTimeout(() => { timer = null; pushNow(); }, ms); }
+
+// Pull remote → local. Returns true if local data changed.
+async function pull(mode){
+  const snap = await api.getDoc(ref);
+  const remote = snap.exists() ? (snap.data().kv || {}) : {};
+  const pend = new Set(D.pending());
+  let changed = false;
+  for(const [k, v] of Object.entries(remote)){
+    if(!D.isKey(k)) continue;
+    if(k === 'dga-visited'){ // merge "visited pages" from all devices
+      try { const m = Object.assign({}, JSON.parse(v) || {}, JSON.parse(localStorage.getItem(k)) || {}); const js = JSON.stringify(m);
+        if(js !== localStorage.getItem(k)){ D.raw.set(k, js); changed = true; } if(js !== v) D.mark(k); } catch(e){}
+      continue;
+    }
+    if(pend.has(k)) continue;
+    if(localStorage.getItem(k) !== v){ D.raw.set(k, v); changed = true; }
+  }
+  // Local keys the account doesn't know yet → upload (first login on this device, or never synced)
+  const local = localKV(); const missing = Object.keys(local).filter(k => !(k in remote));
+  if(missing.length){ D.setPending([...new Set([...D.pending(), ...missing])]); }
+  return changed;
+}
+
+async function fullSync(manual){
+  if(!user) return;
+  setStatus('busy', 'Synchronisiere …');
+  try {
+    await pushNow();
+    const changed = await pull();
+    await pushNow();
+    setStatus('ok', 'Gespeichert in deinem Konto');
+    if(changed && !manual) safeReload();
+    if(changed && manual) location.reload();
+  } catch(e){ console.warn('[sync] sync failed', e); setStatus('err', msg(e)); }
+}
+function safeReload(){
+  // Reload once so the page shows the synced data; guard against loops.
+  try {
+    const last = +sessionStorage.getItem('dga-sync-reload') || 0;
+    if(Date.now() - last < 10000) return;
+    sessionStorage.setItem('dga-sync-reload', String(Date.now()));
+  } catch(e){}
+  location.reload();
+}
+
+// ---------- Boot ----------
+setStatus('', 'Anmelden, um Eingaben geräteübergreifend zu speichern');
+try {
+  const [appM, authM, fsM] = await Promise.all([
+    import(SDK + 'firebase-app.js'), import(SDK + 'firebase-auth.js'), import(SDK + 'firebase-firestore.js')
+  ]);
+  const app = appM.initializeApp(FIREBASE_CONFIG);
+  const auth = authM.getAuth(app);
+  const db = fsM.getFirestore(app);
+  api = { auth, signInWithEmailAndPassword: authM.signInWithEmailAndPassword, createUserWithEmailAndPassword: authM.createUserWithEmailAndPassword,
+          sendPasswordResetEmail: authM.sendPasswordResetEmail, signOut: authM.signOut,
+          doc: fsM.doc, getDoc: fsM.getDoc, setDoc: fsM.setDoc, deleteField: fsM.deleteField, serverTimestamp: fsM.serverTimestamp };
+  auth.languageCode = 'de';
+  authM.onAuthStateChanged(auth, async u => {
+    user = u;
+    if(!u){ ref = null; setLabel('Anmelden'); setStatus('', 'Nicht angemeldet – Eingaben nur in diesem Browser'); if(!back.hidden) render(); return; }
+    ref = fsM.doc(db, 'users', u.uid);
+    setLabel(u.email.split('@')[0]);
+    const prev = localStorage.getItem('dga-sync-uid');
+    if(prev && prev !== u.uid){ wipeLocal(); }           // other family member used this device → don't mix data
+    D.raw.set('dga-sync-uid', u.uid);
+    D.onChange = () => schedule(800);
+    await fullSync(false);
+    if(!back.hidden) render();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if(!user) return;
+    if(document.visibilityState === 'hidden') pushNow();
+    else if(!D.pending().length) fullSync(false);
+  });
+  window.addEventListener('pagehide', () => { if(user) pushNow(); });
+} catch(e){
+  console.warn('[sync] Firebase not available', e);
+  setStatus('err', 'Anmeldung nicht erreichbar – Eingaben werden lokal gespeichert');
+}
+</script>
+</body>
+</html>

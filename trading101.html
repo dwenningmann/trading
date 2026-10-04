@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grundlagen – Investieren von A bis Z</title>
+<meta name="description" content="Ein Schritt-für-Schritt-Leitfaden für Börseneinsteiger: Grundlagen, ETF-Sparplan, Risiko, Steuern und Psychologie – erklärt für den Start mit Trade Republic.">
+<style>
+:root{
+  --bg:#f7f6f2; --surface:#ffffff; --surface-2:#f0eee8; --text:#1d1d1f; --muted:#5d5d63;
+  --border:#e2dfd6; --accent:#0f7b5f; --accent-soft:#e3f2ec; --accent-2:#c2410c;
+  --warn-bg:#fff4e5; --warn-border:#f2b46b; --info-bg:#eaf2fb; --info-border:#8bb4e0;
+  --danger-bg:#fdecec; --danger-border:#e8a1a1; --chart-a:#0f7b5f; --chart-b:#9fd3bf;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121314; --surface:#1b1c1e; --surface-2:#232427; --text:#ecebe7; --muted:#a3a29d;
+    --border:#2f3033; --accent:#4cc39a; --accent-soft:#16332a; --accent-2:#f08a4b;
+    --warn-bg:#2d2416; --warn-border:#8a6326; --info-bg:#172333; --info-border:#3d6694;
+    --danger-bg:#311b1b; --danger-border:#8a3d3d; --chart-a:#4cc39a; --chart-b:#2a5c4b;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121314; --surface:#1b1c1e; --surface-2:#232427; --text:#ecebe7; --muted:#a3a29d;
+  --border:#2f3033; --accent:#4cc39a; --accent-soft:#16332a; --accent-2:#f08a4b;
+  --warn-bg:#2d2416; --warn-border:#8a6326; --info-bg:#172333; --info-border:#3d6694;
+  --danger-bg:#311b1b; --danger-border:#8a3d3d; --chart-a:#4cc39a; --chart-b:#2a5c4b;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+h1,h2,h3,h4{line-height:1.25;letter-spacing:-.01em}
+h2{font-size:1.75rem;margin:0 0 .4rem}
+h3{font-size:1.2rem;margin:1.8rem 0 .5rem}
+p{margin:.6rem 0}
+small,.muted{color:var(--muted)}
+code{background:var(--surface-2);padding:.1em .35em;border-radius:4px;font-size:.92em}
+
+/* Top bar */
+.topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1180px;margin:0 auto;padding:.7rem 16px;display:flex;align-items:center;gap:1rem}
+.brand{font-weight:700;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:.5rem}
+.brand-dot{width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.progress{flex:1;height:4px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .1s}
+.icon-btn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:8px;padding:.35rem .6rem;cursor:pointer;font:inherit;font-size:.9rem}
+
+/* Layout */
+.layout{max-width:1180px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:48px}
+nav.toc{position:sticky;top:76px;align-self:start;max-height:calc(100vh - 90px);overflow:auto;padding:1.5rem 0;font-size:.92rem}
+nav.toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
+nav.toc li{counter-increment:toc}
+nav.toc a{display:block;padding:.35rem .6rem;border-radius:6px;color:var(--muted);text-decoration:none;border-left:2px solid transparent}
+nav.toc a::before{content:counter(toc,decimal-leading-zero) "  ";font-variant-numeric:tabular-nums;opacity:.6}
+nav.toc a:hover{color:var(--text);background:var(--surface-2)}
+nav.toc a.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft)}
+main{min-width:0;padding-bottom:4rem}
+
+/* Hero */
+.hero{padding:3.5rem 0 2rem}
+.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:700;color:var(--accent)}
+.hero h1{font-size:clamp(2.1rem,5vw,3.4rem);margin:.4rem 0 1rem;max-width:18ch}
+.hero .lead{font-size:1.2rem;color:var(--muted);max-width:60ch}
+.letter{margin-top:2rem;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem 1.6rem;box-shadow:var(--shadow)}
+.letter p:first-child{margin-top:0}
+
+/* Sections */
+section.chapter{padding:3rem 0;border-top:1px solid var(--border)}
+.chap-num{font-size:.8rem;font-weight:700;color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
+.chap-intro{color:var(--muted);font-size:1.08rem;max-width:65ch}
+
+/* Callouts */
+.callout{border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;border:1px solid;border-left-width:4px}
+.callout strong:first-child{display:block;margin-bottom:.2rem}
+.tip{background:var(--accent-soft);border-color:var(--accent)}
+.warn{background:var(--warn-bg);border-color:var(--warn-border)}
+.info{background:var(--info-bg);border-color:var(--info-border)}
+.danger{background:var(--danger-bg);border-color:var(--danger-border)}
+.trader{background:var(--surface);border-color:var(--border);border-left-color:var(--accent-2)}
+.trader strong:first-child{color:var(--accent-2)}
+
+/* Cards & grids */
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:1.2rem 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:var(--shadow)}
+.card h4{margin:0 0 .4rem;font-size:1.05rem}
+.card p{margin:.3rem 0;font-size:.95rem}
+.tag{display:inline-block;font-size:.75rem;font-weight:600;padding:.12rem .5rem;border-radius:99px;background:var(--surface-2);color:var(--muted);margin-right:.3rem}
+.tag.g{background:var(--accent-soft);color:var(--accent)}
+.tag.r{background:var(--danger-bg);color:var(--accent-2)}
+
+/* Steps */
+.steps{counter-reset:step;list-style:none;padding:0;margin:1.2rem 0}
+.steps>li{counter-increment:step;position:relative;padding:0 0 1.4rem 3.2rem;border-left:2px solid var(--border);margin-left:1rem}
+.steps>li:last-child{border-left-color:transparent}
+.steps>li::before{content:counter(step);position:absolute;left:-1rem;top:-.1rem;width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.95rem}
+.steps>li h4{margin:0 0 .3rem;font-size:1.05rem}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:1rem 0;border:1px solid var(--border);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:.94rem;background:var(--surface)}
+th,td{padding:.65rem .8rem;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* Pyramid */
+.pyramid{display:flex;flex-direction:column;align-items:center;gap:6px;margin:1.5rem 0}
+.pyr{border-radius:8px;padding:.7rem 1rem;text-align:center;font-size:.93rem}
+.pyr b{display:block}
+.pyr.l1{width:100%;background:var(--accent-soft);border:1px solid var(--accent)}
+.pyr.l2{width:80%;background:var(--surface);border:1px solid var(--border)}
+.pyr.l3{width:58%;background:var(--warn-bg);border:1px solid var(--warn-border)}
+.pyr.l4{width:38%;background:var(--danger-bg);border:1px solid var(--danger-border)}
+
+/* Calculator */
+.calc{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.4rem;box-shadow:var(--shadow);margin:1.4rem 0}
+.calc-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem 1.4rem}
+.ctrl label{display:flex;justify-content:space-between;font-size:.9rem;font-weight:600}
+.ctrl output{font-variant-numeric:tabular-nums;color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:1.2rem 0 .6rem}
+.kpi{background:var(--surface-2);border-radius:10px;padding:.7rem .9rem}
+.kpi span{display:block;font-size:.8rem;color:var(--muted)}
+.kpi b{font-size:1.35rem;font-variant-numeric:tabular-nums}
+.kpi.hl b{color:var(--accent)}
+.chart{width:100%;height:auto;display:block}
+.legend{display:flex;gap:1rem;font-size:.85rem;color:var(--muted);flex-wrap:wrap}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:.35rem;vertical-align:-1px}
+
+/* Details */
+details{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:.5rem 0;padding:0 1rem}
+summary{cursor:pointer;padding:.8rem 0;font-weight:600;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";display:inline-block;width:1.2rem;color:var(--accent);font-weight:700}
+details[open] summary::before{content:"–"}
+details>div{padding:0 0 .9rem 1.2rem}
+
+/* Checklist */
+.checklist{list-style:none;padding:0;margin:1rem 0}
+.checklist li{display:flex;gap:.7rem;align-items:flex-start;padding:.6rem .8rem;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;background:var(--surface)}
+.checklist input{width:1.2rem;height:1.2rem;margin-top:.25rem;accent-color:var(--accent);flex-shrink:0}
+.checklist li.done label{color:var(--muted);text-decoration:line-through}
+.check-progress{font-weight:600;color:var(--accent)}
+
+/* Quiz */
+.quiz-q{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0}
+.quiz-q p.q{font-weight:600;margin-top:0}
+.quiz-q button{display:block;width:100%;text-align:left;margin:.35rem 0;padding:.6rem .8rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem;cursor:pointer}
+.quiz-q button:hover:not(:disabled){border-color:var(--accent)}
+.quiz-q button.right{background:var(--accent-soft);border-color:var(--accent)}
+.quiz-q button.wrong{background:var(--danger-bg);border-color:var(--danger-border)}
+.quiz-q button:disabled{cursor:default}
+.quiz-q .fb{font-size:.92rem;margin-top:.5rem;display:none}
+.quiz-score{font-size:1.1rem;font-weight:700}
+
+/* Glossary */
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.gloss div{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:.93rem}
+.gloss b{display:block;color:var(--accent)}
+#glossSearch{width:100%;padding:.65rem .9rem;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;margin:.8rem 0}
+
+footer{border-top:1px solid var(--border);padding:2rem 16px;text-align:center;color:var(--muted);font-size:.88rem}
+.btn{display:inline-block;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:.65rem 1.1rem;font:inherit;font-weight:600;cursor:pointer;text-decoration:none}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;gap:0}
+  nav.toc{display:none}
+  body{font-size:16px}
+  .pyr.l2{width:90%}.pyr.l3{width:75%}.pyr.l4{width:60%}
+}
+@media print{.topbar,nav.toc{display:none}.layout{display:block}section.chapter{break-inside:avoid-page}}
+
+/* ---- Site navigation (shared) ---- */
+.topbar{position:sticky}
+.crumb{font-size:.88rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:22ch}
+.menu{position:absolute;right:max(16px,calc((100vw - 1180px)/2 + 16px));top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.18);padding:.5rem;width:min(360px,calc(100vw - 32px));max-height:75vh;overflow:auto;z-index:50}
+.menu[hidden]{display:none}
+.menu .mh{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700;padding:.5rem .7rem .2rem}
+.menu a{display:flex;align-items:center;gap:.6rem;padding:.55rem .7rem;border-radius:8px;text-decoration:none;color:var(--text);font-size:.95rem}
+.menu a:hover{background:var(--surface-2)}
+.menu a.cur{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.menu .n{color:var(--muted);font-variant-numeric:tabular-nums;width:1.5rem;font-size:.85rem}
+.menu .v{margin-left:auto;color:var(--accent);font-weight:700}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:3rem;border-top:1px solid var(--border);padding-top:2rem}
+.pager a{display:block;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;text-decoration:none;color:var(--text);box-shadow:var(--shadow)}
+.pager a:hover{border-color:var(--accent)}
+.pager small{display:block;color:var(--muted);font-size:.8rem}
+.pager b{color:var(--accent)}
+.pager .next{text-align:right;grid-column:2}
+.layout.single{grid-template-columns:minmax(0,1fr);max-width:1040px}
+.layout.single nav.toc{display:none}
+@media (max-width:640px){.crumb{display:none}.brand .bt{display:none}}
+
+/* ---- Shared tool helpers ---- */
+.row-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem}
+.btn.small{padding:.35rem .7rem;font-size:.85rem}
+.btn.danger{background:var(--bad)}
+.x-btn{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:1.1rem;padding:.2rem .4rem}
+.x-btn:hover{color:var(--bad)}
+.edit-table input,.edit-table select{min-width:70px}
+.pill{display:inline-block;padding:.15rem .6rem;border-radius:99px;font-size:.8rem;font-weight:600}
+.pill.g{background:var(--accent-soft);color:var(--good)}
+.pill.m{background:var(--warn-bg);color:var(--mid)}
+.pill.b{background:var(--danger-bg);color:var(--bad)}
+textarea{width:100%;min-height:80px;padding:.6rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem;resize:vertical}
+.modal-back{position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;z-index:100;padding:16px}
+.modal-back[hidden]{display:none}
+.modal{background:var(--surface);border-radius:16px;max-width:560px;width:100%;padding:1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:90vh;overflow:auto}
+.modal h3{margin-top:0}
+.modal .opts{display:grid;gap:.5rem;margin-top:1rem}
+.modal .opts button{text-align:left;padding:.75rem 1rem;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text);font:inherit;cursor:pointer}
+.modal .opts button:hover{border-color:var(--accent);background:var(--accent-soft)}
+.headline{font-family:Georgia,"Times New Roman",serif;font-size:1.25rem;font-weight:700;border-left:4px solid var(--bad);padding:.3rem 0 .3rem .8rem;margin:.6rem 0}
+.quiz-q{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0}
+.quiz-q p.q{font-weight:600;margin-top:0}
+.quiz-q button{display:block;width:100%;text-align:left;margin:.35rem 0;padding:.6rem .8rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit;font-size:.95rem;cursor:pointer}
+.quiz-q button.right{background:var(--accent-soft);border-color:var(--accent)}
+.quiz-q button.wrong{background:var(--danger-bg);border-color:var(--danger-border)}
+.quiz-q .fb{font-size:.92rem;margin-top:.5rem;display:none}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.gloss div{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:.93rem}
+.gloss b{display:block;color:var(--accent)}
+.search{width:100%;padding:.65rem .9rem;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font:inherit;margin:.8rem 0}
+.big-num{font-size:2.4rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+@media print{.topbar,nav.toc,.pager,.menu{display:none!important}.layout{display:block}}
+
+/* ---- Account / sync ---- */
+.acct-btn{display:inline-flex;align-items:center;gap:.4rem;max-width:16ch}
+.acct-btn .acct-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acct-dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex-shrink:0;opacity:.6}
+.acct-dot.ok{background:#2a9d6f;opacity:1}.acct-dot.busy{background:#d08a2e;opacity:1}.acct-dot.err{background:#c53030;opacity:1}
+.acct-modal{position:relative;max-width:440px}
+.acct-close{position:absolute;top:.6rem;right:.6rem}
+.acct-modal input[type=email],.acct-modal input[type=password]{width:100%;padding:.6rem .7rem;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font:inherit}
+.acct-note{min-height:1.2em;font-size:.9rem;color:var(--accent-2);margin:.6rem 0 0}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:inherit;font-size:.9rem;cursor:pointer;text-decoration:underline}
+.acct-modal .btn[disabled]{opacity:.6;cursor:wait}
+@media (max-width:640px){.acct-btn .acct-label{display:none}.progress{min-width:20px}}
+</style>
+<script>
+/* Sync hook: mirrors every localStorage write of a "dga-*" key into a pending list.
+   Runs synchronously before page scripts so nothing is missed. */
+(function(){
+  var EX={'dga-sync-pending':1,'dga-sync-uid':1};
+  var P=Storage.prototype,oSet=P.setItem,oRem=P.removeItem;
+  function pend(){try{return JSON.parse(oGet('dga-sync-pending'))||[]}catch(e){return[]}}
+  function oGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  var D=window.__dga={
+    EX:EX,
+    raw:{set:function(k,v){try{oSet.call(localStorage,k,v)}catch(e){}},rem:function(k){try{oRem.call(localStorage,k)}catch(e){}}},
+    isKey:function(k){return typeof k==='string'&&k.indexOf('dga-')===0&&!EX[k]},
+    pending:pend,
+    setPending:function(a){D.raw.set('dga-sync-pending',JSON.stringify(a))},
+    mark:function(k){var a=pend();if(a.indexOf(k)<0){a.push(k);D.setPending(a)}if(D.onChange)D.onChange()},
+    onChange:null
+  };
+  P.setItem=function(k,v){oSet.call(this,k,v);if(this===window.localStorage&&D.isKey(k))D.mark(k)};
+  P.removeItem=function(k){oRem.call(this,k);if(this===window.localStorage&&D.isKey(k))D.mark(k)};
+})();
+</script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html"><span class="brand-dot"></span><span class="bt">Börsen-Guide</span></a>
+    <span class="crumb">/ Grundlagen</span>
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+    <button class="icon-btn" id="menuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="menu">☰ Seiten</button>
+    <button class="icon-btn acct-btn" id="acctBtn" type="button" aria-label="Konto"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true" style="flex-shrink:0"><circle cx="8" cy="5.2" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 14.2c.6-2.9 2.8-4.4 5.5-4.4s4.9 1.5 5.5 4.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="acct-label">Anmelden</span><span class="acct-dot"></span></button>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Hell/Dunkel umschalten"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" style="display:block"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+  </div>
+  <nav class="menu" id="menu" hidden aria-label="Alle Seiten"><div class="mh">Dein Lernpfad</div><a href="index.html" data-f="index.html" class=""><span class="n">⌂</span><span>Übersicht<br><small class="muted" style="font-weight:400">Start & Lernpfad</small></span><span class="v"></span></a><a href="trading101.html" data-f="trading101.html" class="cur"><span class="n">1</span><span>Grundlagen<br><small class="muted" style="font-weight:400">Investieren von A bis Z</small></span><span class="v"></span></a><a href="budget.html" data-f="budget.html" class=""><span class="n">2</span><span>Budget & Sparrate<br><small class="muted" style="font-weight:400">Erst planen, dann investieren</small></span><span class="v"></span></a><a href="etfanalyse.html" data-f="etfanalyse.html" class=""><span class="n">3</span><span>ETF-Check<br><small class="muted" style="font-weight:400">ETFs selbst analysieren</small></span><span class="v"></span></a><a href="crashsimulator.html" data-f="crashsimulator.html" class=""><span class="n">4</span><span>Crash-Simulator<br><small class="muted" style="font-weight:400">30 Jahre Börse in 3 Minuten</small></span><span class="v"></span></a><a href="depot.html" data-f="depot.html" class=""><span class="n">5</span><span>Mein Depot<br><small class="muted" style="font-weight:400">Tracker & Rebalancing</small></span><span class="v"></span></a><a href="steuern.html" data-f="steuern.html" class=""><span class="n">6</span><span>Steuern<br><small class="muted" style="font-weight:400">Freibetrag, NV, Anlage KAP</small></span><span class="v"></span></a><a href="aktien.html" data-f="aktien.html" class=""><span class="n">7</span><span>Einzelaktien<br><small class="muted" style="font-weight:400">Unternehmen analysieren</small></span><span class="v"></span></a><a href="hebel-krypto.html" data-f="hebel-krypto.html" class=""><span class="n">8</span><span>Hebel & Krypto<br><small class="muted" style="font-weight:400">Was dahintersteckt</small></span><span class="v"></span></a><a href="news.html" data-f="news.html" class=""><span class="n">9</span><span>Wirtschaftsnews<br><small class="muted" style="font-weight:400">Schlagzeilen verstehen</small></span><span class="v"></span></a></nav>
+</header>
+
+<div class="layout">
+<nav class="toc" aria-label="Inhalt">
+  <ol>
+    <li><a href="#warum">Warum investieren?</a></li>
+    <li><a href="#fundament">Erst das Fundament</a></li>
+    <li><a href="#basics">Die Bausteine</a></li>
+    <li><a href="#zinseszins">Zinseszins &amp; Rechner</a></li>
+    <li><a href="#risiko">Risiko verstehen</a></li>
+    <li><a href="#etf">ETFs im Detail</a></li>
+    <li><a href="#strategie">Deine Strategie</a></li>
+    <li><a href="#tr">Trade Republic Schritt für Schritt</a></li>
+    <li><a href="#sparplan">Sparplan einrichten</a></li>
+    <li><a href="#steuern">Steuern</a></li>
+    <li><a href="#trading">Trading vs. Investieren</a></li>
+    <li><a href="#psyche">Psychologie</a></li>
+    <li><a href="#fehler">Die 12 größten Fehler</a></li>
+    <li><a href="#routine">Deine Routine</a></li>
+    <li><a href="#checkliste">Start-Checkliste</a></li>
+    <li><a href="#quiz">Wissens-Check</a></li>
+    <li><a href="#glossar">Glossar</a></li>
+  </ol>
+</nav>
+
+<main id="top">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">Lernpfad · Schritt 1</div>
+  <h1>Lass dein Geld für dich arbeiten.</h1>
+  <p class="lead">Von „Was ist eigentlich eine Aktie?“ bis zum ersten laufenden Sparplan in Trade Republic – ruhig, ehrlich und Schritt für Schritt erklärt.</p>
+
+  <div class="letter">
+    <p>Ich habe viele Jahre an den Märkten verbracht: Bullenmärkte, Crashs, Hypes, Panik. Wenn ich dir aus all dem nur <b>eine</b> Sache mitgeben dürfte, dann diese: <b>Reich wird man an der Börse nicht durch Geschwindigkeit, sondern durch Zeit.</b></p>
+    <p>Dein größter Vorteil ist Zeit – und kein Profi auf der Welt kann sie dir nachmachen. Wer früh beginnt, monatlich einen festen Betrag breit gestreut anlegt und einfach weitermacht, schlägt auf lange Sicht die meisten Leute, die „aktiv traden“. Egal ob du 18, 30 oder 50 bist: Der beste Zeitpunkt ist heute.</p>
+    <p>Diese Seite ist so aufgebaut, dass du sie von oben nach unten lesen kannst. Nimm dir Zeit dafür, verteilt auf zwei oder drei Abende. Am Ende weißt du, <b>was</b> du tust, <b>warum</b> du es tust – und du hast einen Plan, den du die nächsten Jahrzehnte durchziehen kannst.</p>
+  </div>
+
+  <div class="callout info"><strong>Wichtig vorab</strong>Diese Seite ist Bildung, keine Anlageberatung. Konkrete Produkte werden nur als Beispiele genannt. Konditionen von Trade Republic (Gebühren, Zinsen, Funktionen) ändern sich – prüfe sie immer direkt in der App. Stand der Inhalte: Herbst 2026.</div>
+</div>
+
+<!-- 1 -->
+<section class="chapter" id="warum">
+  <div class="chap-num">Kapitel 01</div>
+  <h2>Warum überhaupt investieren?</h2>
+  <p class="chap-intro">Geld auf dem Girokonto fühlt sich sicher an. Ist es aber nur auf dem Papier.</p>
+
+  <h3>Der stille Dieb: Inflation</h3>
+  <p>Inflation bedeutet, dass Dinge über die Zeit teurer werden. Bei 2–3 % Inflation pro Jahr kaufst du dir mit 1.000 € in 20 Jahren nur noch so viel wie heute mit etwa 550–670 €. Dein Kontostand bleibt gleich, aber dein Geld wird <b>weniger wert</b>.</p>
+
+  <div class="grid">
+    <div class="card"><h4>💤 Geld liegt herum</h4><p>Girokonto, 0 % Zinsen. Nach Inflation verlierst du jedes Jahr Kaufkraft.</p></div>
+    <div class="card"><h4>🏦 Tagesgeld</h4><p>Etwas Zinsen, jederzeit verfügbar. Gleicht Inflation bestenfalls aus. Perfekt für den Notgroschen.</p></div>
+    <div class="card"><h4>📈 Weltweit in Aktien</h4><p>Historisch rund 6–8 % pro Jahr im langfristigen Durchschnitt – mit Schwankungen. Der Motor für Vermögensaufbau.</p></div>
+  </div>
+
+  <h3>Was „Geld arbeiten lassen“ wirklich heißt</h3>
+  <p>Wenn du eine Aktie kaufst, besitzt du ein winziges Stück eines echten Unternehmens. Apple, Siemens, Nestlé, Toyota: Tausende Menschen dort arbeiten jeden Tag daran, Gewinne zu machen. Als Miteigentümerin bist du an diesen Gewinnen beteiligt – über steigende Kurse und Dividenden. <b>Du arbeitest nicht dafür, die Wirtschaft arbeitet für dich.</b></p>
+
+  <div class="callout trader"><strong>Aus der Praxis</strong>Die Börse ist kein Casino, wenn du sie richtig nutzt. Ein Casino hat einen eingebauten Vorteil für die Bank. Die Weltwirtschaft dagegen wächst über Jahrzehnte – wer breit gestreut und lange dabei ist, hat den Wind im Rücken. Zum Casino wird die Börse erst, wenn du kurzfristig auf einzelne Kurse wettest.</div>
+</section>
+
+<!-- 2 -->
+<section class="chapter" id="fundament">
+  <div class="chap-num">Kapitel 02</div>
+  <h2>Erst das Fundament, dann das Haus</h2>
+  <p class="chap-intro">Bevor auch nur ein Euro an die Börse geht, müssen drei Dinge stehen. Das klingt langweilig, ist aber der Grund, warum Profis Krisen überstehen und Anfänger nicht.</p>
+
+  <div class="pyramid" aria-label="Finanzpyramide">
+    <div class="pyr l4"><b>Spekulation</b>Einzelaktien, Krypto – max. 5–10 %, nur „Spielgeld“</div>
+    <div class="pyr l3"><b>Langfristiges Investieren</b>ETF-Sparplan, der über Jahrzehnte läuft</div>
+    <div class="pyr l2"><b>Notgroschen</b>3 Monatsausgaben auf Tagesgeld (mind. 1.000–2.000 €)</div>
+    <div class="pyr l1"><b>Keine teuren Schulden &amp; ein Überblick über dein Geld</b>Kein Dispo, keine Ratenkredite, ein grobes Budget</div>
+  </div>
+
+  <h3>1. Keine teuren Schulden</h3>
+  <p>Ein Dispokredit kostet oft 10–14 % Zinsen. Kein Investment schlägt das zuverlässig. Erst Schulden weg, dann investieren.</p>
+
+  <h3>2. Der Notgroschen</h3>
+  <p>Das Handy geht kaputt, der Laptop stirbt, eine Nebenkostennachzahlung kommt. Ohne Notgroschen musst du dann womöglich Aktien verkaufen – vielleicht gerade dann, wenn die Kurse am Boden sind. Mit Notgroschen ist das egal.</p>
+  <div class="callout tip"><strong>So machst du es bei Trade Republic</strong>Nicht investiertes Guthaben auf dem Verrechnungskonto wird bei Trade Republic verzinst (der Zinssatz ist variabel und an den EZB-Leitzins gekoppelt). Du kannst deinen Notgroschen also direkt dort parken – Hauptsache, du rührst ihn für Investments nicht an. Manche bevorzugen trotzdem ein separates Tagesgeldkonto, damit die Trennung im Kopf klarer ist.</div>
+
+  <h3>3. Nur Geld, das du lange nicht brauchst</h3>
+  <p>Faustregel: Geld, das du in den nächsten <b>5 Jahren</b> brauchst (Führerschein, Auto, Auslandssemester, Kaution für die erste Wohnung), gehört <b>nicht</b> in Aktien. Aktien können in einem schlechten Jahr 30–50 % fallen und brauchen manchmal mehrere Jahre zur Erholung.</p>
+
+  <h3>Wie viel monatlich?</h3>
+  <p>Eine bewährte Methode: <b>„Pay yourself first“</b>. Am Tag, an dem dein Geld kommt (Gehalt, Minijob, Ausbildungsvergütung, Taschengeld), geht der Sparplan automatisch raus. Was übrig bleibt, kannst du ausgeben. Nicht umgekehrt.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Einkommen / Monat</th><th>Realistische Sparrate</th><th>Kommentar</th></tr>
+    <tr><td>bis 600 €</td><td>25–50 €</td><td>Klein anfangen ist besser als gar nicht. Die Gewohnheit zählt.</td></tr>
+    <tr><td>600–1.200 €</td><td>50–150 €</td><td>Ca. 10–15 % des Einkommens ist ein starkes Ziel.</td></tr>
+    <tr><td>über 1.200 €</td><td>150 € +</td><td>Erhöhe die Rate bei jeder Gehaltserhöhung um die Hälfte der Erhöhung.</td></tr>
+  </table></div>
+</section>
+
+<!-- 3 -->
+<section class="chapter" id="basics">
+  <div class="chap-num">Kapitel 03</div>
+  <h2>Die Bausteine der Börse</h2>
+  <p class="chap-intro">Du musst nicht alles wissen. Aber diese Begriffe solltest du so gut verstehen, dass du sie einem Freund oder einer Freundin erklären könntest.</p>
+
+  <div class="grid">
+    <div class="card"><span class="tag">Eigentum</span><h4>Aktie</h4><p>Ein Anteil an einem Unternehmen. Läuft die Firma gut, steigt meist der Kurs. Geht sie pleite, kann die Aktie wertlos werden.</p></div>
+    <div class="card"><span class="tag">Kredit</span><h4>Anleihe</h4><p>Du leihst einem Staat oder Unternehmen Geld und bekommst Zinsen. Meist stabiler als Aktien, aber auch weniger Rendite.</p></div>
+    <div class="card"><span class="tag">Messlatte</span><h4>Index</h4><p>Eine Liste von Unternehmen nach festen Regeln, z. B. DAX (40 deutsche Firmen) oder MSCI World (~1.400 Firmen aus Industrieländern).</p></div>
+    <div class="card"><span class="tag g">Dein Werkzeug</span><h4>ETF</h4><p>Ein börsengehandelter Fonds, der einen Index automatisch nachbildet. Ein Kauf – hunderte oder tausende Firmen auf einmal. Günstig und transparent.</p></div>
+    <div class="card"><span class="tag">teurer</span><h4>Aktiver Fonds</h4><p>Ein Fondsmanager wählt Aktien aus. Kostet oft 1,5–2 % pro Jahr – und schlägt seinen Vergleichsindex langfristig meist nicht.</p></div>
+    <div class="card"><span class="tag">Ausschüttung</span><h4>Dividende</h4><p>Ein Teil des Gewinns, den eine Firma an ihre Aktionäre auszahlt. Bei ETFs entweder ausgeschüttet oder automatisch reinvestiert.</p></div>
+    <div class="card"><span class="tag r">Hohes Risiko</span><h4>Derivate</h4><p>Hebelprodukte, Optionsscheine, Knock-outs, CFDs. Wetten auf Kursbewegungen. Für Anfänger: Finger weg.</p></div>
+    <div class="card"><span class="tag r">Sehr volatil</span><h4>Kryptowährung</h4><p>Bitcoin &amp; Co. Kein Unternehmen, kein Gewinn dahinter. Kann sich vervielfachen oder massiv fallen. Wenn überhaupt: kleiner Anteil.</p></div>
+  </div>
+
+  <h3>Wie entsteht ein Kurs?</h3>
+  <p>Ganz einfach: <b>Angebot und Nachfrage.</b> Wollen mehr Menschen eine Aktie kaufen als verkaufen, steigt der Preis. Kurzfristig wird der Kurs von Nachrichten, Stimmung und Angst getrieben – deshalb wirkt er chaotisch. Langfristig folgt er den <b>Gewinnen</b> des Unternehmens. Benjamin Graham, der Lehrer von Warren Buffett, hat es so gesagt:</p>
+  <div class="callout trader"><strong>Graham</strong>„Kurzfristig ist der Markt eine Wahlmaschine, langfristig eine Waage.“ Kurzfristig gewinnt, wer gerade beliebt ist. Langfristig zählt, was ein Unternehmen wirklich wert ist.</div>
+
+  <h3>Was ist eine Börse – und was ist Trade Republic?</h3>
+  <p>Die Börse ist der Marktplatz, auf dem Wertpapiere gehandelt werden. <b>Trade Republic ist dein Broker</b>: eine Bank, die deine Aufträge an einen Handelsplatz weitergibt und deine Wertpapiere in einem <b>Depot</b> für dich verwahrt. Wichtig zu wissen: Wertpapiere im Depot sind <b>Sondervermögen</b> – sie gehören dir, nicht der Bank. Selbst wenn ein Broker pleitegehen würde, bleiben deine ETFs und Aktien dein Eigentum. Guthaben auf dem Verrechnungskonto ist zusätzlich über die gesetzliche Einlagensicherung bis 100.000 € geschützt.</p>
+</section>
+
+<!-- 4 -->
+<section class="chapter" id="zinseszins">
+  <div class="chap-num">Kapitel 04</div>
+  <h2>Der Zinseszins – das achte Weltwunder</h2>
+  <p class="chap-intro">Deine Erträge bringen selbst wieder Erträge. Am Anfang merkst du kaum etwas, nach 20–30 Jahren wird es fast unheimlich.</p>
+
+  <p>Beispiel: Du hast 1.000 € und bekommst 7 % pro Jahr. Nach Jahr 1 hast du 1.070 €. Im Jahr 2 bekommst du 7 % auf 1.070 € – nicht mehr nur auf 1.000 €. Dieser Effekt schaukelt sich auf. Spiel mit dem Rechner und schau, was <b>Zeit</b> anrichtet:</p>
+
+  <div class="calc" id="calc">
+    <div class="calc-controls">
+      <div class="ctrl"><label for="rate">Monatliche Sparrate <output id="rateOut"></output></label><input type="range" id="rate" min="10" max="1000" step="10" value="100"></div>
+      <div class="ctrl"><label for="start">Startbetrag <output id="startOut"></output></label><input type="range" id="start" min="0" max="20000" step="250" value="0"></div>
+      <div class="ctrl"><label for="years">Anlagedauer <output id="yearsOut"></output></label><input type="range" id="years" min="1" max="50" step="1" value="40"></div>
+      <div class="ctrl"><label for="ret">Rendite pro Jahr <output id="retOut"></output></label><input type="range" id="ret" min="0" max="10" step="0.5" value="6"></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><span>Selbst eingezahlt</span><b id="kInv">–</b></div>
+      <div class="kpi"><span>Erträge (Zinseszins)</span><b id="kGain">–</b></div>
+      <div class="kpi hl"><span>Endvermögen</span><b id="kEnd">–</b></div>
+    </div>
+    <svg class="chart" id="chart" viewBox="0 0 700 280" role="img" aria-label="Vermögensentwicklung"></svg>
+    <div class="legend"><span><i style="background:var(--chart-b)"></i>Eingezahlt</span><span><i style="background:var(--chart-a)"></i>Erträge</span></div>
+    <p class="muted" style="font-size:.85rem">Vereinfachte Rechnung vor Steuern, Kosten und Inflation, mit gleichmäßiger Rendite. Echte Märkte schwanken stark – die Zahl ist ein Gefühl für die Größenordnung, kein Versprechen.</p>
+  </div>
+
+  <h3>Die Kosten des Wartens</h3>
+  <p>Gleiche Sparrate (100 €/Monat), gleiche Rendite (6 %), Zielalter 67 – nur der Startzeitpunkt ist anders:</p>
+  <div class="table-wrap"><table id="waitTable">
+    <tr><th>Start mit</th><th class="num">Eingezahlt</th><th class="num">Vermögen mit 67</th></tr>
+  </table></div>
+  <div class="callout tip"><strong>Die Lektion</strong>Wer mit 20 startet, zahlt nur etwas mehr ein als jemand, der mit 30 startet – hat am Ende aber ein Vielfaches. Die ersten 10 Jahre sind die wertvollsten Jahre deines Anlegerlebens, auch wenn die Beträge klein sind.</div>
+
+  <h3>Die 72er-Regel</h3>
+  <p>Ein schneller Trick im Kopf: <b>72 ÷ Rendite = Jahre bis zur Verdopplung.</b> Bei 6 % verdoppelt sich dein Geld etwa alle 12 Jahre, bei 8 % alle 9 Jahre. Wer mit 20 anfängt, hat bis zur Rente also Zeit für drei bis vier Verdopplungen.</p>
+</section>
+
+<!-- 5 -->
+<section class="chapter" id="risiko">
+  <div class="chap-num">Kapitel 05</div>
+  <h2>Risiko verstehen – und beherrschen</h2>
+  <p class="chap-intro">Rendite gibt es nie ohne Risiko. Die Kunst ist, nur die Risiken einzugehen, für die man auch bezahlt wird.</p>
+
+  <h3>Schwankung ist nicht gleich Verlust</h3>
+  <p>Wenn dein Depot von 5.000 € auf 3.800 € fällt, hast du erst einmal <b>nichts</b> verloren – solange du nicht verkaufst. Verluste werden erst real, wenn du in Panik verkaufst. Breit gestreute Weltaktien-Indizes haben sich historisch nach jedem Crash wieder erholt – manchmal schnell, manchmal hat es viele Jahre gedauert.</p>
+
+  <div class="table-wrap"><table>
+    <tr><th>Krise</th><th>Rückgang Weltaktien (ca.)</th><th>Was danach passierte</th></tr>
+    <tr><td>Dotcom-Blase 2000–2003</td><td>ca. −50 %</td><td>Mehrere Jahre Erholung. Wer weiter gespart hat, kaufte billig ein.</td></tr>
+    <tr><td>Finanzkrise 2008/09</td><td>ca. −55 %</td><td>Ab 2009 einer der längsten Aufschwünge der Geschichte.</td></tr>
+    <tr><td>Corona-Crash 2020</td><td>ca. −34 % in 5 Wochen</td><td>Nach wenigen Monaten auf altem Niveau.</td></tr>
+    <tr><td>Zinswende 2022</td><td>ca. −20 %</td><td>Innerhalb von rund zwei Jahren neue Höchststände.</td></tr>
+  </table></div>
+  <div class="callout warn"><strong>Ehrlich gesagt</strong>Es gibt keine Garantie, dass die Zukunft so verläuft wie die Vergangenheit. Breite Streuung und ein langer Zeithorizont sind aber das Beste, was wir haben, um Risiko kalkulierbar zu machen.</div>
+
+  <h3>Zwei Arten von Risiko</h3>
+  <div class="grid">
+    <div class="card"><h4>Einzelrisiko (vermeidbar)</h4><p>Eine einzelne Firma macht Fehler, verpasst einen Trend, geht pleite (Wirecard, Nokia, Kodak). Dieses Risiko kannst du durch Streuung fast komplett ausschalten – und du wirst <b>nicht</b> dafür belohnt, es einzugehen.</p></div>
+    <div class="card"><h4>Marktrisiko (nicht vermeidbar)</h4><p>Die gesamte Weltwirtschaft schwächelt. Dieses Risiko trägt jeder Aktienanleger – und genau dafür gibt es langfristig die Aktienrendite als „Belohnung“.</p></div>
+  </div>
+
+  <h3>Diversifikation: nicht alle Eier in einen Korb</h3>
+  <p>Ein Welt-ETF verteilt dein Geld auf über tausend Unternehmen in Dutzenden Ländern und Branchen. Wenn eine Firma pleitegeht, merkst du das kaum. Das ist der einzige „Free Lunch“ an der Börse: weniger Risiko, ohne auf erwartete Rendite zu verzichten.</p>
+
+  <h3>Dein persönliches Risiko-Setup</h3>
+  <p>Frag dich ehrlich: <b>„Wenn mein Depot morgen um 40 % fällt – würde ich weiter sparen oder verkaufen?“</b> Wenn du nachts nicht schlafen könntest, ist ein Teil in sicheren Anlagen (Tagesgeld oder Anleihen-ETF) sinnvoll. Mit einem Zeithorizont von 15, 20 oder 30+ Jahren kann man aber in der Regel einen hohen Aktienanteil tragen.</p>
+</section>
+
+<!-- 6 -->
+<section class="chapter" id="etf">
+  <div class="chap-num">Kapitel 06</div>
+  <h2>ETFs im Detail – so suchst du einen aus</h2>
+  <p class="chap-intro">Es gibt tausende ETFs. Du brauchst am Anfang genau einen, höchstens zwei. Hier sind die Kriterien, mit denen du gute von schlechten unterscheidest.</p>
+
+  <h3>Die wichtigsten Welt-Indizes</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Index</th><th>Was drin ist</th><th>Anzahl Firmen (ca.)</th><th>Einordnung</th></tr>
+    <tr><td><b>MSCI World</b></td><td>23 Industrieländer (USA, Europa, Japan …)</td><td>~1.400</td><td>Klassiker, aber ohne Schwellenländer</td></tr>
+    <tr><td><b>MSCI ACWI</b></td><td>Industrie- + Schwellenländer</td><td>~2.500</td><td>Ganze Welt in einem Produkt</td></tr>
+    <tr><td><b>FTSE All-World</b></td><td>Industrie- + Schwellenländer</td><td>~4.000</td><td>Ganze Welt, sehr breit</td></tr>
+    <tr><td><b>MSCI Emerging Markets</b></td><td>China, Indien, Taiwan, Brasilien …</td><td>~1.200</td><td>Nur als Ergänzung (z. B. 10–30 %)</td></tr>
+    <tr><td>S&amp;P 500</td><td>500 große US-Firmen</td><td>500</td><td>Stark, aber nur ein Land</td></tr>
+    <tr><td>DAX</td><td>40 deutsche Firmen</td><td>40</td><td>Zu eng als alleinige Basis</td></tr>
+  </table></div>
+  <div class="callout info"><strong>Gut zu wissen</strong>Auch „Welt“-ETFs bestehen derzeit zu rund 60–70 % aus US-Firmen, und die größten zehn Unternehmen (Apple, Microsoft, Nvidia &amp; Co.) machen einen spürbaren Anteil aus. Das ist kein Fehler – es spiegelt die Größe der Unternehmen wider – aber du solltest es wissen.</div>
+
+  <h3>Die 7 Kriterien für einen guten ETF</h3>
+  <ol class="steps">
+    <li><h4>Index: breit und weltweit</h4><p>Für die Basis: MSCI World, MSCI ACWI oder FTSE All-World. Keine Nischen-Themen („Wasserstoff“, „Cannabis“, „Metaverse“) als Hauptinvestment.</p></li>
+    <li><h4>Kosten (TER): so niedrig wie möglich</h4><p>Die Gesamtkostenquote wird jährlich automatisch abgezogen. Gute Welt-ETFs kosten 0,10–0,25 % pro Jahr. Alles über 0,5 % ist für einen Welt-ETF zu teuer.</p></li>
+    <li><h4>Fondsgröße: mindestens 500 Mio. €</h4><p>Große ETFs werden selten geschlossen. Bei kleinen ETFs kann der Anbieter das Produkt einstellen – dann wird verkauft und Steuern können fällig werden.</p></li>
+    <li><h4>Ertragsverwendung: thesaurierend oder ausschüttend</h4><p><b>Thesaurierend</b> (Acc) = Dividenden werden automatisch reinvestiert; ideal für Vermögensaufbau. <b>Ausschüttend</b> (Dist) = Dividenden landen auf deinem Konto; schön fürs Gefühl, aber du musst selbst reinvestieren.</p></li>
+    <li><h4>Replikation: physisch bevorzugt</h4><p>Physisch = der ETF kauft die Aktien wirklich. Synthetisch = Nachbildung über Tauschgeschäfte (Swaps). Beides ist reguliert, physisch ist für Einsteiger leichter zu verstehen.</p></li>
+    <li><h4>Anbieter: groß und etabliert</h4><p>z. B. iShares, Vanguard, Xtrackers, Amundi, SPDR, Invesco. Alle seriös.</p></li>
+    <li><h4>Sparplanfähig bei Trade Republic</h4><p>In der App sichtbar am Sparplan-Button. Sonst nützt dir der beste ETF nichts.</p></li>
+  </ol>
+
+  <h3>Wie liest man einen ETF-Namen?</h3>
+  <p>Beispiel: <code>iShares Core MSCI World UCITS ETF USD (Acc)</code></p>
+  <div class="table-wrap"><table>
+    <tr><th>Teil</th><th>Bedeutung</th></tr>
+    <tr><td>iShares</td><td>Anbieter (gehört zu BlackRock)</td></tr>
+    <tr><td>Core</td><td>Marketingname für die günstige Basis-Produktlinie</td></tr>
+    <tr><td>MSCI World</td><td>Der nachgebildete Index</td></tr>
+    <tr><td>UCITS</td><td>EU-Regulierungsstandard – Pflicht für Anleger in der EU</td></tr>
+    <tr><td>USD</td><td>Fondswährung (unwichtig – das Währungsrisiko kommt von den Aktien, nicht vom Label)</td></tr>
+    <tr><td>Acc</td><td>Accumulating = thesaurierend</td></tr>
+  </table></div>
+  <p>Jedes Wertpapier hat außerdem eine <b>ISIN</b> – eine 12-stellige Kennung wie ein Personalausweis. Am sichersten suchst du in der App per ISIN, damit du nicht versehentlich ein ähnliches Produkt erwischst. Vergleichen kannst du ETFs kostenlos auf Seiten wie <b>justETF</b> oder <b>extraETF</b>.</p>
+  <div class="callout tip"><strong>Vertiefung: ETF selbst analysieren</strong>Wie du einen ETF Schritt für Schritt prüfst, ein Factsheet liest und mehrere ETFs fair vergleichst – mit Kosten-, Tracking- und Länder-Mix-Rechnern – erfährst du auf der Seite <a href="etfanalyse.html"><b>ETF-Check</b></a>.</div>
+</section>
+
+<!-- 7 -->
+<section class="chapter" id="strategie">
+  <div class="chap-num">Kapitel 07</div>
+  <h2>Deine Strategie: einfach schlägt kompliziert</h2>
+  <p class="chap-intro">Die beste Strategie ist die, die du 30 Jahre lang durchhältst. Hier sind drei bewährte Modelle – such dir eins aus und bleib dabei.</p>
+
+  <div class="grid">
+    <div class="card">
+      <span class="tag g">Empfohlen für den Start</span>
+      <h4>A · Das Ein-ETF-Depot</h4>
+      <p><b>100 %</b> FTSE All-World oder MSCI ACWI</p>
+      <p class="muted">Ganze Welt in einem Produkt. Kein Umschichten, kein Nachdenken. Perfekt, wenn du es maximal einfach willst.</p>
+    </div>
+    <div class="card">
+      <span class="tag">Klassiker</span>
+      <h4>B · 70/30</h4>
+      <p><b>70 %</b> MSCI World<br><b>30 %</b> MSCI Emerging Markets</p>
+      <p class="muted">Ähnlich wie A, mit mehr Gewicht auf Schwellenländern. Zwei Sparpläne, gelegentlich ausbalancieren.</p>
+    </div>
+    <div class="card">
+      <span class="tag">Mit Spielwiese</span>
+      <h4>C · Kern + Satellit</h4>
+      <p><b>90 %</b> Welt-ETF (Kern)<br><b>10 %</b> Einzelaktien/Themen/Krypto</p>
+      <p class="muted">Für Neugierige: Du lernst mit kleinem Geld, ohne dein Fundament zu gefährden.</p>
+    </div>
+  </div>
+
+  <h3>Cost-Average-Effekt: Warum monatlich sparen so clever ist</h3>
+  <p>Mit einem festen Betrag kaufst du automatisch <b>mehr Anteile, wenn es billig ist</b>, und weniger, wenn es teuer ist. Du musst nie den „richtigen Zeitpunkt“ erraten – den kennt niemand, auch kein Profi.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Monat</th><th class="num">Kurs</th><th class="num">Sparrate</th><th class="num">Gekaufte Anteile</th></tr>
+    <tr><td>Januar</td><td class="num">100 €</td><td class="num">100 €</td><td class="num">1,00</td></tr>
+    <tr><td>Februar (Crash)</td><td class="num">50 €</td><td class="num">100 €</td><td class="num">2,00</td></tr>
+    <tr><td>März</td><td class="num">80 €</td><td class="num">100 €</td><td class="num">1,25</td></tr>
+    <tr><th>Summe</th><th class="num">Ø 76,67 €</th><th class="num">300 €</th><th class="num">4,25 → Ø-Preis 70,59 €</th></tr>
+  </table></div>
+  <p>Dein Durchschnittspreis ist günstiger als der Durchschnittskurs. Crashs werden so vom Feind zum Sonderangebot.</p>
+
+  <h3>Einmalbeträge (Geburtstag, Weihnachten, Ferienjob)</h3>
+  <p>Statistisch gesehen ist es meistens besser, Einmalbeträge direkt zu investieren, weil Märkte häufiger steigen als fallen. Wenn dich das nervös macht: Verteile den Betrag auf 3–6 Monate. Beides ist völlig okay.</p>
+
+  <h3>Rebalancing</h3>
+  <p>Nur bei Strategie B und C relevant: Einmal im Jahr prüfen, ob die Aufteilung noch ungefähr stimmt. Weicht sie mehr als 5–10 Prozentpunkte ab, passe einfach die Sparraten an, statt zu verkaufen (spart Steuern).</p>
+</section>
+
+<!-- 8 -->
+<section class="chapter" id="tr">
+  <div class="chap-num">Kapitel 08</div>
+  <h2>Trade Republic – Schritt für Schritt</h2>
+  <p class="chap-intro">Von der Installation bis zum ersten Kauf. Plane etwa 20–30 Minuten ein.</p>
+
+  <ol class="steps">
+    <li><h4>App laden &amp; registrieren</h4><p>Lade die offizielle App aus dem App Store oder Google Play. Achte auf den echten Anbieter (Trade Republic Bank GmbH). Du brauchst: Handynummer, E-Mail, Meldeadresse und eine Steuer-Identifikationsnummer (11-stellig, steht auf Briefen vom Finanzamt oder deiner Lohnabrechnung).</p></li>
+    <li><h4>Identität bestätigen</h4><p>Per Video- oder Foto-Ident mit Personalausweis oder Reisepass. Gutes Licht, ruhige Umgebung – dauert ein paar Minuten.</p></li>
+    <li><h4>Fragen zu Erfahrung &amp; Zielen beantworten</h4><p>Die App fragt nach deinen Erfahrungen mit Wertpapieren. Antworte ehrlich. Das schützt dich: Bei komplexen Produkten warnt dich die App dann.</p></li>
+    <li><h4>Sicherheit einrichten</h4><p>Sicherer PIN (nicht dein Geburtsdatum), Face ID / Fingerabdruck aktivieren, zweiter Faktor per SMS oder App. <b>Trade Republic fragt dich nie per Telefon, SMS oder E-Mail nach deinem PIN oder TAN-Codes.</b> Wer das tut, ist ein Betrüger.</p></li>
+    <li><h4>Referenzkonto verknüpfen</h4><p>Dein Girokonto, von dem du einzahlst und auf das Auszahlungen gehen.</p></li>
+    <li><h4>Geld einzahlen</h4><p>Per Überweisung, Lastschrift, Apple/Google Pay oder Karte. Alternativ zieht der Sparplan das Geld später direkt per Lastschrift ein.</p></li>
+    <li><h4>Freistellungsauftrag setzen</h4><p>Unter Profil → Steuern. Trag die vollen 1.000 € ein, wenn Trade Republic dein einziges Konto mit Kapitalerträgen ist. Mehr dazu in Kapitel 10 und auf der <a href="steuern.html">Steuer-Seite</a>.</p></li>
+    <li><h4>ETF suchen &amp; prüfen</h4><p>Suche per ISIN oder Name, schau dir Kosten (TER), Fondsgröße und die enthaltenen Firmen an.</p></li>
+    <li><h4>Sparplan anlegen</h4><p>Siehe nächstes Kapitel – das ist das Herzstück.</p></li>
+  </ol>
+
+  <h3>Die App verstehen: Was ist was?</h3>
+  <div class="grid">
+    <div class="card"><h4>Portfolio / Depot</h4><p>Alles, was du besitzt, mit aktuellem Wert. Tipp: Nicht täglich reinschauen.</p></div>
+    <div class="card"><h4>Verrechnungskonto</h4><p>Dein Cash bei Trade Republic, verzinst. Von hier aus wird gekauft.</p></div>
+    <div class="card"><h4>Sparpläne</h4><p>Deine automatischen, regelmäßigen Käufe. Hier passiert der echte Vermögensaufbau.</p></div>
+    <div class="card"><h4>Karte &amp; Saveback</h4><p>Mit der Trade-Republic-Karte gibt es (je nach aktuellen Bedingungen) einen kleinen Prozentsatz deiner Kartenzahlungen als Investment in deinen Sparplan zurück. Nett – aber kein Grund, mehr auszugeben.</p></div>
+    <div class="card"><h4>Round Up</h4><p>Kartenzahlungen werden aufgerundet, der Differenzbetrag wird investiert. Ein kleiner psychologischer Trick fürs Sparen.</p></div>
+    <div class="card"><h4>Dokumente</h4><p>Abrechnungen, Kosteninformationen und der jährliche Steuerreport. Brauchst du für die Steuererklärung.</p></div>
+  </div>
+
+  <h3>Kosten bei Trade Republic (Prinzip)</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Vorgang</th><th>Kosten</th></tr>
+    <tr><td>Sparplan ausführen</td><td>in der Regel kostenlos</td></tr>
+    <tr><td>Einzelkauf / -verkauf</td><td>Fremdkostenpauschale (bisher 1 € pro Order)</td></tr>
+    <tr><td>Depotführung</td><td>kostenlos</td></tr>
+    <tr><td>Laufende ETF-Kosten (TER)</td><td>gehen nicht an Trade Republic, sondern an den ETF-Anbieter</td></tr>
+    <tr><td>Spread</td><td>kleiner Unterschied zwischen Kauf- und Verkaufspreis – bei großen ETFs minimal</td></tr>
+  </table></div>
+  <div class="callout warn"><strong>Achtung</strong>Gebühren und Funktionen können sich ändern. Schau vor dem Start ins aktuelle Preis- und Leistungsverzeichnis in der App bzw. auf der Website von Trade Republic.</div>
+
+  <h3>Ordertypen, falls du doch mal einzeln kaufst</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Ordertyp</th><th>Was passiert</th><th>Wann sinnvoll</th></tr>
+    <tr><td>Market Order</td><td>Sofort zum aktuellen Kurs</td><td>Große ETFs während der Handelszeiten</td></tr>
+    <tr><td>Limit Order</td><td>Nur zu deinem Wunschpreis oder besser</td><td>Wenn du den Preis kontrollieren willst</td></tr>
+    <tr><td>Stop Order</td><td>Wird ab einem bestimmten Kurs ausgelöst</td><td>Eher für aktive Trader – für dich vorerst unwichtig</td></tr>
+  </table></div>
+  <p>Tipp: Kaufe und verkaufe möglichst zwischen 9 und 17:30 Uhr an Werktagen. Dann sind die Spreads am kleinsten, weil auch die großen Börsen geöffnet sind.</p>
+</section>
+
+<!-- 9 -->
+<section class="chapter" id="sparplan">
+  <div class="chap-num">Kapitel 09</div>
+  <h2>Deinen Sparplan einrichten</h2>
+  <p class="chap-intro">Einmal einrichten, dann läuft er von alleine. Das ist der eigentliche „Trick“.</p>
+
+  <ol class="steps">
+    <li><h4>ETF öffnen</h4><p>In der Suche den ETF aufrufen (am besten per ISIN).</p></li>
+    <li><h4>„Sparplan“ antippen</h4><p>Nicht „Kaufen“ – das wäre ein Einzelkauf mit Gebühr.</p></li>
+    <li><h4>Betrag festlegen</h4><p>Ab wenigen Euro möglich. Wähle einen Betrag, den du auch in einem schlechten Monat schaffst.</p></li>
+    <li><h4>Rhythmus wählen</h4><p>Monatlich ist der Standard. Zweimal monatlich oder wöchentlich ist möglich, bringt aber praktisch keinen Vorteil.</p></li>
+    <li><h4>Ausführungstag wählen</h4><p>Ein paar Tage <b>nach</b> deinem Geldeingang, z. B. am 2. oder 3. des Monats, wenn das Geld am 1. kommt.</p></li>
+    <li><h4>Zahlungsweg wählen</h4><p>Lastschrift vom Referenzkonto ist am bequemsten – du musst nicht vorher Geld überweisen.</p></li>
+    <li><h4>Bestätigen – und dann in Ruhe lassen</h4><p>Ab jetzt baust du jeden Monat automatisch Vermögen auf.</p></li>
+  </ol>
+
+  <div class="callout tip"><strong>Profi-Tipp: Sparrate dynamisieren</strong>Erhöhe deine Sparrate einmal im Jahr (z. B. an deinem Geburtstag) um 10 % oder immer dann, wenn du mehr verdienst. Diese kleine Gewohnheit hat über Jahrzehnte einen riesigen Effekt – teste es im Rechner oben.</div>
+
+  <h3>Beispiel-Fahrplan für die nächsten Jahre</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Phase</th><th>Ziel</th><th>Aktion</th></tr>
+    <tr><td>Monat 1–3</td><td>Fundament</td><td>Notgroschen aufbauen, Depot eröffnen, Sparplan mit kleinem Betrag (z. B. 25 €) starten, um ein Gefühl zu bekommen.</td></tr>
+    <tr><td>Monat 4–12</td><td>Routine</td><td>Sparrate auf Zielbetrag erhöhen. Nicht ständig reinschauen. Diese Seite noch einmal lesen.</td></tr>
+    <tr><td>Jahr 2–5</td><td>Wachstum</td><td>Sparrate mit jedem Einkommensschritt erhöhen. Erster Crash? Weiter sparen.</td></tr>
+    <tr><td>Jahr 5+</td><td>Entspannung</td><td>Einmal jährlich prüfen, sonst nichts. Der Zinseszins übernimmt.</td></tr>
+  </table></div>
+</section>
+
+<!-- 10 -->
+<section class="chapter" id="steuern">
+  <div class="chap-num">Kapitel 10</div>
+  <h2>Steuern – einfacher als gedacht</h2>
+  <p class="chap-intro">Trade Republic ist ein deutscher Broker und führt die Steuer automatisch ab. Du musst nur ein paar Dinge wissen, um nicht zu viel zu zahlen.</p>
+
+  <div class="grid">
+    <div class="card"><h4>Abgeltungsteuer</h4><p>25 % auf Gewinne + 5,5 % Soli darauf (+ ggf. Kirchensteuer). Zusammen rund 26,4 %. Wird automatisch abgezogen.</p></div>
+    <div class="card"><h4>Sparerpauschbetrag</h4><p><b>1.000 € pro Jahr</b> an Kapitalerträgen sind steuerfrei. Dafür musst du einen Freistellungsauftrag einrichten – in der App in wenigen Sekunden.</p></div>
+    <div class="card"><h4>Teilfreistellung</h4><p>Bei Aktien-ETFs (mind. 51 % Aktien) sind 30 % der Erträge steuerfrei. Du zahlst effektiv also nur auf 70 % der Gewinne Steuern.</p></div>
+    <div class="card"><h4>Vorabpauschale</h4><p>Bei thesaurierenden ETFs wird jedes Jahr Anfang Januar eine kleine Pauschale versteuert. Lag noch Freibetrag übrig, merkst du davon nichts. Sonst wird ein kleiner Betrag vom Verrechnungskonto abgebucht – also immer ein paar Euro drauf lassen.</p></div>
+  </div>
+
+  <h3>Wichtig für Studierende, Azubis und Geringverdiener: die NV-Bescheinigung</h3>
+  <p>Wenn dein gesamtes Einkommen im Jahr unter dem Grundfreibetrag liegt (plus Sparerpauschbetrag), kannst du beim Finanzamt eine <b>Nichtveranlagungsbescheinigung (NV-Bescheinigung)</b> beantragen. Dann werden auch Erträge über 1.000 € nicht besteuert. Für die meisten Einsteiger mit kleinen Beträgen reicht aber erst einmal der Freistellungsauftrag.</p>
+
+  <h3>Und wenn die Steuer doch abgezogen wurde?</h3>
+  <p>Über die Steuererklärung (Anlage KAP) kannst du dir zu viel gezahlte Steuern zurückholen – zum Beispiel, wenn du deinen Freistellungsauftrag vergessen hattest oder dein Einkommen sehr niedrig war.</p>
+
+  <div class="callout trader"><strong>Steuer-Trick der Langfristanleger</strong>Steuern fallen erst an, wenn du verkaufst (abgesehen von Ausschüttungen und Vorabpauschale). Wer nicht ständig umschichtet, lässt die „gestundete“ Steuer jahrzehntelang mitarbeiten. Ein weiterer Grund, warum Buy-and-Hold so stark ist.</div>
+  <div class="callout info"><strong>Hinweis</strong>Steuerregeln ändern sich. Bei Unsicherheiten hilft ein Lohnsteuerhilfeverein oder eine Steuerberaterin. Diese Seite ersetzt keine Steuerberatung.</div>
+</section>
+
+<!-- 11 -->
+<section class="chapter" id="trading">
+  <div class="chap-num">Kapitel 11</div>
+  <h2>Trading vs. Investieren – die unbequeme Wahrheit</h2>
+  <p class="chap-intro">Du hast „Online Trading“ gesagt. Als jemand, der beides gemacht hat, muss ich dir ehrlich sagen, was der Unterschied ist.</p>
+
+  <div class="table-wrap"><table>
+    <tr><th></th><th>Investieren</th><th>Trading</th></tr>
+    <tr><td>Zeithorizont</td><td>Jahre bis Jahrzehnte</td><td>Minuten bis Wochen</td></tr>
+    <tr><td>Zeitaufwand</td><td>1 Stunde pro Jahr</td><td>Stunden pro Tag</td></tr>
+    <tr><td>Wovon du profitierst</td><td>Wachstum der Weltwirtschaft</td><td>Fehlern anderer Marktteilnehmer</td></tr>
+    <tr><td>Wer auf der anderen Seite sitzt</td><td>egal</td><td>Profis mit Algorithmen, Daten und Millionenbudgets</td></tr>
+    <tr><td>Erfolgsquote</td><td>historisch sehr hoch über 15+ Jahre</td><td>Die große Mehrheit privater Trader verliert Geld</td></tr>
+    <tr><td>Stress</td><td>gering</td><td>hoch</td></tr>
+  </table></div>
+
+  <div class="callout danger"><strong>Hebelprodukte, CFDs, Knock-outs, Optionsscheine</strong>Bei CFDs müssen Anbieter in der EU offenlegen, wie viele Privatkunden Geld verlieren – typischerweise sind es <b>70–80 %</b>. Bei Hebelprodukten kann dein Einsatz innerhalb von Minuten komplett weg sein. Social-Media-Videos von „Tradern“ im Lamborghini zeigen dir nur die Gewinner – oder verdienen ihr Geld mit Kursen und Affiliate-Links, nicht mit Trading.</div>
+
+  <h3>Wenn es dich trotzdem reizt</h3>
+  <p>Neugier ist gut, und Einzelaktien zu verstehen macht Spaß. Meine Regel für dich:</p>
+  <ul>
+    <li>Maximal <b>5–10 %</b> deines Depots für Einzelaktien oder Experimente.</li>
+    <li>Nur Unternehmen kaufen, deren Geschäftsmodell du in zwei Sätzen erklären kannst.</li>
+    <li>Kein Hebel. Keine Wetten auf fallende Kurse. Keine Käufe auf Kredit.</li>
+    <li>Ein Trading-Tagebuch führen: Warum gekauft? Warum verkauft? Was gelernt?</li>
+    <li>Nach einem Jahr ehrlich vergleichen: Hast du den Welt-ETF geschlagen? (Spoiler: meistens nicht.)</li>
+  </ul>
+</section>
+
+<!-- 12 -->
+<section class="chapter" id="psyche">
+  <div class="chap-num">Kapitel 12</div>
+  <h2>Psychologie – dein größter Gegner bist du selbst</h2>
+  <p class="chap-intro">Das Wissen ist der leichte Teil. Die schwierige Disziplin ist, im richtigen Moment nichts zu tun.</p>
+
+  <div class="grid">
+    <div class="card"><h4>😱 Verlustangst</h4><p>Ein Verlust von 100 € fühlt sich etwa doppelt so schlimm an wie ein Gewinn von 100 € gut. Deshalb verkaufen viele im Crash – genau zum falschen Zeitpunkt.</p></div>
+    <div class="card"><h4>🚀 FOMO</h4><p>„Fear of missing out“: Alle reden über eine Aktie oder Coin, du kaufst nach starkem Anstieg. Wenn es auf TikTok angekommen ist, ist der Großteil der Party meist vorbei.</p></div>
+    <div class="card"><h4>🐑 Herdentrieb</h4><p>Wenn alle verkaufen, fühlt sich Verkaufen sicher an. Warren Buffett: „Sei ängstlich, wenn andere gierig sind, und gierig, wenn andere ängstlich sind.“</p></div>
+    <div class="card"><h4>🎯 Selbstüberschätzung</h4><p>Nach ein paar Gewinnen glaubt man, den Markt zu verstehen. In Bullenmärkten sieht jeder wie ein Genie aus.</p></div>
+    <div class="card"><h4>📱 Zu oft reinschauen</h4><p>Täglich ist dein Depot fast zur Hälfte der Zeit im Minus. Jährlich deutlich seltener. Wer weniger schaut, schläft besser – und handelt klüger.</p></div>
+    <div class="card"><h4>🔍 Bestätigungsfehler</h4><p>Man sucht nur Infos, die die eigene Meinung bestätigen. Lies bewusst auch Gegenargumente.</p></div>
+  </div>
+
+  <h3>Dein Crash-Notfallplan</h3>
+  <p>Schreib dir diese Sätze jetzt auf – wenn der Crash kommt (und er wird kommen), liest du sie:</p>
+  <div class="callout tip"><strong>Wenn mein Depot stark im Minus ist …</strong>
+    1. Ich verkaufe nicht. Verluste werden erst beim Verkauf real.<br>
+    2. Mein Sparplan kauft jetzt günstiger ein – das ist gut für mich.<br>
+    3. Ich brauche dieses Geld die nächsten Jahre nicht. Mein Notgroschen ist sicher.<br>
+    4. Ich lösche die App für vier Wochen vom Startbildschirm, wenn es mich stresst.<br>
+    5. Jeder Crash der Geschichte war im Rückblick eine Kaufgelegenheit für breit gestreute Anleger.</div>
+
+  <h3>Vorsicht vor Betrug</h3>
+  <ul>
+    <li>Niemand verschenkt garantierte hohe Renditen. „10 % pro Monat sicher“ = Betrug.</li>
+    <li>Fremde auf Instagram, Telegram oder Dating-Apps, die dir Investments zeigen wollen = Betrug.</li>
+    <li>Anrufe „von Trade Republic“, die TAN, PIN oder Bildschirmfreigabe wollen = Betrug.</li>
+    <li>„Signal-Gruppen“ und Kurs-Pusher bei Kleinstaktien = meist Pump-and-Dump.</li>
+  </ul>
+</section>
+
+<!-- 13 -->
+<section class="chapter" id="fehler">
+  <div class="chap-num">Kapitel 13</div>
+  <h2>Die 12 größten Anfängerfehler</h2>
+  <p class="chap-intro">Ich habe die meisten davon selbst gemacht oder bei anderen gesehen. Du darfst sie überspringen.</p>
+
+  <details><summary>1. Ohne Notgroschen investieren</summary><div>Dann musst du im Ernstfall verkaufen – oft zum schlechtesten Zeitpunkt.</div></details>
+  <details><summary>2. Den perfekten Einstiegszeitpunkt abwarten</summary><div>„Time in the market beats timing the market.“ Wer wartet, verpasst oft die besten Tage, die häufig direkt nach den schlechtesten kommen.</div></details>
+  <details><summary>3. Im Crash verkaufen</summary><div>Der teuerste Fehler überhaupt. Er macht vorübergehende Buchverluste zu echten Verlusten.</div></details>
+  <details><summary>4. Zu viele ETFs</summary><div>Fünf verschiedene Welt-ETFs enthalten im Wesentlichen dieselben Firmen. Mehr Produkte = mehr Aufwand, kaum mehr Streuung.</div></details>
+  <details><summary>5. Themen-ETFs als Hauptinvestment</summary><div>Hype-Themen (Clean Energy 2021, Cannabis 2018) sind oft schon teuer, wenn das Produkt startet. Viele haben danach massiv verloren.</div></details>
+  <details><summary>6. Einzelaktien nach Bauchgefühl</summary><div>„Ich nutze das Produkt, also kaufe ich die Aktie“ ist keine Analyse. Ein gutes Unternehmen kann eine schlechte Investition sein, wenn der Preis zu hoch ist.</div></details>
+  <details><summary>7. Hebelprodukte und CFDs</summary><div>Siehe Kapitel 11 und die Seite <a href="hebel-krypto.html">Hebel &amp; Krypto</a>. Die Mathematik ist gegen dich.</div></details>
+  <details><summary>8. Freistellungsauftrag vergessen</summary><div>Kostet dich unnötig Steuern. Dauert zwei Minuten.</div></details>
+  <details><summary>9. Ständig umschichten</summary><div>Jede Änderung kostet Gebühren, Spread und eventuell Steuern – und meistens Rendite.</div></details>
+  <details><summary>10. Finanz-Influencern blind vertrauen</summary><div>Frag dich immer: Wie verdient diese Person ihr Geld? Oft mit Klicks, Kursen oder Provisionen.</div></details>
+  <details><summary>11. Den Sparplan bei Geldknappheit löschen statt pausieren</summary><div>Pausiere oder reduziere lieber. Die Gewohnheit ist wertvoller als der einzelne Betrag.</div></details>
+  <details><summary>12. Sich mit anderen vergleichen</summary><div>Irgendwer hat immer gerade mehr Gewinn gemacht. Dein einziger Maßstab ist dein eigener Plan.</div></details>
+</section>
+
+<!-- 14 -->
+<section class="chapter" id="routine">
+  <div class="chap-num">Kapitel 14</div>
+  <h2>Deine Routine – wenig Aufwand, große Wirkung</h2>
+  <p class="chap-intro">So sieht ein entspanntes Anlegerleben aus.</p>
+
+  <div class="table-wrap"><table>
+    <tr><th>Wann</th><th>Was</th><th>Dauer</th></tr>
+    <tr><td>Monatlich</td><td>Nichts. Der Sparplan läuft. Höchstens kurz checken, ob die Ausführung geklappt hat.</td><td>1 Min.</td></tr>
+    <tr><td>Quartalsweise</td><td>Budget anschauen: Kann die Sparrate steigen?</td><td>10 Min.</td></tr>
+    <tr><td>Jährlich (z. B. Geburtstag)</td><td>Sparrate erhöhen, Aufteilung prüfen, Freistellungsauftrag checken, Notgroschen anpassen.</td><td>30 Min.</td></tr>
+    <tr><td>Steuererklärung</td><td>Jahressteuerbericht aus der App herunterladen und, falls sinnvoll, in die Anlage KAP übernehmen.</td><td>15 Min.</td></tr>
+    <tr><td>Bei Lebensereignissen</td><td>Erster Job, Umzug, Studium: Plan anpassen.</td><td>1 Std.</td></tr>
+  </table></div>
+
+  <h3>Weiterlernen – gute Quellen</h3>
+  <ul>
+    <li><b>Bücher:</b> „Souverän investieren mit Indexfonds und ETFs“ (Gerd Kommer), „Rich Dad Poor Dad“ (Kiyosaki – zur Motivation, nicht als Anleitung), „The Psychology of Money“ (Morgan Housel) – letzteres ist meine Nummer 1 für dich.</li>
+    <li><b>Unabhängige Infos:</b> Finanztip (Verbraucherschutz-orientiert), justETF (ETF-Suche und -Vergleich), Verbraucherzentrale.</li>
+    <li><b>Podcasts:</b> „Finanzfluss“ und „Finanztip“ für deutschsprachige Grundlagen.</li>
+  </ul>
+</section>
+
+<!-- 15 -->
+<section class="chapter" id="checkliste">
+  <div class="chap-num">Kapitel 15</div>
+  <h2>Deine Start-Checkliste</h2>
+  <p class="chap-intro">Hake ab, was erledigt ist. Dein Fortschritt wird in diesem Browser gespeichert. <span class="check-progress" id="checkProg"></span></p>
+  <ul class="checklist" id="checklist"></ul>
+</section>
+
+<!-- 16 -->
+<section class="chapter" id="quiz">
+  <div class="chap-num">Kapitel 16</div>
+  <h2>Wissens-Check</h2>
+  <p class="chap-intro">Zehn Fragen. Wenn du mindestens acht richtig hast, bist du bereit für deinen ersten Sparplan.</p>
+  <div id="quizBox"></div>
+  <p class="quiz-score" id="quizScore"></p>
+  <button class="btn" id="quizReset" type="button">Quiz neu starten</button>
+</section>
+
+<!-- 17 -->
+<section class="chapter" id="glossar">
+  <div class="chap-num">Kapitel 17</div>
+  <h2>Glossar</h2>
+  <p class="chap-intro">Alle wichtigen Begriffe zum Nachschlagen.</p>
+  <input type="search" id="glossSearch" placeholder="Begriff suchen …" aria-label="Glossar durchsuchen">
+  <div class="gloss" id="gloss"></div>
+</section>
+
+<section class="chapter">
+  <h2>Zum Schluss</h2>
+  <p>Du musst nicht der klügste Mensch an der Börse sein. Du musst nur <b>früh anfangen</b>, <b>breit streuen</b>, <b>Kosten niedrig halten</b> und <b>dranbleiben</b> – vor allem dann, wenn es sich schlecht anfühlt.</p>
+  <p>In 30 Jahren wirst du auf den Tag zurückblicken, an dem du deinen ersten Sparplan eingerichtet hast, und dir dankbar sein.</p>
+  <p><b>Viel Erfolg – und vergiss nicht: langweilig ist gut.</b></p>
+  <p><a class="btn" href="budget.html">Weiter im Lernpfad: Budget &amp; Sparrate →</a></p>
+</section>
+
+<nav class="pager" aria-label="Lernpfad"><a class="prev" href="index.html"><small>← Zurück</small><b>Übersicht</b></a><a class="next" href="budget.html"><small>Weiter im Lernpfad →</small><b>Budget & Sparrate</b></a></nav>
+</main>
+</div>
+
+<footer>
+  Bildungsinhalt, keine Anlage- oder Steuerberatung. Investieren ist mit Risiken verbunden, bis hin zum Verlust des eingesetzten Kapitals. Vergangene Wertentwicklungen sind kein verlässlicher Indikator für künftige Ergebnisse. Konditionen von Trade Republic können sich ändern. Stand: Oktober 2026.
+</footer>
+
+<script>
+(function(){
+  // ---------- Helpers ----------
+  const fmt = n => n.toLocaleString('de-DE',{maximumFractionDigits:0}) + ' €';
+  const store = {
+    get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } },
+    set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  };
+
+  // ---------- Theme ----------
+  const root = document.documentElement;
+  const saved = store.get('dga-theme');
+  if(saved) root.setAttribute('data-theme', saved);
+  document.getElementById('themeBtn').addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme') ||
+      (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    store.set('dga-theme', next);
+    drawCalc();
+  });
+
+  // ---------- Progress bar + TOC highlight ----------
+  const bar = document.getElementById('bar');
+  const links = [...document.querySelectorAll('nav.toc a')];
+  const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  function onScroll(){
+    const h = document.documentElement;
+    bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+    let idx = 0;
+    secs.forEach((s,i) => { if(s && s.getBoundingClientRect().top < 140) idx = i; });
+    links.forEach((a,i) => a.classList.toggle('active', i === idx));
+  }
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  // ---------- Calculator ----------
+  const $ = id => document.getElementById(id);
+  function simulate(rate, start, years, ret){
+    const r = Math.pow(1 + ret/100, 1/12) - 1;
+    let v = start, inv = start; const pts = [{y:0, v, inv}];
+    for(let m=1; m<=years*12; m++){
+      v = v*(1+r) + rate; inv += rate;
+      if(m % 12 === 0) pts.push({y:m/12, v, inv});
+    }
+    return pts;
+  }
+  function drawCalc(){
+    const rate=+$('rate').value, start=+$('start').value, years=+$('years').value, ret=+$('ret').value;
+    $('rateOut').textContent = fmt(rate);
+    $('startOut').textContent = fmt(start);
+    $('yearsOut').textContent = years + ' Jahre';
+    $('retOut').textContent = ret.toLocaleString('de-DE') + ' %';
+    const pts = simulate(rate,start,years,ret), last = pts[pts.length-1];
+    $('kInv').textContent = fmt(last.inv);
+    $('kGain').textContent = fmt(last.v - last.inv);
+    $('kEnd').textContent = fmt(last.v);
+
+    const W=700,H=280,pl=64,pr=12,pt=12,pb=30, cw=W-pl-pr, ch=H-pt-pb;
+    const max = Math.max(1, last.v) * 1.05;
+    const x = y => pl + (y/years)*cw, yv = v => pt + ch - (v/max)*ch;
+    const cs = getComputedStyle(root);
+    const cA = cs.getPropertyValue('--chart-a').trim(), cB = cs.getPropertyValue('--chart-b').trim();
+    const grid = cs.getPropertyValue('--border').trim(), mut = cs.getPropertyValue('--muted').trim();
+    let s = '';
+    for(let i=0;i<=4;i++){
+      const val = max*i/4, yy = yv(val);
+      s += `<line x1="${pl}" x2="${W-pr}" y1="${yy}" y2="${yy}" stroke="${grid}"/>`;
+      s += `<text x="${pl-8}" y="${yy+4}" text-anchor="end" font-size="11" fill="${mut}">${val>=1e6?(val/1e6).toLocaleString('de-DE',{maximumFractionDigits:1})+' Mio.':Math.round(val/1000)+'k'}</text>`;
+    }
+    const step = years <= 10 ? 1 : years <= 25 ? 5 : 10;
+    for(let y=0;y<=years;y+=step) s += `<text x="${x(y)}" y="${H-10}" text-anchor="middle" font-size="11" fill="${mut}">${y}</text>`;
+    const top = pts.map(p=>`${x(p.y)},${yv(p.v)}`).join(' ');
+    const mid = pts.map(p=>`${x(p.y)},${yv(p.inv)}`).join(' ');
+    const midRev = pts.slice().reverse().map(p=>`${x(p.y)},${yv(p.inv)}`).join(' ');
+    s += `<polygon points="${x(0)},${yv(0)} ${mid} ${x(years)},${yv(0)}" fill="${cB}"/>`;
+    s += `<polygon points="${top} ${midRev}" fill="${cA}" opacity=".85"/>`;
+    s += `<polyline points="${top}" fill="none" stroke="${cA}" stroke-width="2"/>`;
+    s += `<text x="${W-pr}" y="${H-10}" text-anchor="end" font-size="11" fill="${mut}">Jahre</text>`;
+    $('chart').innerHTML = s;
+  }
+  ['rate','start','years','ret'].forEach(id => $(id).addEventListener('input', drawCalc));
+  drawCalc();
+
+  // Waiting table
+  const wt = $('waitTable');
+  [20,25,30,35,45].forEach(age => {
+    const p = simulate(100,0,67-age,6), l = p[p.length-1];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${age} Jahren</td><td class="num">${fmt(l.inv)}</td><td class="num"><b>${fmt(l.v)}</b></td>`;
+    wt.appendChild(tr);
+  });
+
+  // ---------- Checklist ----------
+  const items = [
+    'Ich habe einen Überblick über meine monatlichen Einnahmen und Ausgaben.',
+    'Ich habe keine teuren Schulden (Dispo, Ratenkredit).',
+    'Mein Notgroschen (ca. 3 Monatsausgaben) steht.',
+    'Ich habe meine monatliche Sparrate festgelegt.',
+    'Ich habe Kapitel 1–7 gelesen und verstanden.',
+    'Trade-Republic-Konto eröffnet und verifiziert.',
+    'Sicherheit eingerichtet: starker PIN, biometrischer Login, zweiter Faktor.',
+    'Freistellungsauftrag über 1.000 € eingerichtet.',
+    'Ich habe mich für eine Strategie (A, B oder C) entschieden.',
+    'Ich habe meinen ETF per ISIN geprüft (TER, Größe, Acc/Dist).',
+    'Mein Sparplan ist eingerichtet und das Ausführungsdatum passt zu meinem Geldeingang.',
+    'Ich habe meinen Crash-Notfallplan aufgeschrieben.',
+    'Ich habe mir eine jährliche Erinnerung zur Sparraten-Erhöhung gesetzt.'
+  ];
+  const cl = $('checklist'); const state = store.get('dga-check') || {};
+  function upd(){
+    const done = items.filter((_,i)=>state[i]).length;
+    $('checkProg').textContent = `${done} / ${items.length} erledigt`;
+  }
+  items.forEach((t,i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<input type="checkbox" id="c${i}"><label for="c${i}">${t}</label>`;
+    const cb = li.querySelector('input'); cb.checked = !!state[i]; li.classList.toggle('done', cb.checked);
+    cb.addEventListener('change', () => { state[i] = cb.checked; li.classList.toggle('done', cb.checked); store.set('dga-check', state); upd(); });
+    cl.appendChild(li);
+  });
+  upd();
+
+  // ---------- Quiz ----------
+  const Q = [
+    {q:'Was ist ein ETF?', a:['Eine einzelne Aktie eines Tech-Unternehmens','Ein börsengehandelter Fonds, der einen Index nachbildet','Eine Kryptowährung','Ein Sparbuch mit festem Zins'], c:1, e:'Ein ETF bildet einen Index wie den MSCI World automatisch nach – viele Firmen in einem Produkt.'},
+    {q:'Was solltest du haben, BEVOR du investierst?', a:['Ein neues Smartphone','Einen Notgroschen und keine teuren Schulden','Mindestens 10.000 €','Einen Trading-Kurs für 2.000 €'], c:1, e:'Der Notgroschen verhindert, dass du im falschen Moment verkaufen musst.'},
+    {q:'Dein Depot fällt in einem Crash um 30 %. Was tust du?', a:['Sofort alles verkaufen','Den Sparplan weiterlaufen lassen','Auf Hebelprodukte umsteigen','Die Hälfte in Krypto tauschen'], c:1, e:'Verluste werden erst beim Verkauf real. Der Sparplan kauft jetzt günstig ein.'},
+    {q:'Was bedeutet „thesaurierend“ (Acc)?', a:['Dividenden werden automatisch reinvestiert','Der ETF ist besonders riskant','Dividenden werden ausgezahlt','Der ETF zahlt keine Steuern'], c:0, e:'Thesaurierende ETFs legen Erträge automatisch wieder an – ideal für den Zinseszins.'},
+    {q:'Wie hoch ist der Sparerpauschbetrag pro Person und Jahr?', a:['100 €','801 €','1.000 €','5.000 €'], c:2, e:'1.000 € Kapitalerträge pro Jahr sind steuerfrei – mit Freistellungsauftrag.'},
+    {q:'Was ist ein gutes Kostenniveau (TER) für einen Welt-ETF?', a:['0,1–0,25 % pro Jahr','1,5 % pro Jahr','3 % pro Jahr','Kosten sind egal'], c:0, e:'Kosten schmälern deine Rendite jedes Jahr. Günstig ist bei breiten Welt-ETFs Standard.'},
+    {q:'Was beschreibt den Cost-Average-Effekt?', a:['Man kauft immer zum Höchstkurs','Mit festem Betrag kauft man bei niedrigen Kursen automatisch mehr Anteile','Kosten werden halbiert','Die Bank zahlt einen Bonus'], c:1, e:'Fester Betrag = mehr Anteile, wenn es billig ist. Kein Market Timing nötig.'},
+    {q:'Was passiert mit deinen ETFs, wenn dein Broker pleitegeht?', a:['Sie sind verloren','Sie gehören dir weiterhin (Sondervermögen)','Der Staat behält sie','Sie werden in Bargeld umgetauscht und halbiert'], c:1, e:'Wertpapiere im Depot sind Sondervermögen und bleiben dein Eigentum.'},
+    {q:'Ungefähr wie viele Jahre dauert es bei 6 % Rendite, bis sich Geld verdoppelt?', a:['3','6','12','30'], c:2, e:'72er-Regel: 72 ÷ 6 = 12 Jahre.'},
+    {q:'Jemand schreibt dir auf Instagram: „Garantiert 8 % pro Woche, schick mir 500 €“. Was ist das?', a:['Eine tolle Chance','Ein Geheimtipp von Profis','Mit sehr hoher Wahrscheinlichkeit Betrug','Ein neuer ETF'], c:2, e:'Garantierte hohe Renditen gibt es nicht. Blockieren und melden.'}
+  ];
+  const box = $('quizBox'); let score = 0, answered = 0;
+  function buildQuiz(){
+    box.innerHTML = ''; score = 0; answered = 0; $('quizScore').textContent = '';
+    Q.forEach((it,qi) => {
+      const d = document.createElement('div'); d.className = 'quiz-q';
+      d.innerHTML = `<p class="q">${qi+1}. ${it.q}</p>`;
+      const fb = document.createElement('div'); fb.className = 'fb';
+      it.a.forEach((txt,ai) => {
+        const b = document.createElement('button'); b.type='button'; b.textContent = txt;
+        b.addEventListener('click', () => {
+          d.querySelectorAll('button').forEach((x,xi) => { x.disabled = true; if(xi===it.c) x.classList.add('right'); });
+          if(ai===it.c){ score++; fb.innerHTML = '<b>Richtig!</b> ' + it.e; }
+          else { b.classList.add('wrong'); fb.innerHTML = '<b>Nicht ganz.</b> ' + it.e; }
+          fb.style.display = 'block'; answered++;
+          if(answered === Q.length){
+            $('quizScore').textContent = `Ergebnis: ${score} von ${Q.length} richtig. ` +
+              (score >= 8 ? 'Stark – du bist bereit für deinen ersten Sparplan!' : 'Lies die entsprechenden Kapitel noch einmal und versuch es erneut.');
+          }
+        });
+        d.appendChild(b);
+      });
+      d.appendChild(fb); box.appendChild(d);
+    });
+  }
+  $('quizReset').addEventListener('click', buildQuiz);
+  buildQuiz();
+
+  // ---------- Glossary ----------
+  const G = [
+    ['Abgeltungsteuer','Pauschale Steuer von 25 % (+ Soli, ggf. KiSt) auf Kapitalerträge.'],
+    ['Aktie','Anteil an einem Unternehmen.'],
+    ['Anleihe','Verzinstes Darlehen an einen Staat oder ein Unternehmen.'],
+    ['Asset Allocation','Aufteilung deines Vermögens auf verschiedene Anlageklassen (Aktien, Anleihen, Cash).'],
+    ['Ausschüttend (Dist)','ETF zahlt Dividenden auf dein Konto aus.'],
+    ['Bärenmarkt','Längere Phase fallender Kurse (meist ab −20 %).'],
+    ['Broker','Vermittler, über den du Wertpapiere kaufst und verkaufst – z. B. Trade Republic.'],
+    ['Bullenmarkt','Längere Phase steigender Kurse.'],
+    ['Buy and Hold','Kaufen und langfristig halten, statt häufig zu handeln.'],
+    ['Cost-Average-Effekt','Durch feste Sparraten kauft man bei niedrigen Kursen mehr Anteile.'],
+    ['Crash','Starker, schneller Kursrückgang.'],
+    ['Depot','Dein „Konto“ für Wertpapiere.'],
+    ['Diversifikation','Streuung des Geldes auf viele Anlagen, um Einzelrisiken zu verringern.'],
+    ['Dividende','Gewinnausschüttung eines Unternehmens an Aktionäre.'],
+    ['Emerging Markets','Schwellenländer wie China, Indien, Brasilien.'],
+    ['ETF','Exchange Traded Fund – börsengehandelter Indexfonds.'],
+    ['Freistellungsauftrag','Auftrag an die Bank, Erträge bis 1.000 €/Jahr nicht zu versteuern.'],
+    ['Hebel','Verstärkt Gewinne und Verluste. Hohes Risiko bis zum Totalverlust.'],
+    ['Index','Korb von Wertpapieren nach festen Regeln, z. B. DAX oder MSCI World.'],
+    ['Inflation','Allgemeiner Anstieg der Preise – senkt die Kaufkraft deines Geldes.'],
+    ['ISIN','12-stellige internationale Wertpapierkennnummer.'],
+    ['Kurs','Aktueller Preis eines Wertpapiers.'],
+    ['Limit Order','Auftrag, nur zu einem bestimmten Preis oder besser zu kaufen/verkaufen.'],
+    ['Marktkapitalisierung','Börsenwert eines Unternehmens (Kurs × Anzahl Aktien).'],
+    ['MSCI World','Index mit rund 1.400 Unternehmen aus 23 Industrieländern.'],
+    ['Notgroschen','Finanzielle Reserve für unerwartete Ausgaben.'],
+    ['NV-Bescheinigung','Bescheinigung vom Finanzamt für Menschen mit geringem Einkommen; Kapitalerträge bleiben steuerfrei.'],
+    ['Rebalancing','Wiederherstellen der gewünschten Aufteilung im Depot.'],
+    ['Rendite','Ertrag einer Geldanlage, meist in % pro Jahr.'],
+    ['Sondervermögen','Wertpapiere im Depot gehören dir und sind bei Insolvenz der Bank geschützt.'],
+    ['Sparerpauschbetrag','Steuerfreibetrag von 1.000 € pro Person und Jahr für Kapitalerträge.'],
+    ['Sparplan','Automatischer, regelmäßiger Kauf eines Wertpapiers.'],
+    ['Spread','Differenz zwischen Kauf- und Verkaufskurs.'],
+    ['TER','Total Expense Ratio – jährliche laufende Kosten eines Fonds.'],
+    ['Teilfreistellung','Bei Aktien-ETFs sind 30 % der Erträge steuerfrei.'],
+    ['Thesaurierend (Acc)','ETF reinvestiert Dividenden automatisch.'],
+    ['UCITS','EU-Standard für regulierte Fonds.'],
+    ['Volatilität','Maß für die Schwankungsbreite eines Kurses.'],
+    ['Vorabpauschale','Jährliche Mindestbesteuerung bei thesaurierenden Fonds.'],
+    ['Zinseszins','Zinsen auf bereits erhaltene Zinsen bzw. Erträge – der Motor des Vermögensaufbaus.']
+  ];
+  const gl = $('gloss');
+  function renderGloss(f){
+    f = (f||'').toLowerCase();
+    gl.innerHTML = G.filter(([k,v]) => (k+v).toLowerCase().includes(f))
+      .map(([k,v]) => `<div><b>${k}</b>${v}</div>`).join('') || '<p class="muted">Kein Treffer.</p>';
+  }
+  $('glossSearch').addEventListener('input', e => renderGloss(e.target.value));
+  renderGloss('');
+})();
+</script>
+<script>
+(function(){
+ const PAGE="trading101.html";
+ try{const v=JSON.parse(localStorage.getItem('dga-visited'))||{};v[PAGE]=1;localStorage.setItem('dga-visited',JSON.stringify(v));
+   document.querySelectorAll('#menu a[data-f]').forEach(a=>{if(v[a.dataset.f])a.querySelector('.v').textContent='✓'})}catch(e){}
+ const mb=document.getElementById('menuBtn'),m=document.getElementById('menu');
+ mb.addEventListener('click',e=>{e.stopPropagation();m.hidden=!m.hidden;mb.setAttribute('aria-expanded',String(!m.hidden))});
+ document.addEventListener('click',e=>{if(!m.hidden&&!m.contains(e.target))m.hidden=true});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')m.hidden=true});
+})();
+</script>
+<script type="module">
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDcoyIKBteii7mt6F7QIdR2mr0PIx8ON-I",
+  authDomain: "tradings1x1.firebaseapp.com",
+  projectId: "tradings1x1",
+  storageBucket: "tradings1x1.firebasestorage.app",
+  messagingSenderId: "962901431228",
+  appId: "1:962901431228:web:7e1199128eff0caa1051b9"
+};
+const SDK = "https://www.gstatic.com/firebasejs/10.12.2/";
+const D = window.__dga;
+const btn = document.getElementById('acctBtn');
+const lbl = btn && btn.querySelector('.acct-label');
+const dot = btn && btn.querySelector('.acct-dot');
+let user = null, ref = null, api = null, pushing = false, timer = null;
+
+function setStatus(s, text){ if(!dot) return; dot.className = 'acct-dot ' + s; if(text) btn.title = text; }
+function setLabel(t){ if(lbl) lbl.textContent = t; }
+function localKV(){ const o = {}; for(let i=0;i<localStorage.length;i++){ const k = localStorage.key(i); if(D.isKey(k)) o[k] = localStorage.getItem(k); } return o; }
+function wipeLocal(){ Object.keys(localKV()).forEach(k => { if(k !== 'dga-theme') D.raw.rem(k); }); D.setPending([]); }
+
+// ---------- Modal UI ----------
+const back = document.createElement('div');
+back.className = 'modal-back'; back.hidden = true; back.id = 'acctModal';
+back.innerHTML = `<div class="modal acct-modal" role="dialog" aria-modal="true" aria-labelledby="acctTitle">
+  <button class="x-btn acct-close" type="button" aria-label="Schließen">×</button>
+  <div id="acctBody"></div></div>`;
+document.body.appendChild(back);
+const body = back.querySelector('#acctBody');
+function open(){ render(); back.hidden = false; const f = back.querySelector('input,button.btn'); if(f) f.focus(); }
+function close(){ back.hidden = true; }
+back.addEventListener('click', e => { if(e.target === back || e.target.closest('.acct-close')) close(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && !back.hidden) close(); });
+if(btn) btn.addEventListener('click', open);
+
+const ERR = {
+  'auth/invalid-credential':'E-Mail oder Passwort ist falsch.',
+  'auth/wrong-password':'E-Mail oder Passwort ist falsch.',
+  'auth/user-not-found':'Zu dieser E-Mail gibt es noch kein Konto.',
+  'auth/invalid-email':'Das ist keine gültige E-Mail-Adresse.',
+  'auth/email-already-in-use':'Für diese E-Mail gibt es schon ein Konto – bitte anmelden.',
+  'auth/weak-password':'Das Passwort muss mindestens 6 Zeichen haben.',
+  'auth/too-many-requests':'Zu viele Versuche. Bitte kurz warten.',
+  'auth/network-request-failed':'Keine Verbindung. Bitte Internet prüfen.',
+  'auth/unauthorized-domain':'Diese Domain ist in Firebase noch nicht freigegeben (Authentication → Settings → Authorized domains).',
+  'auth/operation-not-allowed':'E-Mail/Passwort-Login ist in Firebase nicht aktiviert.',
+  'permission-denied':'Firestore verweigert den Zugriff – bitte die Sicherheitsregeln prüfen.'
+};
+const msg = e => ERR[e && e.code] || ('Fehler: ' + ((e && (e.code || e.message)) || 'unbekannt'));
+
+function render(note){
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  if(!api){
+    body.innerHTML = `<h3 id="acctTitle">Konto</h3><p class="muted">Die Anmeldung ist gerade nicht erreichbar (keine Internetverbindung oder Firebase blockiert). Deine Eingaben werden weiter lokal in diesem Browser gespeichert.</p>`;
+    return;
+  }
+  if(user){
+    const p = D.pending().length;
+    body.innerHTML = `<h3 id="acctTitle">Dein Konto</h3>
+      <p>Angemeldet als <b>${esc(user.email)}</b></p>
+      <p class="muted" id="acctState">${p ? `⏳ ${p} Änderung(en) werden gespeichert …` : '✓ Alles gespeichert. Deine Eingaben sind auf jedem Gerät verfügbar, auf dem du dich anmeldest.'}</p>
+      ${note ? `<p class="acct-note">${note}</p>` : ''}
+      <div class="row-actions"><button class="btn sec" type="button" id="acctSync">↻ Jetzt synchronisieren</button></div>
+      <hr style="border:0;border-top:1px solid var(--border);margin:1.2rem 0">
+      <label style="display:flex;gap:.5rem;align-items:flex-start;font-size:.92rem"><input type="checkbox" id="acctWipe" checked style="margin-top:.3rem"> Beim Abmelden die Daten auf diesem Gerät entfernen (empfohlen auf gemeinsam genutzten Geräten – in deinem Konto bleibt alles erhalten)</label>
+      <div class="row-actions"><button class="btn" type="button" id="acctOut">Abmelden</button></div>`;
+    body.querySelector('#acctSync').onclick = async () => { await fullSync(true); render('Synchronisiert.'); };
+    body.querySelector('#acctOut').onclick = async () => {
+      const wipe = body.querySelector('#acctWipe').checked;
+      try { await pushNow(); } catch(e){}
+      await api.signOut(api.auth);
+      if(wipe){ wipeLocal(); D.raw.rem('dga-sync-uid'); }
+      location.reload();
+    };
+    return;
+  }
+  body.innerHTML = `<h3 id="acctTitle">Anmelden</h3>
+    <p class="muted" style="margin-top:0">Mit Konto werden alle Eingaben (Budget, Depot, Checklisten, Tagebuch, Crash-Plan …) gespeichert und sind auf jedem Gerät verfügbar.</p>
+    <form id="acctForm" novalidate>
+      <div class="ctrl"><label for="acctMail">E-Mail</label><input type="email" id="acctMail" autocomplete="email" required></div>
+      <div class="ctrl" style="margin-top:.7rem"><label for="acctPw">Passwort</label><input type="password" id="acctPw" autocomplete="current-password" required minlength="6"></div>
+      <p class="acct-note" id="acctMsg">${note || ''}</p>
+      <div class="row-actions">
+        <button class="btn" type="submit" id="acctIn">Anmelden</button>
+        <button class="btn sec" type="button" id="acctNew">Neues Konto erstellen</button>
+      </div>
+      <p style="margin:.8rem 0 0"><button type="button" class="linkbtn" id="acctReset">Passwort vergessen?</button></p>
+    </form>`;
+  const mail = body.querySelector('#acctMail'), pw = body.querySelector('#acctPw'), out = body.querySelector('#acctMsg');
+  const busy = (b) => body.querySelectorAll('button').forEach(x => x.disabled = b);
+  body.querySelector('#acctForm').onsubmit = async e => {
+    e.preventDefault(); busy(true); out.textContent = 'Anmelden …';
+    try { await api.signInWithEmailAndPassword(api.auth, mail.value.trim(), pw.value); close(); }
+    catch(err){ out.textContent = msg(err); busy(false); }
+  };
+  body.querySelector('#acctNew').onclick = async () => {
+    busy(true); out.textContent = 'Konto wird erstellt …';
+    try { await api.createUserWithEmailAndPassword(api.auth, mail.value.trim(), pw.value); close(); }
+    catch(err){ out.textContent = msg(err); busy(false); }
+  };
+  body.querySelector('#acctReset').onclick = async () => {
+    if(!mail.value.trim()){ out.textContent = 'Bitte zuerst deine E-Mail eintragen.'; mail.focus(); return; }
+    try { await api.sendPasswordResetEmail(api.auth, mail.value.trim()); out.textContent = '✓ E-Mail zum Zurücksetzen wurde verschickt (auch im Spam-Ordner nachsehen).'; }
+    catch(err){ out.textContent = msg(err); }
+  };
+}
+
+// ---------- Sync ----------
+async function pushNow(){
+  if(!user || pushing) return;
+  const keys = D.pending(); if(!keys.length) return;
+  pushing = true; setStatus('busy', 'Speichere …');
+  try {
+    const kv = {};
+    keys.forEach(k => { const v = localStorage.getItem(k); kv[k] = v === null ? api.deleteField() : v; });
+    await api.setDoc(ref, { kv, email: user.email, updatedAt: api.serverTimestamp() }, { merge: true });
+    const left = D.pending().filter(k => !keys.includes(k) || localStorage.getItem(k) !== (typeof kv[k] === 'string' ? kv[k] : null));
+    D.setPending(left);
+    setStatus(left.length ? 'busy' : 'ok', left.length ? 'Speichere …' : 'Gespeichert in deinem Konto');
+    const st = document.getElementById('acctState'); if(st && !left.length) st.textContent = '✓ Alles gespeichert.';
+  } catch(e){ console.warn('[sync] push failed', e); setStatus('err', msg(e)); }
+  finally { pushing = false; if(D.pending().length && !timer) schedule(3000); }
+}
+function schedule(ms){ clearTimeout(timer); timer = setTimeout(() => { timer = null; pushNow(); }, ms); }
+
+// Pull remote → local. Returns true if local data changed.
+async function pull(mode){
+  const snap = await api.getDoc(ref);
+  const remote = snap.exists() ? (snap.data().kv || {}) : {};
+  const pend = new Set(D.pending());
+  let changed = false;
+  for(const [k, v] of Object.entries(remote)){
+    if(!D.isKey(k)) continue;
+    if(k === 'dga-visited'){ // merge "visited pages" from all devices
+      try { const m = Object.assign({}, JSON.parse(v) || {}, JSON.parse(localStorage.getItem(k)) || {}); const js = JSON.stringify(m);
+        if(js !== localStorage.getItem(k)){ D.raw.set(k, js); changed = true; } if(js !== v) D.mark(k); } catch(e){}
+      continue;
+    }
+    if(pend.has(k)) continue;
+    if(localStorage.getItem(k) !== v){ D.raw.set(k, v); changed = true; }
+  }
+  // Local keys the account doesn't know yet → upload (first login on this device, or never synced)
+  const local = localKV(); const missing = Object.keys(local).filter(k => !(k in remote));
+  if(missing.length){ D.setPending([...new Set([...D.pending(), ...missing])]); }
+  return changed;
+}
+
+async function fullSync(manual){
+  if(!user) return;
+  setStatus('busy', 'Synchronisiere …');
+  try {
+    await pushNow();
+    const changed = await pull();
+    await pushNow();
+    setStatus('ok', 'Gespeichert in deinem Konto');
+    if(changed && !manual) safeReload();
+    if(changed && manual) location.reload();
+  } catch(e){ console.warn('[sync] sync failed', e); setStatus('err', msg(e)); }
+}
+function safeReload(){
+  // Reload once so the page shows the synced data; guard against loops.
+  try {
+    const last = +sessionStorage.getItem('dga-sync-reload') || 0;
+    if(Date.now() - last < 10000) return;
+    sessionStorage.setItem('dga-sync-reload', String(Date.now()));
+  } catch(e){}
+  location.reload();
+}
+
+// ---------- Boot ----------
+setStatus('', 'Anmelden, um Eingaben geräteübergreifend zu speichern');
+try {
+  const [appM, authM, fsM] = await Promise.all([
+    import(SDK + 'firebase-app.js'), import(SDK + 'firebase-auth.js'), import(SDK + 'firebase-firestore.js')
+  ]);
+  const app = appM.initializeApp(FIREBASE_CONFIG);
+  const auth = authM.getAuth(app);
+  const db = fsM.getFirestore(app);
+  api = { auth, signInWithEmailAndPassword: authM.signInWithEmailAndPassword, createUserWithEmailAndPassword: authM.createUserWithEmailAndPassword,
+          sendPasswordResetEmail: authM.sendPasswordResetEmail, signOut: authM.signOut,
+          doc: fsM.doc, getDoc: fsM.getDoc, setDoc: fsM.setDoc, deleteField: fsM.deleteField, serverTimestamp: fsM.serverTimestamp };
+  auth.languageCode = 'de';
+  authM.onAuthStateChanged(auth, async u => {
+    user = u;
+    if(!u){ ref = null; setLabel('Anmelden'); setStatus('', 'Nicht angemeldet – Eingaben nur in diesem Browser'); if(!back.hidden) render(); return; }
+    ref = fsM.doc(db, 'users', u.uid);
+    setLabel(u.email.split('@')[0]);
+    const prev = localStorage.getItem('dga-sync-uid');
+    if(prev && prev !== u.uid){ wipeLocal(); }           // other family member used this device → don't mix data
+    D.raw.set('dga-sync-uid', u.uid);
+    D.onChange = () => schedule(800);
+    await fullSync(false);
+    if(!back.hidden) render();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if(!user) return;
+    if(document.visibilityState === 'hidden') pushNow();
+    else if(!D.pending().length) fullSync(false);
+  });
+  window.addEventListener('pagehide', () => { if(user) pushNow(); });
+} catch(e){
+  console.warn('[sync] Firebase not available', e);
+  setStatus('err', 'Anmeldung nicht erreichbar – Eingaben werden lokal gespeichert');
+}
+</script>
+</body>
+</html>
